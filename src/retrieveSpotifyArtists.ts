@@ -37,7 +37,6 @@ const getArtistsFromPlaylists = async () => {
     const metaInformation: Array<{playlist: string, artists: number, tracks: number}> = [];
     for (const playlist of playlists) {
         const items = await getAllItems<{track: {artists: Array<{name: string}>}}>(0, [], spotifyApi.getPlaylistTracks.bind(spotifyApi, playlist.id));
-        //const data = await spotifyApi.getPlaylistTracks(playlist.id, {limit: 10});
 
         const playlistArtists = items.map((item) => item.track?.artists.map(({name})=> name)).flat();
         artists.push(...playlistArtists);

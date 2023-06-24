@@ -2,7 +2,7 @@
 const { authorizeApi } = require('./authorizeApi.ts');
 const express = require('express');
 const { getArtists } = require('./retrieveSpotifyArtists.ts');
-const {spotifyApi} = require('./getSpotifyApi.ts');
+import {spotifyApi} from "./getSpotifyApi";
 const {scopes} = require('./shopifyAuthorisationScopes.ts');
 const url = require('url');
 const querystring = require('querystring');
@@ -10,9 +10,10 @@ const fs = require('fs');
 
 const app = express();
 const port  = process.env.PORT || 8888;
+const authorizeURL = spotifyApi.createAuthorizeURL(scopes, 'some-state-of-my-choice', true);  
+
 
 app.get('/', (req: any, res: any) => {
-    const authorizeURL = spotifyApi.createAuthorizeURL(scopes, 'some-state-of-my-choice');  
     console.log(authorizeURL)
     res.redirect(authorizeURL);
 }
@@ -40,5 +41,6 @@ app.get('/callback', async (req: any, res: any) => {
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`for manual: ${authorizeURL}`)
 }
 );
