@@ -20,7 +20,7 @@ export const getPlayListNames = async (): Promise<Array<Omit<Playlist, 'owner'>>
         return something(i + 1, playlists)
     }
     const playlists = await something(0, [])
-    const ownPlaylists =  playlists.filter(playlist => playlist.owner.id === userId);
+    const ownPlaylists =  playlists//.filter(playlist => playlist.owner.id === userId);
     console.log(`Found ${ownPlaylists.length} playlists.`)
     return ownPlaylists;
 }    
