@@ -5,7 +5,7 @@ save all artists from liked songs and all own playlists to spotify-artists.json
 - save only the name of the artist as a string
 
 */
-const {spotifyApi} =  require('./getSpotifyApi.js')
+const {spotifyApi} =  require('./getSpotifyApi-test.js')
 const {getUserId} = require('./getUserId.js');
 require('dotenv').config();
 

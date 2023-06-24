@@ -1,6 +1,6 @@
 // retrieve spotify user id from spotify api
 
-const {spotifyApi} =  require('./getSpotifyApi.js')
+const {spotifyApi} =  require('./getSpotifyApi-test.js')
 
 const getUserId = async () => {
     const data = await spotifyApi.getMe();

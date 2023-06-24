@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "authorize": "node src/getAuthorizeUrl.js && node src/redirectURLServer.js && node src/testAuthorization.js"
+
   },
   "author": "",
   "license": "ISC",

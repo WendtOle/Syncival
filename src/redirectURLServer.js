@@ -9,6 +9,7 @@ const http = require('http');
 const fs = require('fs');
 const url = require('url');
 const querystring = require('querystring');
+require('dotenv').config();
 
 const port = process.env.PORT || 8888;
 
@@ -22,9 +23,10 @@ const server = http.createServer((req, res) => {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.write('<h1>Success! You can close this window now.</h1>');
         res.end();
-        fs.writeFile('code.txt', code, (err) => {
+        fs.writeFile(`auth_${process.env.APPLICATION_USER}/code.txt`, code, (err) => {
         if (err) throw err;
         console.log('Saved!');
+        process.exit(0);
         });
     } else {
         res.writeHead(404, { 'Content-Type': 'text/html' });
