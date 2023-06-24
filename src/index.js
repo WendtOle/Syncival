@@ -22,7 +22,11 @@ app.get('/callback', async (req, res) => {
         const { query } = url.parse(req.url);
         const { code } = querystring.parse(query);
         console.log(`code found: ${code}`);
-        await authorizeApi(code);
+        const {error} = await authorizeApi(code);
+        if (error) {
+            res.send(error);
+            return
+        }
         console.log('authorized');
         const spotifyArtists = await getArtists();
         console.log(`Found ${spotifyArtists.length} artists`);
