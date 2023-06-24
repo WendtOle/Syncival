@@ -3,17 +3,24 @@ const {getUserId} = require('./getUserId.js');
 require('dotenv').config();
 
 const LIMIT = 50
-const OFFSET_MULITPLIER = process.env.SPOTIFY_PLAYLIST_LIMIT;
 
 const getPlaylists = async () => {
     const userId = await getUserId()
 
-    const playlists = [];
-    for (let i = 0; i < OFFSET_MULITPLIER; i++) {
+    const something = async (i, playlists) => {
         const data = await spotifyApi.getUserPlaylists({limit: LIMIT, offset: i * LIMIT});
-        playlists.push(...data.body.items);
+        console.log(`spotifyApi.getUserPlaylists ${i}`)
+        const currentPlaylists = data.body.items;
+        playlists.push(...currentPlaylists);
+        if (currentPlaylists.length === 0) {
+            return playlists
+        }
+        return something(i + 1, playlists)
     }
-    return playlists.filter(playlist => playlist.owner.id === userId);
+    const playlists = await something(0, [])
+    const uniquePlaylists =  playlists.filter(playlist => playlist.owner.id === userId);
+    console.log(uniquePlaylists.length)
+    return uniquePlaylists;
 }    
 
 module.exports = { getPlaylists };

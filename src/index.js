@@ -28,13 +28,13 @@ app.get('/callback', async (req, res) => {
             return
         }
         console.log('authorized');
-        const spotifyArtists = await getArtists();
+        const spotifyArtists = (await getArtists()).map(string => string.toLowerCase());
         console.log(`Found ${spotifyArtists.length} artists`);
         const fusionArtists = JSON.parse(fs.readFileSync('./data/fusion-artists.json'));
         console.log(`Loaded ${fusionArtists.length} fusion artists`);
-        console.log(spotifyArtists.filter(artist => fusionArtists.includes(artist)))
-        // display array of strings as an html response
-        res.send(spotifyArtists.filter(artist => fusionArtists.includes(artist)).join('<br>'));
+        const overlappingArtists = fusionArtists.filter(artist => spotifyArtists.includes(artist.toLowerCase()))
+        console.log(`Found ${overlappingArtists.length} overlapping artists`)
+        res.send(overlappingArtists.sort().join('<br>'));
     }
 );
 
