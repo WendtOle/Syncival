@@ -1,6 +1,6 @@
 // initialize spotify api
 require('dotenv').config();
-const SpotifyWebApi = require('spotify-web-api-node');
+import SpotifyWebApi from 'spotify-web-api-node';
 
 // Setting credentials can be done in the wrapper's constructor, or using the API object's setters.
 export const spotifyApi = new SpotifyWebApi({

@@ -1,5 +1,5 @@
-const {spotifyApi} =  require('./getSpotifyApi.ts')
-const { getPlaylists } = require('./retrievePlaylists.ts');
+import { spotifyApi } from "./getSpotifyApi";
+const { getPlayListNames } = require('./retrievePlaylists.ts');
 
 type Track = {track: {artists: Array<{name: string}>}}
 
@@ -15,18 +15,37 @@ const getArtistsFromLikedSongs = async () => {
     return artists;
 }
 
+/*
+method which recursivly call paginated endpoint to retrieve all possible items
+- limit should be 50
+*/
+const getAllItems = async <T>(i: number, items: Array<T>, endpoint: any): Promise<Array<T>> => {
+    const data = await endpoint({limit: 50, offset: i * 50});
+    const currentItems = data.body.items;
+    items.push(...currentItems);
+    if (currentItems.length === 0) {
+        return items
+    }
+    return getAllItems(i + 1, items, endpoint)
+}
+
 // get artists from my playlists
 const getArtistsFromPlaylists = async () => {
     console.log('getArtistsFromPlaylists')
-    const playlists = await getPlaylists();
+    const playlists = await getPlayListNames();
     const artists = [];
+    const metaInformation: Array<{playlist: string, artists: number, tracks: number}> = [];
     for (const playlist of playlists) {
-        const data = await spotifyApi.getPlaylist(playlist.id);
-        const playlistArtists = data.body.tracks.items.map((item: Track) => item.track.artists[0].name);
+        const items = await getAllItems<{track: {artists: Array<{name: string}>}}>(0, [], spotifyApi.getPlaylistTracks.bind(spotifyApi, playlist.id));
+        //const data = await spotifyApi.getPlaylistTracks(playlist.id, {limit: 10});
+
+        const playlistArtists = items.map((item) => item.track?.artists.map(({name})=> name)).flat();
         artists.push(...playlistArtists);
+        metaInformation.push({playlist: playlist.name, artists: playlistArtists.length, tracks: items.length});
     }
     // log amount of extracted artists
     console.log(`Found ${artists.length} artists not unique in playlists.`);
+    console.log({metaInformation})
     return artists;
 }    
 
