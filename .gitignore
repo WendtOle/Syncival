@@ -2,4 +2,3 @@ node_modules
 .env
 auth_*/
 auth/
-data
