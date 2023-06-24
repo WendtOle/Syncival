@@ -1,13 +1,15 @@
-const {spotifyApi} =  require('./getSpotifyApi.js')
-const {getUserId} = require('./getUserId.js');
+const {spotifyApi} =  require('./getSpotifyApi.ts')
+const {getUserId} = require('./getUserId.ts');
 require('dotenv').config();
 
 const LIMIT = 50
 
-const getPlaylists = async () => {
+type Playlist = {owner: {id: string}}
+
+export const getPlaylists = async () => {
     const userId = await getUserId()
 
-    const something = async (i, playlists) => {
+    const something = async (i: number, playlists: Array<Playlist>): Promise<Array<Playlist>> => {
         const data = await spotifyApi.getUserPlaylists({limit: LIMIT, offset: i * LIMIT});
         console.log(`spotifyApi.getUserPlaylists ${i}`)
         const currentPlaylists = data.body.items;
@@ -23,4 +25,3 @@ const getPlaylists = async () => {
     return uniquePlaylists;
 }    
 
-module.exports = { getPlaylists };

@@ -1,5 +1,7 @@
-const {spotifyApi} =  require('./getSpotifyApi.js')
-const { getPlaylists } = require('./retrievePlaylists.js');
+const {spotifyApi} =  require('./getSpotifyApi.ts')
+const { getPlaylists } = require('./retrievePlaylists.ts');
+
+type Track = {track: {artists: Array<{name: string}>}}
 
 // get artists from my liked songs
 const getArtistsFromLikedSongs = async () => {
@@ -7,7 +9,7 @@ const getArtistsFromLikedSongs = async () => {
     const data = await spotifyApi.getMySavedTracks();
     // log amount of liked songs
     console.log(`Found ${data.body.total} liked songs`);
-    const artists = data.body.items.map(item => item.track.artists[0].name);
+    const artists = data.body.items.map((item: Track) => item.track.artists[0].name);
     // log amount of extracted artists
     console.log(`Found ${artists.length} not unique artists in liked songs.`);
     return artists;
@@ -20,7 +22,7 @@ const getArtistsFromPlaylists = async () => {
     const artists = [];
     for (const playlist of playlists) {
         const data = await spotifyApi.getPlaylist(playlist.id);
-        const playlistArtists = data.body.tracks.items.map(item => item.track.artists[0].name);
+        const playlistArtists = data.body.tracks.items.map((item: Track) => item.track.artists[0].name);
         artists.push(...playlistArtists);
     }
     // log amount of extracted artists
@@ -28,13 +30,12 @@ const getArtistsFromPlaylists = async () => {
     return artists;
 }    
 
-const getArtists = async () => {
+export const getArtists = async () => {
     const likedSongsArtists = await getArtistsFromLikedSongs();
     const playlistArtists = await getArtistsFromPlaylists();
     const allArtists = [...likedSongsArtists, ...playlistArtists];
     return [...new Set(allArtists)];  
 }
 
-module.exports = { getArtists };
   
 

@@ -1,7 +1,7 @@
 require('dotenv').config();
-const {spotifyApi} = require('./getSpotifyApi.js');
+const {spotifyApi} = require('./getSpotifyApi.ts');
 
-const authorizeApi = async (code) => {
+export const authorizeApi = async (code: string) => {
     console.log("authorizeApi")
     try {
     const data = await spotifyApi.authorizationCodeGrant(code)
@@ -13,11 +13,10 @@ const authorizeApi = async (code) => {
     spotifyApi.setAccessToken(data.body['access_token']);
     spotifyApi.setRefreshToken(data.body['refresh_token']);
     return {}
-    } catch (err) {
+    } catch (err: any) {
         console.log({body: err.body})
         return {error: err.body.error_description}
     }
     
 }
 
-module.exports = {authorizeApi};

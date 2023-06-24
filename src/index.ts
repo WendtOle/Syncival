@@ -1,24 +1,24 @@
 // setup simple express server
-const { authorizeApi } = require('./authorizeApi.js');
+const { authorizeApi } = require('./authorizeApi.ts');
 const express = require('express');
-const { getArtists } = require('./retrieveSpotifyArtists.js');
-const {spotifyApi} = require('./getSpotifyApi.js');
-const {scopes} = require('./shopifyAuthorisationScopes.js');
+const { getArtists } = require('./retrieveSpotifyArtists.ts');
+const {spotifyApi} = require('./getSpotifyApi.ts');
+const {scopes} = require('./shopifyAuthorisationScopes.ts');
 const url = require('url');
 const querystring = require('querystring');
 const fs = require('fs');
 
 const app = express();
-const port = process.env.PORT || 8888;
+const port  = process.env.PORT || 8888;
 
-app.get('/', (req, res) => {
+app.get('/', (req: any, res: any) => {
     const authorizeURL = spotifyApi.createAuthorizeURL(scopes, 'some-state-of-my-choice');  
     console.log(authorizeURL)
     res.redirect(authorizeURL);
 }
 );
 
-app.get('/callback', async (req, res) => {
+app.get('/callback', async (req: any, res: any) => {
         const { query } = url.parse(req.url);
         const { code } = querystring.parse(query);
         console.log(`code found: ${code}`);
@@ -28,11 +28,11 @@ app.get('/callback', async (req, res) => {
             return
         }
         console.log('authorized');
-        const spotifyArtists = (await getArtists()).map(string => string.toLowerCase());
+        const spotifyArtists = (await getArtists()).map((artist: string) => artist.toLowerCase());
         console.log(`Found ${spotifyArtists.length} artists`);
         const fusionArtists = JSON.parse(fs.readFileSync('./data/fusion-artists.json'));
         console.log(`Loaded ${fusionArtists.length} fusion artists`);
-        const overlappingArtists = fusionArtists.filter(artist => spotifyArtists.includes(artist.toLowerCase()))
+        const overlappingArtists = fusionArtists.filter((artist: string) => spotifyArtists.includes(artist.toLowerCase()))
         console.log(`Found ${overlappingArtists.length} overlapping artists`)
         res.send(overlappingArtists.sort().join('<br>'));
     }

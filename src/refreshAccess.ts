@@ -1,4 +1,4 @@
-const {spotifyApi} =  require('./getSpotifyApi.js')
+const {spotifyApi} =  require('./getSpotifyApi.ts')
 const fs = require('fs');
 
 spotifyApi.refreshAccessToken().then(
