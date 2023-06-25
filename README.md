@@ -33,3 +33,7 @@ Sorry.
 7. Both tokens are added to the spotify api object
 8. If the `access_token` gets invalid after a while the `refresh_token` can be used to retrieve a new `access_token`
 9. The shopify api object can be used to make queries to spotify
+
+# Things I learned about the spotify api
+I use my "spotify api app" with my own spotify account without any problems.
+If I want to use my spotify app with another spotify account it is necessary to register this user with "Username" and "Email" under "https://developer.spotify.com/dashboard/<some-id>/users".
