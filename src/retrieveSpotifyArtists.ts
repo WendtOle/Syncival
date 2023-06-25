@@ -6,10 +6,12 @@ type Track = {track: {artists: Array<{name: string}>}}
 // get artists from my liked songs
 const getArtistsFromLikedSongs = async () => {
     console.log("getArtistsFromLikedSongs")
-    const data = await spotifyApi.getMySavedTracks();
-    // log amount of liked songs
-    console.log(`Found ${data.body.total} liked songs`);
-    const artists = data.body.items.map((item: Track) => item.track.artists[0].name);
+
+    const data = await getAllItems(0, [], spotifyApi.getMySavedTracks.bind(spotifyApi));
+    
+    
+    console.log(`Found ${data.length} liked songs`);
+    const artists = data.map((item: Track) => item.track.artists[0].name);
     // log amount of extracted artists
     console.log(`Found ${artists.length} not unique artists in liked songs.`);
     return artists;
