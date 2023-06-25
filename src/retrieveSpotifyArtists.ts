@@ -1,50 +1,42 @@
 import { spotifyApi } from "./getSpotifyApi";
+import { getAllItems } from "./utils";
 const { getPlayListNames } = require('./retrievePlaylists.ts');
 
 type Track = {track: {artists: Array<{name: string}>}}
 
-// get artists from my liked songs
 const getArtistsFromLikedSongs = async () => {
     console.log("getArtistsFromLikedSongs")
 
-    const data = await getAllItems(0, [], spotifyApi.getMySavedTracks.bind(spotifyApi));
-    
-    
-    console.log(`Found ${data.length} liked songs`);
-    const artists = data.map((item: Track) => item.track.artists[0].name);
-    // log amount of extracted artists
-    console.log(`Found ${artists.length} not unique artists in liked songs.`);
-    return artists;
-}
-
-/*
-method which recursivly call paginated endpoint to retrieve all possible items
-- limit should be 50
-*/
-const getAllItems = async <T>(i: number, items: Array<T>, endpoint: any): Promise<Array<T>> => {
-    const data = await endpoint({limit: 50, offset: i * 50});
-    const currentItems = data.body.items;
-    items.push(...currentItems);
-    if (currentItems.length === 0) {
-        return items
+    try {
+        const data = await getAllItems(0, [], spotifyApi.getMySavedTracks.bind(spotifyApi));
+        console.log(`Found ${data.length} liked songs`);
+        const artists = data.map(({track}: Track) => track.artists[0].name);
+        console.log(`Found ${artists.length} not unique artists in liked songs.`);
+        return artists;
+    } catch(e) {
+        console.log("Error when fetching liked songs.")
+    } finally {
+        return []
     }
-    return getAllItems(i + 1, items, endpoint)
 }
 
 // get artists from my playlists
 const getArtistsFromPlaylists = async () => {
-    console.log('getArtistsFromPlaylists')
     const playlists = await getPlayListNames();
     const artists = [];
     const metaInformation: Array<{playlist: string, artists: number, tracks: number}> = [];
     for (const playlist of playlists) {
+        try{
         const items = await getAllItems<{track: {artists: Array<{name: string}>}}>(0, [], spotifyApi.getPlaylistTracks.bind(spotifyApi, playlist.id));
 
         const playlistArtists = items.map((item) => item.track?.artists.map(({name})=> name)).flat();
         artists.push(...playlistArtists);
-        metaInformation.push({playlist: playlist.name, artists: playlistArtists.length, tracks: items.length});
+        const info = {playlist: playlist.name, artists: playlistArtists.length, tracks: items.length}
+        metaInformation.push(info);
+        } catch (err: any) {
+            console.log(`Error "${err.body.error.message}" when retrieving Playlist "${playlist.name}" with id "${playlist.id}"`)
+        }
     }
-    // log amount of extracted artists
     console.log(`Found ${artists.length} artists not unique in playlists.`);
     console.log({metaInformation})
     return artists;
