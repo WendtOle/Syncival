@@ -2,16 +2,17 @@
 Compares artists found in spotify playlists with the artists of fusion 2023 lineup.
 
 # How to use
-1. Create Account and application at https://developer.spotify.com/documentation/web-api
-2. Copy ".env.example" to ".env" and fill in `SPOTIFY_CLIENT_ID` and `SPOTIFY_CLIENT_SECRET`
-3. Install and start
+1. Create Account at https://developer.spotify.com/documentation/web-api
+2. Create application with redirect url "localhost:8888/callback"
+3. Copy ".env.example" to ".env" and fill in `SPOTIFY_CLIENT_ID` and `SPOTIFY_CLIENT_SECRET` from spotify app settings https://developer.spotify.com/dashboard/<some-id>/settings
+4. Install and start
 ```
 npm i
 npm start
 ```
-4. Open browser and navigate to "localhost:8888"
-5. Log into Spotify and trust that the application does nothing bad with your spotify data
-6. Wait a while until all artists are retrieved
+5. Open browser and navigate to "localhost:8888"
+6. Log into Spotify and trust that the application does nothing bad with your spotify data
+7. Wait a while until all artists are retrieved
 
 # Why is it not hosted?
 Querying all the playlists takes up more than 30 second. 
