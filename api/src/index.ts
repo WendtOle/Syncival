@@ -11,7 +11,7 @@ const querystring = require('querystring');
 const app = express();
 const port  = process.env.PORT || 8888;
 const authorizeURL = spotifyApi.createAuthorizeURL(scopes, 'some-state-of-my-choice', true);  
-import fs = require('fs');
+import { artists } from './data/fusion-artists';
 
 app.use((req: any, res: any, next: any) => {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -155,8 +155,8 @@ app.post('/createPlaylist', async (req: any, res: any) => {
 })
 
 app.get('/data', async (req: any, res: any) => {
-    const fusion2023Artists = fs.readFileSync('./data/fusion-artists.json', 'utf8');
-    res.send({fusion2023Artists});
+    setCors(res);
+    res.send({fusion2023Artists: artists});
     return
 })
 
