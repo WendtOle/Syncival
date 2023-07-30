@@ -1,4 +1,4 @@
-const {spotifyApi} =  require('./getSpotifyApi.ts')
+import { spotifyApi } from "./getSpotifyApi";
 
 export const getUserId = async () => {
     const data = await spotifyApi.getMe();

@@ -1,10 +1,10 @@
 // setup simple express server
 import { getTokens } from './authorizeApi';
+import { scopes } from './shopifyAuthorisationScopes';
 
 const express = require('express');
 import {spotifyApi} from "./getSpotifyApi";
 import { getUserId } from './getUserId';
-const {scopes} = require('./shopifyAuthorisationScopes.ts');
 const url = require('url');
 const querystring = require('querystring');
 
