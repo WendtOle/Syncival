@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon",
-    "authorize": "node src/getAuthorizeUrl.js && node src/redirectURLServer.js && node src/testAuthorization.js"
+    "build": "rimraf dist && tsc"
   },
   "author": "",
   "license": "ISC",

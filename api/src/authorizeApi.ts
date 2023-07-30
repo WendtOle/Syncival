@@ -1,5 +1,6 @@
+import { spotifyApi } from "./getSpotifyApi";
+
 require('dotenv').config();
-const {spotifyApi} = require('./getSpotifyApi.ts');
 
 export const getTokens = async (code: string): Promise<{data?: {accessToken: string, refreshToken: string}, error?: string}> => {
     try {
