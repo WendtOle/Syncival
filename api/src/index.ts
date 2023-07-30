@@ -154,6 +154,13 @@ app.post('/createPlaylist', async (req: any, res: any) => {
     }
 })
 
+app.get('/data', async (req: any, res: any) => {
+    const fusion2023Artists = fs.readFileSync('./data/fusion-artists.json', 'utf8');
+    res.send({fusion2023Artists});
+    return
+})
+
+
 app.listen(port, () => {
     console.log(`Backend listening at http://localhost:${port}`);
 }
