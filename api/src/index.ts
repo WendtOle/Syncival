@@ -129,6 +129,31 @@ app.get('/tracks', async (req: any, res: any) => {
     }  
 })
 
+app.post('/createPlaylist', async (req: any, res: any) => {
+    const { query } = url.parse(req.url);
+    const { accessToken, trackId } = querystring.parse(query);
+    try {
+        const date = new Date();
+        const day = date.getDate().toString();
+        const month = (date.getMonth() + 1).toString();
+        const hour = date.getHours().toString();
+        const minute = date.getMinutes().toString();
+        await spotifyApi.setAccessToken(accessToken);
+        const name = "Fusion2023_YourArtists"
+        const response_createPlaylist = await spotifyApi.createPlaylist(name, {public: false, description: `Playlist created by Fusion2023 at ${day}.${month}-${hour}:${minute}`})
+        const {id} = response_createPlaylist.body
+        const params = trackId.map((id: string) => `spotify:track:${id}`)
+        await spotifyApi.addTracksToPlaylist(id, params)
+        res.send({playlistId: id, name});
+        return
+    } catch (err: any) {
+        console.log("Error when creating playlist.")
+        console.log(err.body.message)
+        res.send('error')
+        return
+    }
+})
+
 app.listen(port, () => {
     console.log(`Backend listening at http://localhost:${port}`);
 }
