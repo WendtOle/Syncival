@@ -13,22 +13,21 @@ const port  = process.env.PORT || 8888;
 const authorizeURL = spotifyApi.createAuthorizeURL(scopes, 'some-state-of-my-choice', true);  
 import { artists } from './data/fusion-artists';
 
-app.use((req: any, res: any, next: any) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    next();
-  });
-
-app.get('/', (req: any, res: any) => {
-res.redirect(authorizeURL);
+const setCors = (res: any) => {
+    // Set CORS headers
+  res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL);
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 }
-);
 
 app.get('/authorizeURL', (req: any, res: any) => {
+    setCors(res);
     res.send(authorizeURL);
 }
 );
 
 app.get('/authenticate', async (req: any, res: any) => {
+    setCors(res);
     const { query } = url.parse(req.url);
     const { code } = querystring.parse(query);
     console.log(`code found: ${code}`);
@@ -41,6 +40,7 @@ app.get('/authenticate', async (req: any, res: any) => {
 })
 
 app.get('/accessTokenValid', async (req: any, res: any) => {
+    setCors(res);
     const { query } = url.parse(req.url);
     const { accessToken } = querystring.parse(query);
     spotifyApi.setAccessToken(accessToken);
@@ -60,6 +60,7 @@ app.get('/accessTokenValid', async (req: any, res: any) => {
 })
 
 app.get('/refresh', async (req: any, res: any) => {
+    setCors(res);
     const { query } = url.parse(req.url);
     const { refreshToken } = querystring.parse(query);
     try {
@@ -77,6 +78,7 @@ app.get('/refresh', async (req: any, res: any) => {
 type Something = Array<{id: string, name: string, artists: Array<{name: string, id: string}>}>
 
 app.get('/playlists', async (req: any, res: any) => {
+    setCors(res);
     const { query } = url.parse(req.url);
     const { accessToken, page } = querystring.parse(query);
     try {
@@ -101,6 +103,7 @@ app.get('/playlists', async (req: any, res: any) => {
 })
 
 app.get('/tracks', async (req: any, res: any) => {
+    setCors(res);
     const { query } = url.parse(req.url);
     const { accessToken, page, playlistId } = querystring.parse(query);
     try {
@@ -130,6 +133,7 @@ app.get('/tracks', async (req: any, res: any) => {
 })
 
 app.post('/createPlaylist', async (req: any, res: any) => {
+    setCors(res);
     const { query } = url.parse(req.url);
     const { accessToken, trackId } = querystring.parse(query);
     try {
@@ -165,3 +169,5 @@ app.listen(port, () => {
     console.log(`Backend listening at http://localhost:${port}`);
 }
 );
+
+module.exports = app;
