@@ -1,0 +1,26 @@
+.App {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 32px
+}
+
+button {
+  border: none;
+  text-decoration: none;
+  border: 1px solid grey;
+  border-radius: 8px;
+  background-color: #E4FFD1;
+  padding: 4px 8px;
+  font-weight: 500;
+  margin-right: 4px;
+
+  &.active {
+    background-color: green;
+    color: white;
+  }
+}
+
+.main-container {
+  width: 25vw;
+  max-width: 25vw;
+}
