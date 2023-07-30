@@ -80,8 +80,7 @@ export const Playlists = () => {
     })
 
     return (
-        <div className="main-container">
-            <h1>Playlists</h1>
+        <div>
             <div className="options">
                 <button onClick={() => fetchAllPlaylists()}>Fetch all Playlists</button>
                 <button onClick={fetchAllSongsOfAllPlaylists}>Fetch all tracks</button>

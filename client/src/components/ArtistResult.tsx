@@ -26,8 +26,7 @@ export const ArtistResult = () => {
         return a.name.localeCompare(b.name)
     })
 
-    return (<div  className="main-container">
-        <h1>Comparison</h1>
+    return (<div>
         <div className="options">
             <button  onClick={createPlaylistFromFilteredTracks}>Create playlist from artists</button>
         </div>

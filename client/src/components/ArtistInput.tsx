@@ -33,8 +33,7 @@ export const ArtistInput = () => {
     }
 
     return (
-        <div className="main-container">
-            <h1>Artist input</h1>
+        <div>
             <div className="options">
                 <button onClick={clear}>Clear</button>
                 <button onClick={() => fetchData()}>Fetch data</button>
