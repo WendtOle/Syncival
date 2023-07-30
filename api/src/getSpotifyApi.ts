@@ -9,5 +9,4 @@ export const spotifyApi = new SpotifyWebApi({
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
 });
 
-console.log("getSpotifyApi.js: spotifyApi initialized")
 
