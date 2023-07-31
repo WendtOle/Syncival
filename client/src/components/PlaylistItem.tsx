@@ -46,7 +46,7 @@ export const PlaylistItem = ({id}: {id: string}) => {
     <ListItemIcon>
         {isOwn ? <PlaylistIcon /> : <FollowedPlaylistIcon />}
     </ListItemIcon>
-    <ListItemText primary={name} secondary={`${tracks} songs, ${matchingPlaylistArtists.length}/${playlistArtists.length} artists`}/>
+    <ListItemText primary={name} secondary={`${tracks ?? songs.length} songs, ${matchingPlaylistArtists.length}/${playlistArtists.length} artists`}/>
     <ListItemSecondaryAction onClick={() => toggle(id)}>
         {visible ? <VisibilityIcon /> : <VisibilityOffIcon />}
     </ListItemSecondaryAction>

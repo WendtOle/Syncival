@@ -57,7 +57,7 @@ export const Playlist = () => {
                         return <ArtistItem key={artist.id} {...artist} expandedArtist={expandedArtist} setExpandedArtist={setExpandedArtist} markWhenInLineUp/>
                     })}
                 </List>
-            <Fab sx={{position: "fixed", bottom: 72, right: 16}} onClick={() => setGroupBy(cur => cur === "songs" ? "artist" : "songs")}>
+            <Fab sx={{position: "fixed", bottom: 72, right: 16}} color="info" onClick={() => setGroupBy(cur => cur === "songs" ? "artist" : "songs")}>
                 {groupBy === "songs" ? <PersonIcon /> : <SongIcon />}
             </Fab>
         </div>

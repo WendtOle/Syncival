@@ -2,10 +2,11 @@ import { useRef, useState } from "react"
 import { useAtom } from "jotai"
 import { getData } from "../provider/data"
 import { dataAtom } from "../state/data"
-import { AppBar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab, List, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from "@mui/material"
+import { AppBar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab, List, ListItemButton, ListItemIcon, ListItemSecondaryAction, ListItemText, TextField, Toolbar, Typography } from "@mui/material"
 import LineupIcon from '@mui/icons-material/FormatListBulleted';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom"
+import { Delete } from "@mui/icons-material"
 
 export const ArtistInput = () => {
     const [text, setText] = useState("")
@@ -32,6 +33,15 @@ export const ArtistInput = () => {
         setText("")
     }
 
+    const deleteLineUp = (event: any,key: string) => {
+        event.stopPropagation()
+        setData(cur => {
+            const newData = {...cur}
+            delete newData[key]
+            return newData
+        })
+    }
+
     return (
         <div>
             <AppBar position="sticky"> 
@@ -45,11 +55,14 @@ export const ArtistInput = () => {
                     <ListItemButton key={key} onClick={() => navigate("/lineup/" + key)}>
                         <ListItemIcon><LineupIcon /></ListItemIcon>
                         <ListItemText primary={key} secondary={`${value.length} artists`} />
+                        <ListItemSecondaryAction onClick={(event) => deleteLineUp(event,key)}>
+                            <Delete />
+                        </ListItemSecondaryAction>
                     </ListItemButton>
                 ))}
             </List>    
             
-            <Dialog open={open}>
+            <Dialog open={open} onClose={() => setOpen(false)}>
                 <DialogTitle>Create Lineup manually</DialogTitle>
                 <DialogContent>
                     <TextField size="small" id="outlined-basic" label="Name" variant="outlined" value={lineupName} onChange={(event) => setLineupName(event.target.value)} />
@@ -66,6 +79,7 @@ export const ArtistInput = () => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={clear}>Clear</Button>
+                    <Button onClick={() => setOpen(false)}>Close</Button>
                     <Button onClick={addLineUp}>Apply</Button>
                 </DialogActions>
             </Dialog>
