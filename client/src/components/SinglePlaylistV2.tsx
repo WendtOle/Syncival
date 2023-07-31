@@ -1,7 +1,7 @@
 import { ArtistV2, Playlist as PlaylistType, Track } from "../state/types"
 import "./Playlist.css"
 import { atom, useAtom, useAtomValue } from "jotai"
-import { playlistSongsAtom, playlistsAtom } from "../state/main"
+import { filteredArtistsAtom, playlistSongsAtom, playlistsAtom } from "../state/main"
 import { useMemo, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { AppBar, Button, ButtonGroup, CircularProgress, Collapse, Fab, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material"
@@ -23,6 +23,7 @@ export const Playlist = () => {
     const [songs] = useAtom(useMemo(() => atom((get) => get(playlistSongsAtom)[id] ?? []),[id]))
     const [groupBy, setGroupBy] = useState<"artist"|"songs">("songs")
     const [expandedArtist, setExpandedArtist] = useState<string | undefined>(undefined)
+    const filteredArtists  = useAtomValue(filteredArtistsAtom)
 
     if (!playList) {
         return <CircularProgress />
@@ -30,8 +31,14 @@ export const Playlist = () => {
 
     const {name} = playList
 
-    const uniqueSongs = songs.reduce((acc, nextSong) => acc.find(({id: curId}) => curId === nextSong.id) ? acc : [...acc, nextSong], [] as Track[])
-    const uniqueArtists = extractArtists(uniqueSongs)
+    const uniqueSongs = songs.reduce((acc, nextSong) => acc.find(({id: curId}) => curId === nextSong.id) ? acc : [...acc, nextSong], [] as Track[]).map(song => {
+        const containsLineUpArtist = song.artists.some(({id: artistId}) => filteredArtists.map(({id}) => id).includes(artistId))
+        return {...song, containsLineUpArtist}
+    }).sort((a, b) => a.containsLineUpArtist === b.containsLineUpArtist ? (a.name > b.name ? 1 : -1) : a.containsLineUpArtist ? -1 : 1)
+    
+    const uniqueArtists = extractArtists(uniqueSongs).map(artist => {
+        return {...artist, isLineUpArtist: filteredArtists.map(({id}) => id).includes(artist.id)}
+    }).sort((a, b) => a.isLineUpArtist === b.isLineUpArtist ? (a.name > b.name ? 1 : -1) : a.isLineUpArtist ? -1 : 1)
 
     return (
         <div key={id} >
@@ -48,11 +55,10 @@ export const Playlist = () => {
                         <ArrowBackIosIcon />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>Playlist: "{name}"</Typography>
-                    <Button variant="outlined" color="inherit" onClick={() => window.open(`spotify:playlist:${id}`, '_blank')}>Open</Button>
                 </Toolbar>
                 
             </AppBar>
-                <List dense component="nav">
+                <List dense component="nav" sx={{marginBottom: 16}}>
                     {groupBy === "songs" ? uniqueSongs.map(song => <SongItem key={song.id} {...song} />) : uniqueArtists.map((artist) => {
                         return <ArtistItem key={artist.id} {...artist} expandedArtist={expandedArtist} setExpandedArtist={setExpandedArtist} markWhenInLineUp/>
                     })}

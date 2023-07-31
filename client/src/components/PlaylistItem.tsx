@@ -14,6 +14,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import FollowedPlaylistIcon from '@mui/icons-material/Public';
 import { extractArtists } from "../util/extractArtists"
+import LaunchIcon from '@mui/icons-material/Launch';
 
 export const PlaylistItem = ({id}: {id: string}) => {
     const playlist = useAtomValue(useMemo(() => atom((get) => get(playlistsAtom).find(({id: cur}) => cur === id)), [id]))
@@ -38,6 +39,11 @@ export const PlaylistItem = ({id}: {id: string}) => {
         })
     }
 
+    const goToPlaylist = (event: any) => {
+        event.stopPropagation()
+        window.open(`spotify:playlist:${id}`)
+    }
+
     const playlistArtists = extractArtists(songs)
     const matchingPlaylistArtists = filteredArtists.filter(({id: lineupArtistId}) => playlistArtists.find(({id: playlistArtistId}) => playlistArtistId === lineupArtistId)) 
     const containsLineUpArtist = matchingPlaylistArtists.length > 0
@@ -48,6 +54,7 @@ export const PlaylistItem = ({id}: {id: string}) => {
     </ListItemIcon>
     <ListItemText primary={name} secondary={`${tracks ?? songs.length} songs, ${matchingPlaylistArtists.length}/${playlistArtists.length} artists`}/>
     <ListItemSecondaryAction onClick={() => toggle(id)}>
+        <LaunchIcon onClick={goToPlaylist} sx={{marginRight: 2}} />
         {visible ? <VisibilityIcon /> : <VisibilityOffIcon />}
     </ListItemSecondaryAction>
     </ListItem>)

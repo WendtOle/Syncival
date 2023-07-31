@@ -5,7 +5,7 @@ import { accessTokenAtom } from "../state/auth"
 import { useAtom, useAtomValue } from "jotai"
 import { getPlaylists } from "../provider/playlists"
 import { getPlaylistTracks } from "../provider/songs"
-import { AppBar, Box, Fab, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Paper, Toolbar, Typography } from "@mui/material"
+import { AppBar, Box, Fab, IconButton, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Paper, Toolbar, Typography } from "@mui/material"
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Link, useNavigate } from "react-router-dom"
 import { Favorite, Title } from "@mui/icons-material"
@@ -14,7 +14,9 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import FollowedPlaylistIcon from '@mui/icons-material/Public';
 import { PlaylistItem } from "./PlaylistItem"
-
+import { SettingsDialogButton } from "./SettingsDialogButton"
+import SortIcon from '@mui/icons-material/Sort';
+import { JsxElement } from "typescript"
 
 export const Playlists = () => {
     const navigate = useNavigate()
@@ -26,6 +28,7 @@ export const Playlists = () => {
     const [showOnlySelected, setShowOnlySelected] = useState(false)
     const [excludedPlaylistId, setExcludedPlaylistId] = useAtom(excludedPlaylistIdsAtom)
     const filteredPlaylists = playlists.filter(({id}) => !showOnlySelected || !excludedPlaylistId.includes(id))
+    const [sort, setSort] = useState<"matchedArtist" | "alphabetically">("matchedArtist")
 
     const fetchAllPlaylists = async(nextPage = 0) => {
         const playlists = await getPlaylists(accessToken(), nextPage)
@@ -75,44 +78,17 @@ export const Playlists = () => {
         setExcludedPlaylistId(cur => [...cur, ...foreignPlaylistsIds])
     }
 
-    const sortedPlaylists = filteredPlaylists.sort((a,b) => {
-        if (true) {
-            return  (playlistSongs[b.id]?? []).length - (playlistSongs[a.id]?? []).length
-        }
-        return a.name.localeCompare(b.name)
-    })
-
-    /*
-    <div className="options">
-                <button onClick={() => fetchAllPlaylists()}>Fetch all Playlists</button>
-                <button onClick={fetchAllSongsOfAllPlaylists}>Fetch all tracks</button>
-            </div>
-            <div className="options">
-                <button onClick={() => setShowOnlySelected(!showOnlySelected)} className={showOnlySelected ? "active" : ""} >Show only selected</button>
-                <button onClick={toggleAll}>Toggle all</button>
-                <button onClick={toggleForeign} >Toggle foreign playlists</button>
-            </div>
-            */
-
-    const toggle = (id: string) => {
-        setExcludedPlaylistId(cur => {
-            if (cur.includes(id)) {
-                return cur.filter((curId) => curId !== id)
-            }
-            return [...cur, id]
-        })
-    }
-
     return (
-        <div>
-            
+        <div>      
             <AppBar position="sticky"> 
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>Your playlists</Typography>
+                    <SettingsDialogButton />
                 </Toolbar>
+                
             </AppBar>
-            <List dense>
-                {sortedPlaylists.map(({id}) => <PlaylistItem key={id} id={id} /> )}
+            <List dense sx={{marginBottom: 8}}>
+                {filteredPlaylists.map(({id}) => <PlaylistItem key={id} id={id} />)}
             </List>
         </div>
     )

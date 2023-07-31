@@ -1,12 +1,10 @@
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { useAtom } from "jotai"
-import { getData } from "../provider/data"
 import { dataAtom } from "../state/data"
-import { AppBar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab, List, ListItemButton, ListItemIcon, ListItemSecondaryAction, ListItemText, TextField, Toolbar, Typography } from "@mui/material"
+import { AppBar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab, List, ListItem, ListItemButton, ListItemIcon, ListItemSecondaryAction, ListItemText, TextField, Toolbar, Typography } from "@mui/material"
 import LineupIcon from '@mui/icons-material/FormatListBulleted';
-import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom"
-import { Delete } from "@mui/icons-material"
+import { Add, Delete } from "@mui/icons-material"
 
 export const ArtistInput = () => {
     const [text, setText] = useState("")
@@ -16,12 +14,6 @@ export const ArtistInput = () => {
     const navigate = useNavigate()
 
     const parsedArtists = text.replace(/"/g,'').split(/,|\n/).map((artist: string) => artist.trim()).filter((artist: string) => artist.length > 0)
-
-    const fetchData = async () => {
-        const fetchedData = await getData();
-        setData(fetchedData);
-    }
-
 
     const addLineUp = () => {
         setData(cur => ({...cur, [lineupName]: parsedArtists}))
@@ -47,7 +39,6 @@ export const ArtistInput = () => {
             <AppBar position="sticky"> 
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>Lineup</Typography>
-                    <Button variant="outlined" color="inherit" onClick={() => setOpen(cur => !cur)}>Add lineup</Button>
                 </Toolbar>
             </AppBar>
             <List>
@@ -61,6 +52,9 @@ export const ArtistInput = () => {
                     </ListItemButton>
                 ))}
             </List>    
+            <Fab sx={{position: "fixed", bottom: 72, right: 16}} color="info" onClick={() => setOpen(cur => !cur)}>
+                <Add />
+            </Fab>
             
             <Dialog open={open} onClose={() => setOpen(false)}>
                 <DialogTitle>Create Lineup manually</DialogTitle>

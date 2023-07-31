@@ -6,6 +6,7 @@ import { isAuthorizedAtom, accessTokenAtom, refreshTokenAtom, nullableAccessToke
 import { isAccessTokenValid } from "../provider/accessTokenValid"
 import { refreshAccessToken } from "../provider/refreshAccessToken"
 import { authenticateWithCode } from "../provider/authenticate"
+import { Button, Typography } from "@mui/material"
 
 type State = 'loads' | 'needsAuthentication' | 'authenticated'
 
@@ -60,9 +61,13 @@ export const AuthenticationWrapper = ({children}: {children: any}): ReactElement
     }
 
     if (authenticationState === 'needsAuthentication') {
-        return (<div>
-            <button onClick={onClick}>Redirect to spotify to authenticate</button>
-        </div>)
+        return (<div style={{height: "100vh", display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <div style={{display:"flex", flexDirection: "column", justifyContent: "space-evenly", height: "20vh", justifyItems: "baseline"}}>
+            <Typography variant="h2" component="div" sx={{flexGrow: 1, letterSpacing: -4}}>Artist lookup</Typography>
+            <Typography variant="h6" component="div" sx={{flexGrow: 1}}>You need to authenticate with spotify</Typography>
+            <Button variant="contained" onClick={onClick}>Authenticate</Button>
+        </div>
+            </div>)
     }   
     return <>{children}</>
 }
