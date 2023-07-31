@@ -64,7 +64,9 @@ export const AuthenticationWrapper = ({children}: {children: any}): ReactElement
         return (<div style={{height: "100vh", display: "flex", justifyContent: "center", alignItems: "center"}}>
             <div style={{display:"flex", flexDirection: "column", justifyContent: "space-evenly", height: "20vh", justifyItems: "baseline"}}>
             <Typography variant="h2" component="div" sx={{flexGrow: 1, letterSpacing: -4}}>Artist lookup</Typography>
-            <Typography variant="h6" component="div" sx={{flexGrow: 1}}>You need to authenticate with spotify</Typography>
+            <Typography variant="h6" component="div" sx={{flexGrow: 1}}>You need to be registered by me:</Typography>
+            <Typography variant="h6" component="div" sx={{flexGrow: 1}}>Contact me through: ow-ad+artist-lookup@simplelogin.co</Typography>
+            <Typography variant="h6" component="div" sx={{flexGrow: 1}}>And you need to authenticate with spotify!</Typography>
             <Button variant="contained" onClick={onClick}>Authenticate</Button>
         </div>
             </div>)
