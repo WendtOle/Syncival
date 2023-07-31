@@ -5,6 +5,7 @@ import { AppBar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab,
 import LineupIcon from '@mui/icons-material/FormatListBulleted';
 import { useNavigate } from "react-router-dom"
 import { Add, Delete } from "@mui/icons-material"
+import { SettingsDialogButton } from "./SettingsDialogButton";
 
 export const ArtistInput = () => {
     const [text, setText] = useState("")
@@ -39,6 +40,7 @@ export const ArtistInput = () => {
             <AppBar position="sticky"> 
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>Lineup</Typography>
+                    <SettingsDialogButton />
                 </Toolbar>
             </AppBar>
             <List>

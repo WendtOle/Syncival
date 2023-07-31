@@ -4,7 +4,7 @@ import { ArtistV2, Playlist, Track } from "./types";
 import { dataAtom } from "./data";
 
 export const LIKED_SONGS_PLAYLIST_ID = "liked_songs"
-const likedSongsPlaylist: Playlist = {name: "Liked Songs", id: LIKED_SONGS_PLAYLIST_ID, isOwn: true}
+export const likedSongsPlaylist: Playlist = {name: "Liked Songs", id: LIKED_SONGS_PLAYLIST_ID, isOwn: true}
 
 export const playlistsAtom = atomWithStorage<Playlist[]>("playlists", [likedSongsPlaylist])
 export const playlistSongsAtom = atomWithStorage<Record<string, Track[]>>("songs", {})
