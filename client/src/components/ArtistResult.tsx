@@ -4,7 +4,7 @@ import { useAtom } from "jotai"
 import { filteredArtistsAtom } from "../state/main"
 import { accessTokenAtom } from "../state/auth"
 import { Artist } from "./Artist"
-import { AppBar, Fab, List, Toolbar, Typography } from "@mui/material"
+import { AppBar, Button, Fab, List, Toolbar, Typography } from "@mui/material"
 import FavouriteIcon from '@mui/icons-material/Favorite';
 import { ArtistItem } from "./ArtistItem"
 
@@ -15,11 +15,14 @@ export const ArtistResult = () => {
     const [foldedOutArtists, setFoldedOutArtists] = useState<string | undefined>()
     const [sort, setSort] = useState<"tracks" | "alphabetically">("tracks")
 
-    const createPlaylistFromFilteredTracks = () => {
+    const createPlaylistFromFilteredTracks = async () => {
         if (filteredArtists.length === 0) {
             return
         }
-        return createPlaylist(accessToken(), filteredArtists.map(({tracks}) => tracks[0].id))
+        const playlistId = await createPlaylist(accessToken(), filteredArtists.map(({tracks}) => tracks[0].id))
+        console.log({playlistId})
+        const link = `spotify:playlist:${playlistId}`
+        window.open(link, '_blank')
     }
 
     const sortedArtists = filteredArtists.sort((a, b) => {
@@ -41,6 +44,7 @@ export const ArtistResult = () => {
        <AppBar position="sticky"> 
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>Matched Artists</Typography>
+                    <Button variant="outlined" color="inherit" onClick={createPlaylistFromFilteredTracks}>Create playlist</Button>
                 </Toolbar>
             </AppBar>
         <List dense>
