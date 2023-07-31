@@ -5,8 +5,19 @@ import { accessTokenAtom } from "../state/auth"
 import { useAtom, useAtomValue } from "jotai"
 import { getPlaylists } from "../provider/playlists"
 import { getPlaylistTracks } from "../provider/songs"
+import { AppBar, Box, Fab, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Paper, Toolbar, Typography } from "@mui/material"
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { Link, useNavigate } from "react-router-dom"
+import { Favorite, Title } from "@mui/icons-material"
+import PlaylistIcon from '@mui/icons-material/Folder';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import FollowedPlaylistIcon from '@mui/icons-material/Public';
+import { PlaylistItem } from "./PlaylistItem"
+
 
 export const Playlists = () => {
+    const navigate = useNavigate()
     const [playlists, setPlaylists] = useAtom(playlistsAtom)
     const [playlistSongs, setPlaylistSongs] = useAtom(playlistSongsAtom)
     const accessToken = useAtomValue(accessTokenAtom)
@@ -15,14 +26,6 @@ export const Playlists = () => {
     const [showOnlySelected, setShowOnlySelected] = useState(false)
     const [excludedPlaylistId, setExcludedPlaylistId] = useAtom(excludedPlaylistIdsAtom)
     const filteredPlaylists = playlists.filter(({id}) => !showOnlySelected || !excludedPlaylistId.includes(id))
-
-    const toggleVisibility = (id: string) => {
-        if (foldedOutPlaylists === id) {
-            setFoldedOutPlaylists(undefined)
-            return
-        } 
-        setFoldedOutPlaylists(id)
-    }
 
     const fetchAllPlaylists = async(nextPage = 0) => {
         const playlists = await getPlaylists(accessToken(), nextPage)
@@ -79,9 +82,8 @@ export const Playlists = () => {
         return a.name.localeCompare(b.name)
     })
 
-    return (
-        <div>
-            <div className="options">
+    /*
+    <div className="options">
                 <button onClick={() => fetchAllPlaylists()}>Fetch all Playlists</button>
                 <button onClick={fetchAllSongsOfAllPlaylists}>Fetch all tracks</button>
             </div>
@@ -90,16 +92,28 @@ export const Playlists = () => {
                 <button onClick={toggleAll}>Toggle all</button>
                 <button onClick={toggleForeign} >Toggle foreign playlists</button>
             </div>
-            <div className="options">{filteredPlaylists.length} / {playlists.length} playlists</div>
-            <div className="scroll-container">
-                {sortedPlaylists.map((playlist) => {
-                    const {id}  = playlist  
-                    return (<div key={id} >
-                        <Playlist fetching={id === loadingPlaylist} {...playlist} hideSongs={foldedOutPlaylists !== id} toggle={() => toggleVisibility(id)}/>
-                    </div>)
-                }
-                )}
-            </div>
+            */
+
+    const toggle = (id: string) => {
+        setExcludedPlaylistId(cur => {
+            if (cur.includes(id)) {
+                return cur.filter((curId) => curId !== id)
+            }
+            return [...cur, id]
+        })
+    }
+
+    return (
+        <div>
+            
+            <AppBar position="sticky"> 
+                <Toolbar>
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>Your playlists</Typography>
+                </Toolbar>
+            </AppBar>
+            <List dense>
+                {sortedPlaylists.map(({id}) => <PlaylistItem key={id} id={id} /> )}
+            </List>
         </div>
     )
 }
