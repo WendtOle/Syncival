@@ -1,13 +1,16 @@
 import { useState } from "react"
 import { createPlaylist } from "../provider/createPlaylist"
 import { useAtom } from "jotai"
-import { filteredArtistsAtom, artistForComparisonAtom } from "../state/main"
+import { filteredArtistsAtom } from "../state/main"
 import { accessTokenAtom } from "../state/auth"
 import { Artist } from "./Artist"
+import { AppBar, Fab, List, Toolbar, Typography } from "@mui/material"
+import FavouriteIcon from '@mui/icons-material/Favorite';
+import { ArtistItem } from "./ArtistItem"
+
 
 export const ArtistResult = () => {
     const [accessToken] = useAtom(accessTokenAtom)
-    const [artistForComparison] = useAtom(artistForComparisonAtom)
     const [filteredArtists]  = useAtom(filteredArtistsAtom)
     const [foldedOutArtists, setFoldedOutArtists] = useState<string | undefined>()
     const [sort, setSort] = useState<"tracks" | "alphabetically">("tracks")
@@ -25,21 +28,25 @@ export const ArtistResult = () => {
         }
         return a.name.localeCompare(b.name)
     })
-
-    return (<div>
-        <div className="options">
+    /*
+     <div className="options">
             <button  onClick={createPlaylistFromFilteredTracks}>Create playlist from artists</button>
         </div>
         <div className="options">
             <button onClick={() => setSort("tracks")} className={sort ===  "tracks" ? "active" : ""}>Sort by tracks</button>
             <button onClick={() => setSort("alphabetically")} className={sort === "alphabetically" ? "active" : ""}>Sort alphabetically</button>
-        </div>
-        <div className="options">{filteredArtists.length} / {artistForComparison.length} artists matched</div>
-        <div className="scroll-container">
-            <div>{sortedArtists.map((artist) => (
-                <Artist key={artist.id} {...artist} foldedOut={foldedOutArtists === artist.id} setFoldedOut={() => setFoldedOutArtists(foldedOutArtists === artist.id ? undefined : artist.id)}/>
-        ))}</div>
-        </div>
-        
+        </div>*/
+
+    return (<div>
+       <AppBar position="sticky"> 
+                <Toolbar>
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>Matched Artists</Typography>
+                </Toolbar>
+            </AppBar>
+        <List dense>
+            {sortedArtists.map((artist) => (
+                <ArtistItem key={artist.id} {...artist} expandedArtist={foldedOutArtists} setExpandedArtist={setFoldedOutArtists}/>
+        ))}
+        </List>
     </div>)
 }

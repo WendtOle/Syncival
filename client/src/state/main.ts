@@ -1,6 +1,7 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { ArtistV2, Playlist, Track } from "./types";
+import { dataAtom } from "./data";
 
 export const LIKED_SONGS_PLAYLIST_ID = "liked_songs"
 const likedSongsPlaylist: Playlist = {name: "Liked Songs", id: LIKED_SONGS_PLAYLIST_ID, isOwn: true}
@@ -9,6 +10,8 @@ export const playlistsAtom = atomWithStorage<Playlist[]>("playlists", [likedSong
 export const playlistSongsAtom = atomWithStorage<Record<string, Track[]>>("songs", {})
 export const excludedPlaylistIdsAtom = atom<string[]>([])
 export const filteredArtistsAtom = atom<ArtistV2[]>(get => {
+    const lineupId = get(lineupIdAtom)
+    if (!lineupId) {return []}
     const filteredPlaylists = get(playlistsAtom).filter(({id}) => !get(excludedPlaylistIdsAtom).includes(id))
     const filteredTracks = filteredPlaylists.map(({id}) => (get(playlistSongsAtom)[id] ?? [])).flat()
     
@@ -25,9 +28,14 @@ export const filteredArtistsAtom = atom<ArtistV2[]>(get => {
         return prev
     }, {}))
 
-    const preprocessed = get(artistForComparisonAtom).map(artist => artist.toLowerCase())
+    const preprocessed = get(dataAtom)[lineupId].map(artist => artist.toLowerCase())
     return artists.filter(({name}) => preprocessed.includes(name.toLocaleLowerCase()))
 })
-export const artistForComparisonAtom = atom<string[]>([])
+export const lineupIdAtom = atomWithStorage<string | null>("selectedLineup", null)
+export const lineupAtom = atom<string[]>(get => {
+    const lineupId = get(lineupIdAtom)
+    if (!lineupId) {return []}
+    return get(dataAtom)[lineupId]
+})
 export const focusedAtom = atom<{id: string, type: "artist" | "playlist"} | null>(null)
 

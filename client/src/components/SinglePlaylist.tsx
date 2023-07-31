@@ -3,6 +3,7 @@ import "./Playlist.css"
 import { atom, useAtom } from "jotai"
 import { excludedPlaylistIdsAtom, focusedAtom, playlistSongsAtom } from "../state/main"
 import { useMemo } from "react"
+import { useNavigate } from "react-router-dom"
 
 type PlaylistProps = PlaylistType & {
     toggle: (id: string) => void
@@ -11,6 +12,7 @@ type PlaylistProps = PlaylistType & {
 }
 
 export const Playlist = ({id, name, tracks: numberOfSongs, toggle, hideSongs, fetching}: PlaylistProps) => {
+    const navigate = useNavigate()
     const [excludedPlaylistId, setExcludedPlaylistId] = useAtom(excludedPlaylistIdsAtom)
     const [songs] = useAtom(useMemo(() => atom((get) => get(playlistSongsAtom)[id] ?? []),[id]))
     const [focused, setFocused] = useAtom(focusedAtom)
@@ -40,8 +42,7 @@ export const Playlist = ({id, name, tracks: numberOfSongs, toggle, hideSongs, fe
     }
 
     return (
-        <div key={id} className={(containsFocusedArtist && hideSongs) || isFocused ? "focused playlist" : "playlist"} onClick={() => toggle(id)}>
-            <input type="checkbox" checked={!isExcluded} onClick={setExcludedPlaylistIdWrapper}  className="checkbox" readOnly />
+        <div key={id} onClick={() => navigate("/playlist/" +id)}>
             {name} ({songs.length}/{numberOfSongs ?? "?"} songs) {!hideSongs && <button onClick={onFocus}>focus</button>}
             {fetching && <div>...fetching</div>}
             <div className="playlist_song-container">
