@@ -2,7 +2,7 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { getPlaylists } from "../provider/playlists"
 import { getPlaylistTracks } from "../provider/songs"
 import { accessTokenAtom } from "../state/auth"
-import { playlistsAtom, playlistSongsAtom } from "../state/main"
+import { likedSongsPlaylist, playlistsAtom, playlistSongsAtom } from "../state/main"
 import { useEffect, useState } from "react"
 import { getData } from "../provider/data"
 import { dataAtom } from "../state/data"
@@ -30,10 +30,6 @@ export const useData = (): {infos: Record<Types, Entry>, loadData: () => Promise
     const accessToken = useAtomValue(accessTokenAtom)
     const [infos, setInfos] = useState<Record<Types, Entry>>(initialValue)
 
-    console.log({playlistSongs, length : Object.keys(playlistSongs).length})
-    console.log({fetched: playlists.filter(({fetched}) => fetched).length, length: playlists.length})
-    console.log({shouldBeTrue: playlists.every(({id}) => playlistSongs[id] !== undefined)})
-
     useEffect(() => {
         setInfos(cur => ({
             [Types.PLAYLIST]:  {...cur[Types.PLAYLIST], count: playlists.length}, 
@@ -42,7 +38,7 @@ export const useData = (): {infos: Record<Types, Entry>, loadData: () => Promise
         }))}, [ playlists, data])
 
     const clear = () => {
-        setPlaylists([])
+        setPlaylists([likedSongsPlaylist])
         setPlaylistSongs({})
         setData({})
     }
@@ -70,6 +66,9 @@ export const useData = (): {infos: Record<Types, Entry>, loadData: () => Promise
         await fetchAllPlaylists(nextPage + 1)
     }
 
+    const getUpdatedPlaylists = () => playlists
+
+
     const fetchAllSongsOfAllPlaylists = async() => {
         const fetchAllSongs = async (playlistId: string,nextPage = 0) => {
             const songs = await getPlaylistTracks(accessToken(), nextPage, playlistId)
@@ -83,7 +82,8 @@ export const useData = (): {infos: Record<Types, Entry>, loadData: () => Promise
             await fetchAllSongs(playlistId,nextPage + 1)
         }
 
-        const playlistsToFetch = playlists.filter(({fetched}) => !fetched)
+        const innerPlaylists = getUpdatedPlaylists()
+        const playlistsToFetch = innerPlaylists.filter(({fetched}) => !fetched)
         for (let i = 0; i < playlistsToFetch.length; ) {
             const {id} = playlistsToFetch[i]
             await fetchAllSongs(id)
