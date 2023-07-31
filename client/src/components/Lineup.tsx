@@ -43,7 +43,7 @@ export const Lineup = () => {
                 </Toolbar>
                 
             </AppBar>
-            <List dense>
+            <List dense sx={{marginBottom: "64px"}}>
                 {artists.map((artist: string, index) => (
                     <ListItem key={index}>
                         <ListItemIcon>
@@ -52,6 +52,7 @@ export const Lineup = () => {
                         <ListItemText primary={artist} />
                     </ListItem>
                 ))}
+                
             </List>
             </div>
 

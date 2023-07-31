@@ -2,15 +2,19 @@ import { Track } from "../state/types"
 import "./Playlist.css"
 import { useAtomValue } from "jotai"
 import { filteredArtistsAtom} from "../state/main"
-import { ListItem, ListItemIcon, ListItemText, } from "@mui/material"
+import { ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, } from "@mui/material"
 import SongIcon from '@mui/icons-material/Audiotrack';
+import LaunchIcon from '@mui/icons-material/Launch';
 
-export const SongItem = ({id, name, artists}: Track) => {
-    const filteredArtists  = useAtomValue(filteredArtistsAtom)
-    const containsLineUpArtist = artists.some(({id: artistId}) => filteredArtists.map(({id}) => id).includes(artistId))
+
+export const SongItem = ({id, name, artists, containsLineUpArtist}: Track & {containsLineUpArtist: boolean}) => {
 
     return (<ListItem key={id} sx={{background: containsLineUpArtist ? "#bffde6" : ""}}>
         <ListItemIcon><SongIcon /></ListItemIcon>
-        <ListItemText primary={name} secondary={artists.map(({ name }) => name).join(', ')} /></ListItem>
+        <ListItemText primary={name} secondary={artists.map(({ name }) => name).join(', ')} />
+        <ListItemSecondaryAction>
+            <LaunchIcon onClick={() => window.open(`spotify:track:${id}`, '_blank')}/>
+        </ListItemSecondaryAction>
+        </ListItem>
     )
 }

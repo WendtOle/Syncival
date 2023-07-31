@@ -4,13 +4,15 @@ import { atom, useAtom, useAtomValue } from "jotai"
 import { filteredArtistsAtom, playlistSongsAtom, playlistsAtom } from "../state/main"
 import { useMemo, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { AppBar, Button, ButtonGroup, CircularProgress, Collapse, Divider, Fab, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material"
+import { AppBar, Button, ButtonGroup, CircularProgress, Collapse, Divider, Fab, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemSecondaryAction, ListItemText, Toolbar, Typography } from "@mui/material"
 import SongIcon from '@mui/icons-material/Audiotrack';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import PersonIcon from '@mui/icons-material/Person';
 import { ExpandLess, ExpandMore } from "@mui/icons-material"
 import { extractArtists } from "../util/extractArtists"
 import { SongItem } from "./SongItem"
+import LaunchIcon from '@mui/icons-material/Launch';
+
 
 export const ArtistItem = ({ id, name, tracks, expandedArtist, setExpandedArtist, markWhenInLineUp}: ArtistV2 & {expandedArtist?: string, setExpandedArtist: (id?: string) => void, markWhenInLineUp?: boolean}) => {
     const filteredArtists = useAtomValue(filteredArtistsAtom)
@@ -22,7 +24,11 @@ export const ArtistItem = ({ id, name, tracks, expandedArtist, setExpandedArtist
         <ListItemButton onClick={() => setExpandedArtist(expanded ? undefined : id)}>
             <ListItemIcon><PersonIcon /></ListItemIcon>
             <ListItemText primary={name} secondary={`${tracks.length} songs`} />
-            {expanded ? <ExpandLess /> : <ExpandMore />}
+            <ListItemSecondaryAction>
+                                <LaunchIcon onClick={() => window.open(`spotify:artist:${id}`, '_blank')} sx={{marginRight: 1}} />
+                                {expanded ? <ExpandLess /> : <ExpandMore />}
+                            </ListItemSecondaryAction>
+            
             
         </ListItemButton>  
         {expanded && <Divider />}
@@ -32,7 +38,11 @@ export const ArtistItem = ({ id, name, tracks, expandedArtist, setExpandedArtist
                     return (
                         <ListItem key={id} sx={{pl: 4}}>
                             <ListItemIcon><SongIcon /></ListItemIcon>
-                            <ListItemText primary={name} secondary={artists.map(({ name }) => name).join(', ')} /></ListItem>
+                            <ListItemText primary={name} secondary={artists.map(({ name }) => name).join(', ')} />
+                            <ListItemSecondaryAction>
+                                <LaunchIcon onClick={() => window.open(`spotify:track:${id}`, '_blank')} sx={{marginRight: 4}}/>
+                            </ListItemSecondaryAction>
+                            </ListItem>
                     )
                 })}
             </List>
