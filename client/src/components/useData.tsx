@@ -6,6 +6,7 @@ import {
   likedSongsPlaylist,
   playlistsAtom,
   playlistSongsAtom,
+  selectedLineupKeyAtom,
 } from "../state/main";
 import { useEffect, useState } from "react";
 import { getData } from "../provider/data";
@@ -36,6 +37,7 @@ export const useData = (): {
 } => {
   const [playlists, setPlaylists] = useAtom(playlistsAtom);
   const [data, setData] = useAtom(dataAtom);
+  const setSelectedLineupKey = useSetAtom(selectedLineupKeyAtom);
   const setPlaylistSongs = useSetAtom(playlistSongsAtom);
   const accessToken = useAtomValue(accessTokenAtom);
   const [infos, setInfos] = useState<Record<Types, Entry>>(initialValue);
@@ -87,6 +89,7 @@ export const useData = (): {
     }));
     const fetchedData = await getData();
     setData(fetchedData);
+    setSelectedLineupKey(fetchedData[0].key);
     setInfos((infos) => ({
       ...infos,
       [Types.LINEUP]: {
