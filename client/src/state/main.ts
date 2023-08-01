@@ -52,9 +52,9 @@ export const filteredArtistsAtom = atom<ArtistV2[]>((get) => {
     ),
   );
 
-  const preprocessed = get(dataAtom)[lineupId].map((artist) =>
-    artist.toLowerCase(),
-  );
+  const preprocessed = (
+    get(dataAtom).find((entry) => entry.key === lineupId)?.artists ?? []
+  ).map((artist) => artist.toLowerCase());
   return artists.filter(({ name }) =>
     preprocessed.includes(name.toLocaleLowerCase()),
   );
@@ -68,7 +68,7 @@ export const lineupAtom = atom<string[]>((get) => {
   if (!lineupId) {
     return [];
   }
-  return get(dataAtom)[lineupId];
+  return get(dataAtom).find((entry) => entry.key === lineupId)?.artists ?? [];
 });
 export const focusedAtom = atom<{
   id: string;

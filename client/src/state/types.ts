@@ -38,6 +38,12 @@ export interface Playlist {
   fetched?: Date;
 }
 
+export interface DataEntry {
+  name: string;
+  key: string;
+  artists: string[];
+}
+
 export enum RouteEnum {
   ARTISTS = "/artists",
   PLAYLIST_LIST = "/playlists",

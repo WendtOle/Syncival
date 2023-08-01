@@ -17,7 +17,15 @@ import { Toolbar } from "./Toolbar";
 export const Lineup = () => {
   const { id } = useParams();
   const artists = useAtomValue(
-    useMemo(() => atom((get) => (id ? get(dataAtom)[id] : [])), [id]),
+    useMemo(
+      () =>
+        atom((get) =>
+          id
+            ? get(dataAtom).find((current) => current.key === id)?.artists ?? []
+            : [],
+        ),
+      [id],
+    ),
   );
   const navigate = useNavigate();
   const setLineupKey = useSetAtom(lineupIdAtom);

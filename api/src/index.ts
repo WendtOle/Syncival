@@ -163,7 +163,7 @@ app.post('/createPlaylist', async (req: any, res: any) => {
 
 app.get('/data', async (req: any, res: any) => {
     setCors(req, res);
-    res.send({fusion2023Artists: artists});
+    res.send([artists]);
     return
 })
 

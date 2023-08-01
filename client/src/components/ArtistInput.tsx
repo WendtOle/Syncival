@@ -20,11 +20,7 @@ export const ArtistInput = () => {
 
   const deleteLineUp = (event: any, key: string) => {
     event.stopPropagation();
-    setData((cur) => {
-      const newData = { ...cur };
-      delete newData[key];
-      return newData;
-    });
+    setData((cur) => cur.filter((current) => current.key !== key));
   };
 
   return (
@@ -34,12 +30,15 @@ export const ArtistInput = () => {
       </Toolbar>
       <Divider />
       <List>
-        {Object.entries(data).map(([key, value]) => (
+        {data.map(({ key, name, artists }) => (
           <ListItemButton key={key} onClick={() => navigate("/lineup/" + key)}>
             <ListItemIcon>
               <LineupIcon />
             </ListItemIcon>
-            <ListItemText primary={key} secondary={`${value.length} artists`} />
+            <ListItemText
+              primary={name}
+              secondary={`${artists.length} artists`}
+            />
             <ListItemSecondaryAction
               onClick={(event) => deleteLineUp(event, key)}
             >

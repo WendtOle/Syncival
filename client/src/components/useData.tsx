@@ -54,7 +54,7 @@ export const useData = (): {
   const clear = () => {
     setPlaylists([likedSongsPlaylist]);
     setPlaylistSongs({});
-    setData({});
+    setData([]);
   };
 
   const loadData = async () => {
