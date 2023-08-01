@@ -1,22 +1,48 @@
-import { useState } from "react";
 import { excludedPlaylistIdsAtom, playlistsAtom } from "../state/main";
-import { useAtomValue } from "jotai";
-import { List } from "@mui/material";
+import { useAtom, useAtomValue } from "jotai";
+import { Button, List, Typography } from "@mui/material";
 import { PlaylistItem } from "./PlaylistItem";
+import { Toolbar } from "./Toolbar";
 
 export const Playlists = () => {
   const playlists = useAtomValue(playlistsAtom);
-  const [showOnlySelected] = useState(false);
-  const excludedPlaylistId = useAtomValue(excludedPlaylistIdsAtom);
+  const [excludedPlaylistId, setExcludedPlaylistId] = useAtom(
+    excludedPlaylistIdsAtom,
+  );
   const filteredPlaylists = playlists.filter(
-    ({ id }) => !showOnlySelected || !excludedPlaylistId.includes(id),
+    ({ id }) => !excludedPlaylistId.includes(id),
   );
 
+  const togglePublic = () => {
+    const foreignPlaylistsIds = playlists
+      .filter(({ isOwn }) => !isOwn)
+      .map(({ id }) => id);
+    if (foreignPlaylistsIds.every((id) => excludedPlaylistId.includes(id))) {
+      setExcludedPlaylistId((cur) =>
+        cur.filter((id) => !foreignPlaylistsIds.includes(id)),
+      );
+      return;
+    }
+    setExcludedPlaylistId((cur) => [...cur, ...foreignPlaylistsIds]);
+  };
+
   return (
-    <List dense sx={{ marginBottom: 8 }}>
-      {filteredPlaylists.map(({ id }) => (
-        <PlaylistItem key={id} id={id} />
-      ))}
-    </List>
+    <>
+      <Toolbar>
+        <Typography variant="body1" component="div" sx={{ flexGrow: 1 }}>
+          Use {filteredPlaylists.length} / {playlists.length} playlists
+        </Typography>
+        <Button variant="outlined" onClick={togglePublic}>
+          Toggle public
+        </Button>
+      </Toolbar>
+      <List dense sx={{ marginBottom: 8 }}>
+        {playlists
+          .sort((a, b) => (a.isOwn === b.isOwn ? 1 : a.isOwn ? -1 : 0))
+          .map(({ id }) => (
+            <PlaylistItem key={id} id={id} />
+          ))}
+      </List>
+    </>
   );
 };
