@@ -1,11 +1,9 @@
 import { Playlists } from "./Playlists";
 import { ArtistResult } from "./ArtistResult";
-import { ArtistInput } from "./ArtistInput";
 import "./App.css";
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { Playlist } from "./SinglePlaylistV2";
-import { Lineup } from "./Lineup";
 import { ArtistNavigationIcon } from "./ArtistNavigationIcon";
 import { PlaylistNavigationIcon } from "./PlaylistNavigationIcon";
 import { DataLoading } from "./DataLoading";
@@ -60,8 +58,6 @@ export const App = () => {
       <AppBar />
       <Routes>
         <Route path={RouteEnum.LOADING} element={<DataLoading />} />
-        <Route path={RouteEnum.LINEUP_LIST} element={<ArtistInput />} />
-        <Route path={RouteEnum.LINEUP} element={<Lineup />} />
         <Route path={RouteEnum.PLAYLIST_LIST} element={<Playlists />} />
         <Route path={RouteEnum.PLAYLIST} element={<Playlist />} />
         <Route path={RouteEnum.ARTISTS} element={<ArtistResult />} />

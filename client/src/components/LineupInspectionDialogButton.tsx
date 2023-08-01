@@ -20,7 +20,7 @@ import { selectedLineupKeyAtom } from "../state/main";
 
 export const LineupInspectionDialogButton = () => {
   const [open, setOpen] = useState(false);
-  const { selectedLineupTitle } = useLineupTitle();
+  const selectedLineupTitle = useLineupTitle();
   const [selectedLineupKey, setSelectedLineupKey] = useAtom(
     selectedLineupKeyAtom,
   );

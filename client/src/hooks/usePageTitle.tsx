@@ -7,11 +7,8 @@ import { useLineupTitle } from "./useLineuptitle";
 export const usePageTitle = (): string => {
   const location = useLocation();
   const playlists = useAtomValue(playlistsAtom);
-  const { selectedLineupTitle, getLineupTitle } = useLineupTitle();
+  const selectedLineupTitle = useLineupTitle();
 
-  if (location.pathname === RouteEnum.LINEUP_LIST) {
-    return "Available lineups";
-  }
   if (location.pathname === RouteEnum.PLAYLIST_LIST) {
     return "Your playlists";
   }
@@ -20,10 +17,6 @@ export const usePageTitle = (): string => {
   }
   if (location.pathname === RouteEnum.LOADING) {
     return "Data";
-  }
-  if (location.pathname.includes(RouteEnum.LINEUP.replace(":id", ""))) {
-    const linupId = location.pathname.split("/").pop() || "";
-    return getLineupTitle(linupId);
   }
   if (location.pathname.includes(RouteEnum.PLAYLIST.replace(":id", ""))) {
     const playlistId = location.pathname.split("/").pop() || "";
