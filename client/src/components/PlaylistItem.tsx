@@ -83,8 +83,12 @@ export const PlaylistItem = ({ id }: { id: string }) => {
         }/${playlistArtists.length} artists`}
       />
       <ListItemSecondaryAction onClick={() => toggle(id)}>
-        <LaunchIcon onClick={goToPlaylist} sx={{ marginRight: 2 }} />
-        {visible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+        {visible ? (
+          <VisibilityIcon sx={{ marginRight: 2 }} />
+        ) : (
+          <VisibilityOffIcon sx={{ marginRight: 2 }} />
+        )}
+        <LaunchIcon onClick={goToPlaylist} />
       </ListItemSecondaryAction>
     </ListItem>
   );
