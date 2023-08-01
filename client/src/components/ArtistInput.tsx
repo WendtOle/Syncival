@@ -1,63 +1,129 @@
-import { useState } from "react"
-import { useAtom } from "jotai"
-import { artistForComparisonAtom } from "../state/main"
-import { getData } from "../provider/data"
-import { dataAtom } from "../state/data"
+import { useState } from "react";
+import { useAtom } from "jotai";
+import { dataAtom } from "../state/data";
+import {
+  AppBar,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Fab,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemSecondaryAction,
+  ListItemText,
+  TextField,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import LineupIcon from "@mui/icons-material/FormatListBulleted";
+import { useNavigate } from "react-router-dom";
+import { Add, Delete } from "@mui/icons-material";
+import { SettingsDialogButton } from "./SettingsDialogButton";
 
 export const ArtistInput = () => {
-    const [artistForComparison, setArtistForComparison] = useAtom(artistForComparisonAtom)
-    const [text, setText] = useState("")
-    const [data, setData] = useAtom(dataAtom)
+  const [text, setText] = useState("");
+  const [data, setData] = useAtom(dataAtom);
+  const [open, setOpen] = useState(false);
+  const [lineupName, setLineupName] = useState("");
+  const navigate = useNavigate();
 
-    const onChange = (event: any) => {
-        const newText = event.target.value
-        setText(newText)
-        const newArtists = newText.replace(/"/g,'').split(/,|\n/).map((artist: string) => artist.trim()).filter((artist: string) => artist.length > 0)
-        setArtistForComparison(newArtists)
-    }
+  const parsedArtists = text
+    .replace(/"/g, "")
+    .split(/,|\n/)
+    .map((artist: string) => artist.trim())
+    .filter((artist: string) => artist.length > 0);
 
-    const fetchData = async () => {
-        const fetchedData = await getData();
-        setData(fetchedData);
-    }
+  const addLineUp = () => {
+    setData((cur) => ({ ...cur, [lineupName]: parsedArtists }));
+    setLineupName("");
+    setOpen(false);
+  };
 
-    const applyData = (key: string) => {
-        const artists = data[key] ?? []
-        setArtistForComparison(artists)
-        setText(artists.join("\n"))
-    }
+  const clear = () => {
+    setText("");
+  };
 
-    const clear = () => {
-        setText("")
-        setArtistForComparison([])
-    }
+  const deleteLineUp = (event: any, key: string) => {
+    event.stopPropagation();
+    setData((cur) => {
+      const newData = { ...cur };
+      delete newData[key];
+      return newData;
+    });
+  };
 
-    return (
-        <div className="main-container">
-            <h1>Artist input</h1>
-            <div className="options">
-                <button onClick={clear}>Clear</button>
-                <button onClick={() => fetchData()}>Fetch data</button>
-            </div>
-            
-            {Object.entries(data).map(([key, value]) => (
-                <div className="options" style={{display: "flex", justifyContent: "space-evenly", alignItems: "center"}} key={key}>
-                    "{key}" - {value.length} artists
-                    <button onClick={() => applyData(key)}>load</button>
-                </div>
+  return (
+    <div>
+      <AppBar position="sticky">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Lineup
+          </Typography>
+          <SettingsDialogButton />
+        </Toolbar>
+      </AppBar>
+      <List>
+        {Object.entries(data).map(([key, value]) => (
+          <ListItemButton key={key} onClick={() => navigate("/lineup/" + key)}>
+            <ListItemIcon>
+              <LineupIcon />
+            </ListItemIcon>
+            <ListItemText primary={key} secondary={`${value.length} artists`} />
+            <ListItemSecondaryAction
+              onClick={(event) => deleteLineUp(event, key)}
+            >
+              <Delete />
+            </ListItemSecondaryAction>
+          </ListItemButton>
+        ))}
+      </List>
+      <Fab
+        sx={{ position: "fixed", bottom: 72, right: 16 }}
+        color="info"
+        onClick={() => setOpen((cur) => !cur)}
+      >
+        <Add />
+      </Fab>
+
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>Create Lineup manually</DialogTitle>
+        <DialogContent>
+          <TextField
+            size="small"
+            id="outlined-basic"
+            label="Name"
+            variant="outlined"
+            value={lineupName}
+            onChange={(event) => setLineupName(event.target.value)}
+          />
+          <div className="options">{parsedArtists.length} artists found</div>
+          <List>
+            {parsedArtists.map((artist: string, index) => (
+              <div className="artist" key={index}>
+                {artist}
+              </div>
             ))}
-            
-            <div className="options">{artistForComparison.length} artists found</div>
-            <div className="scroll-container artist-container">
-                {artistForComparison.map((artist: string, index) => (
-                    <div className="artist" key={index}>{artist}</div>
-                ))}
-            </div>
-            <label>
-                Enter your artists here:
-                <textarea rows={6} style={{width: "100%"}} placeholder="Enter your artists here ..." value={text} onChange={onChange}/>
-            </label>
-            
-        </div>
-    )
-}
+          </List>
+          <label>
+            Enter your artists here:
+            <textarea
+              rows={6}
+              style={{ width: "100%" }}
+              placeholder="Enter your artists here ..."
+              value={text}
+              onChange={(event) => setText(event.target.value)}
+            />
+          </label>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={clear}>Clear</Button>
+          <Button onClick={() => setOpen(false)}>Close</Button>
+          <Button onClick={addLineUp}>Apply</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+};

@@ -1,46 +1,80 @@
-import { useState } from "react"
-import { createPlaylist } from "../provider/createPlaylist"
-import { useAtom } from "jotai"
-import { filteredArtistsAtom, artistForComparisonAtom } from "../state/main"
-import { accessTokenAtom } from "../state/auth"
-import { Artist } from "./Artist"
+import { useState } from "react";
+import { createPlaylist } from "../provider/createPlaylist";
+import { useAtom } from "jotai";
+import { filteredArtistsAtom } from "../state/main";
+import { accessTokenAtom } from "../state/auth";
+import {
+  AppBar,
+  Button,
+  List,
+  ListItem,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import { ArtistItem } from "./ArtistItem";
+import { SettingsDialogButton } from "./SettingsDialogButton";
 
 export const ArtistResult = () => {
-    const [accessToken] = useAtom(accessTokenAtom)
-    const [artistForComparison] = useAtom(artistForComparisonAtom)
-    const [filteredArtists]  = useAtom(filteredArtistsAtom)
-    const [foldedOutArtists, setFoldedOutArtists] = useState<string | undefined>()
-    const [sort, setSort] = useState<"tracks" | "alphabetically">("tracks")
+  const [accessToken] = useAtom(accessTokenAtom);
+  const [filteredArtists] = useAtom(filteredArtistsAtom);
+  const [foldedOutArtists, setFoldedOutArtists] = useState<
+    string | undefined
+  >();
 
-    const createPlaylistFromFilteredTracks = () => {
-        if (filteredArtists.length === 0) {
-            return
-        }
-        return createPlaylist(accessToken(), filteredArtists.map(({tracks}) => tracks[0].id))
+  const createPlaylistFromFilteredTracks = async () => {
+    if (filteredArtists.length === 0) {
+      return;
     }
+    const playlistId = await createPlaylist(
+      accessToken(),
+      filteredArtists.map(({ tracks }) => tracks[0].id),
+    );
+    const link = `spotify:playlist:${playlistId}`;
+    window.open(link, "_blank");
+  };
 
-    const sortedArtists = filteredArtists.sort((a, b) => {
-        if (sort === "tracks") {
-            return b.tracks.length - a.tracks.length
-        }
-        return a.name.localeCompare(b.name)
-    })
+  const sortedArtists = filteredArtists.sort((a, b) => {
+    return b.tracks.length - a.tracks.length;
+  });
 
-    return (<div  className="main-container">
-        <h1>Comparison</h1>
-        <div className="options">
-            <button  onClick={createPlaylistFromFilteredTracks}>Create playlist from artists</button>
-        </div>
-        <div className="options">
-            <button onClick={() => setSort("tracks")} className={sort ===  "tracks" ? "active" : ""}>Sort by tracks</button>
-            <button onClick={() => setSort("alphabetically")} className={sort === "alphabetically" ? "active" : ""}>Sort alphabetically</button>
-        </div>
-        <div className="options">{filteredArtists.length} / {artistForComparison.length} artists matched</div>
-        <div className="scroll-container">
-            <div>{sortedArtists.map((artist) => (
-                <Artist key={artist.id} {...artist} foldedOut={foldedOutArtists === artist.id} setFoldedOut={() => setFoldedOutArtists(foldedOutArtists === artist.id ? undefined : artist.id)}/>
-        ))}</div>
-        </div>
-        
-    </div>)
-}
+  return (
+    <div style={{}}>
+      <AppBar position="sticky">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Matched Artists
+          </Typography>
+          <SettingsDialogButton />
+        </Toolbar>
+      </AppBar>
+
+      <List dense sx={{ marginBottom: 12 }}>
+        {sortedArtists.map((artist) => (
+          <ArtistItem
+            key={artist.id}
+            {...artist}
+            expandedArtist={foldedOutArtists}
+            setExpandedArtist={setFoldedOutArtists}
+          />
+        ))}
+        <ListItem
+          sx={{
+            position: "fixed",
+            zIndex: 20000,
+            bottom: 64,
+            justifyContent: "center",
+          }}
+        >
+          <Button
+            variant="contained"
+            sx={{ borderRadius: 16 }}
+            color="success"
+            onClick={createPlaylistFromFilteredTracks}
+          >
+            Create playlist
+          </Button>
+        </ListItem>
+      </List>
+    </div>
+  );
+};
