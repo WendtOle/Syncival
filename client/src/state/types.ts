@@ -37,3 +37,12 @@ export interface Playlist {
   tracks?: number;
   fetched?: Date;
 }
+
+export enum RouteEnum {
+  ARTISTS = "/artists",
+  PLAYLIST_LIST = "/playlists",
+  LINEUP_LIST = "/setup",
+  LOADING = "/",
+  PLAYLIST = "/playlist/:id",
+  LINEUP = "/lineup/:id",
+}

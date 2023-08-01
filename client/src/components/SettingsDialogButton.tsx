@@ -9,7 +9,7 @@ import {
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { RouteEnum } from "./App";
+import { RouteEnum } from "../state/types";
 
 export const SettingsDialogButton = () => {
   const [open, setOpen] = useState(false);

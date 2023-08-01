@@ -12,11 +12,11 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import PendingIcon from "@mui/icons-material/Pending";
-import { RouteEnum } from "./App";
 import CheckIcon from "@mui/icons-material/Check";
 import { Types, useData } from "./useData";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DownloadIcon from "@mui/icons-material/Download";
+import { RouteEnum } from "../state/types";
 
 export const DataLoading = () => {
   const navigate = useNavigate();
