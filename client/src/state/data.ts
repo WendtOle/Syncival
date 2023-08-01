@@ -1,3 +1,4 @@
 import { atomWithStorage } from "jotai/utils";
+import { DataEntry } from "./types";
 
-export const dataAtom = atomWithStorage<Record<string, string[]>>("data", {});
+export const dataAtom = atomWithStorage<DataEntry[]>("data", []);

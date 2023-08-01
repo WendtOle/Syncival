@@ -4,8 +4,8 @@ import {
   DialogTitle,
   DialogContent,
   TextField,
-  List,
   DialogActions,
+  Chip,
 } from "@mui/material";
 import { useSetAtom } from "jotai";
 import { useState } from "react";
@@ -24,7 +24,13 @@ export const LinueupCreationDialogButton = () => {
     .filter((artist: string) => artist.length > 0);
 
   const addLineUp = () => {
-    setData((cur) => ({ ...cur, [lineupName]: parsedArtists }));
+    if (lineupName.length === 0 || parsedArtists.length === 0) {
+      return;
+    }
+    setData((cur) => {
+      const key = Math.random().toString(36).substring(2);
+      return [...cur, { key, name: lineupName, artists: parsedArtists }];
+    });
     setLineupName("");
     setOpen(false);
   };
@@ -43,30 +49,33 @@ export const LinueupCreationDialogButton = () => {
         <DialogContent>
           <TextField
             size="small"
-            id="outlined-basic"
+            variant="standard"
             label="Name"
-            variant="outlined"
             value={lineupName}
             onChange={(event) => setLineupName(event.target.value)}
+            fullWidth
           />
-          <div className="options">{parsedArtists.length} artists found</div>
-          <List>
+          <TextField
+            placeholder="Enter your artists here ..."
+            label="Artists"
+            value={text}
+            variant="standard"
+            onChange={(event) => setText(event.target.value)}
+            fullWidth
+            rows={3}
+            sx={{ marginTop: 2 }}
+            multiline
+          />
+          <div style={{ margin: 5, marginTop: 10 }}>
             {parsedArtists.map((artist: string, index) => (
-              <div className="artist" key={index}>
-                {artist}
-              </div>
+              <Chip
+                key={index}
+                size="small"
+                label={artist}
+                sx={{ margin: 0.2, padding: "0px 1px" }}
+              />
             ))}
-          </List>
-          <label>
-            Enter your artists here:
-            <textarea
-              rows={6}
-              style={{ width: "100%" }}
-              placeholder="Enter your artists here ..."
-              value={text}
-              onChange={(event) => setText(event.target.value)}
-            />
-          </label>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={clear}>Clear</Button>
