@@ -10,6 +10,7 @@ import {
 import { useSetAtom } from "jotai";
 import { useState } from "react";
 import { dataAtom } from "../state/data";
+import { selectedLineupKeyAtom } from "../state/main";
 
 export const LinueupCreationDialogWrapper = ({
   children,
@@ -20,6 +21,7 @@ export const LinueupCreationDialogWrapper = ({
   const [text, setText] = useState("");
   const setData = useSetAtom(dataAtom);
   const [lineupName, setLineupName] = useState("");
+  const setSelectedLineupKey = useSetAtom(selectedLineupKeyAtom);
 
   const parsedArtists = text
     .replace(/"/g, "")
@@ -31,11 +33,12 @@ export const LinueupCreationDialogWrapper = ({
     if (lineupName.length === 0 || parsedArtists.length === 0) {
       return;
     }
+    const key = Math.random().toString(36).substring(2);
     setData((cur) => {
-      const key = Math.random().toString(36).substring(2);
       return [...cur, { key, name: lineupName, artists: parsedArtists }];
     });
     setLineupName("");
+    setSelectedLineupKey(key);
     setOpen(false);
   };
 
