@@ -10,15 +10,7 @@ import { ArtistNavigationIcon } from "./ArtistNavigationIcon";
 import { PlaylistNavigationIcon } from "./PlaylistNavigationIcon";
 import { LineupNavigationIcon } from "./LineupNavigationIcon";
 import { DataLoading } from "./DataLoading";
-
-export enum RouteEnum {
-  ARTISTS = "/artists",
-  PLAYLIST_LIST = "/playlists",
-  LINEUP_LIST = "/setup",
-  LOADING = "/",
-  PLAYLIST = "/playlist/:id",
-  LINEUP = "/lineup/:id",
-}
+import { RouteEnum } from "../state/types";
 
 const borderBottomItems = [
   {
