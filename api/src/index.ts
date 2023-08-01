@@ -153,13 +153,17 @@ app.post('/createPlaylist', async (req: any, res: any) => {
         const response_createPlaylist = await spotifyApi.createPlaylist(name, {public: false, description: `Playlist created by Fusion2023 at ${day}.${month}-${hour}:${minute}`})
         const {id} = response_createPlaylist.body
         const params = trackId.map((id: string) => `spotify:track:${id}`)
-        await spotifyApi.addTracksToPlaylist(id, params)
+        // I guess that not more than x tracks can be added to a playlist at once
+        for (let i = 0; i < params.length; i += 50) {
+            const paramsSlice = params.slice(i, i + 50)
+            await spotifyApi.addTracksToPlaylist(id, paramsSlice)
+        }
         res.send({playlistId: id, name});
         return
     } catch (err: any) {
         console.log("Error when creating playlist.")
         console.log(err.body.message)
-        res.send('error')
+        res.send({status: 'error'})
         return
     }
 })
