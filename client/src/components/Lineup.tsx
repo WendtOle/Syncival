@@ -11,8 +11,8 @@ import { atom, useAtomValue, useSetAtom } from "jotai";
 import { useMemo } from "react";
 import { dataAtom } from "../state/data";
 import PersonIcon from "@mui/icons-material/Person";
-import { lineupIdAtom } from "../state/main";
 import { Toolbar } from "./Toolbar";
+import { selectedLineupKeyAtom } from "../state/main";
 
 export const Lineup = () => {
   const { id } = useParams();
@@ -28,7 +28,7 @@ export const Lineup = () => {
     ),
   );
   const navigate = useNavigate();
-  const setLineupKey = useSetAtom(lineupIdAtom);
+  const setLineupKey = useSetAtom(selectedLineupKeyAtom);
 
   if (!id) {
     return <CircularProgress />;

@@ -19,10 +19,6 @@ export const playlistSongsAtom = atomWithStorage<Record<string, Track[]>>(
 );
 export const excludedPlaylistIdsAtom = atom<string[]>([]);
 export const filteredArtistsAtom = atom<ArtistV2[]>((get) => {
-  const lineupId = get(lineupIdAtom);
-  if (!lineupId) {
-    return [];
-  }
   const filteredPlaylists = get(playlistsAtom).filter(
     ({ id }) => !get(excludedPlaylistIdsAtom).includes(id),
   );
@@ -52,19 +48,18 @@ export const filteredArtistsAtom = atom<ArtistV2[]>((get) => {
     ),
   );
 
-  const preprocessed = (
-    get(dataAtom).find((entry) => entry.key === lineupId)?.artists ?? []
-  ).map((artist) => artist.toLowerCase());
+  const preprocessed = get(lineupAtom).map((artist) => artist.toLowerCase());
   return artists.filter(({ name }) =>
     preprocessed.includes(name.toLocaleLowerCase()),
   );
 });
-export const lineupIdAtom = atomWithStorage<string | null>(
+export const selectedLineupKeyAtom = atomWithStorage<string | null>(
   "selectedLineup",
   null,
 );
+
 export const lineupAtom = atom<string[]>((get) => {
-  const lineupId = get(lineupIdAtom);
+  const lineupId = get(selectedLineupKeyAtom);
   if (!lineupId) {
     return [];
   }
