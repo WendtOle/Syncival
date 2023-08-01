@@ -1,42 +1,29 @@
 import {
-  AppBar,
   Button,
   CircularProgress,
-  IconButton,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Toolbar,
-  Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import PendingIcon from "@mui/icons-material/Pending";
 import CheckIcon from "@mui/icons-material/Check";
 import { Types, useData } from "./useData";
-import DeleteIcon from "@mui/icons-material/Delete";
-import DownloadIcon from "@mui/icons-material/Download";
-import { RouteEnum } from "../state/types";
+import { Toolbar } from "./Toolbar";
 
 export const DataLoading = () => {
-  const navigate = useNavigate();
   const { loadData, infos, clear } = useData();
 
   return (
     <div>
-      <AppBar position="sticky">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Loading Data
-          </Typography>
-          <IconButton color="inherit" onClick={clear}>
-            <DeleteIcon />
-          </IconButton>
-          <IconButton color="inherit" onClick={loadData}>
-            <DownloadIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+      <Toolbar>
+        <Button variant="outlined" onClick={clear}>
+          Clear cache
+        </Button>
+        <Button variant="outlined" onClick={loadData} sx={{ marginLeft: 1 }}>
+          Download
+        </Button>
+      </Toolbar>
       <List>
         <ListItem>
           <ListItemIcon>
@@ -87,22 +74,6 @@ export const DataLoading = () => {
             primary="Lineups"
             secondary={`Loaded ${infos[Types.LINEUP].count} lineups`}
           />
-        </ListItem>
-        <ListItem
-          sx={{
-            position: "fixed",
-            zIndex: 20000,
-            bottom: 0,
-            justifyContent: "center",
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={{ borderRadius: 16, width: "100%" }}
-            onClick={() => navigate(RouteEnum.PLAYLIST_LIST)}
-          >
-            Go to app
-          </Button>
         </ListItem>
       </List>
     </div>

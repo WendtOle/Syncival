@@ -2,13 +2,12 @@ import { useState } from "react";
 import { useAtom } from "jotai";
 import { dataAtom } from "../state/data";
 import {
-  AppBar,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Fab,
+  Divider,
   List,
   ListItemButton,
   ListItemIcon,
@@ -16,11 +15,10 @@ import {
   ListItemText,
   TextField,
   Toolbar,
-  Typography,
 } from "@mui/material";
 import LineupIcon from "@mui/icons-material/FormatListBulleted";
 import { useNavigate } from "react-router-dom";
-import { Add, Delete } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 
 export const ArtistInput = () => {
   const [text, setText] = useState("");
@@ -56,13 +54,12 @@ export const ArtistInput = () => {
 
   return (
     <div>
-      <AppBar position="sticky">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Lineup
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <Toolbar sx={{ justifyContent: "end" }}>
+        <Button variant="outlined" onClick={() => setOpen((cur) => !cur)}>
+          Add lineup
+        </Button>
+      </Toolbar>
+      <Divider />
       <List>
         {Object.entries(data).map(([key, value]) => (
           <ListItemButton key={key} onClick={() => navigate("/lineup/" + key)}>
@@ -78,13 +75,6 @@ export const ArtistInput = () => {
           </ListItemButton>
         ))}
       </List>
-      <Fab
-        sx={{ position: "fixed", bottom: 16, right: 16 }}
-        color="info"
-        onClick={() => setOpen((cur) => !cur)}
-      >
-        <Add />
-      </Fab>
 
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Create Lineup manually</DialogTitle>
