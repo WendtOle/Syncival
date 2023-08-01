@@ -21,7 +21,6 @@ import {
 import LineupIcon from "@mui/icons-material/FormatListBulleted";
 import { useNavigate } from "react-router-dom";
 import { Add, Delete } from "@mui/icons-material";
-import { SettingsDialogButton } from "./SettingsDialogButton";
 
 export const ArtistInput = () => {
   const [text, setText] = useState("");
@@ -62,7 +61,6 @@ export const ArtistInput = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Lineup
           </Typography>
-          <SettingsDialogButton />
         </Toolbar>
       </AppBar>
       <List>
@@ -81,7 +79,7 @@ export const ArtistInput = () => {
         ))}
       </List>
       <Fab
-        sx={{ position: "fixed", bottom: 72, right: 16 }}
+        sx={{ position: "fixed", bottom: 16, right: 16 }}
         color="info"
         onClick={() => setOpen((cur) => !cur)}
       >

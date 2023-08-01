@@ -3,7 +3,6 @@ import { excludedPlaylistIdsAtom, playlistsAtom } from "../state/main";
 import { useAtomValue } from "jotai";
 import { AppBar, List, Toolbar, Typography } from "@mui/material";
 import { PlaylistItem } from "./PlaylistItem";
-import { SettingsDialogButton } from "./SettingsDialogButton";
 
 export const Playlists = () => {
   const playlists = useAtomValue(playlistsAtom);
@@ -20,7 +19,6 @@ export const Playlists = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Your playlists
           </Typography>
-          <SettingsDialogButton />
         </Toolbar>
       </AppBar>
       <List dense sx={{ marginBottom: 8 }}>

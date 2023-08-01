@@ -12,7 +12,6 @@ import {
   Typography,
 } from "@mui/material";
 import { ArtistItem } from "./ArtistItem";
-import { SettingsDialogButton } from "./SettingsDialogButton";
 
 export const ArtistResult = () => {
   const [accessToken] = useAtom(accessTokenAtom);
@@ -44,7 +43,6 @@ export const ArtistResult = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Matched Artists
           </Typography>
-          <SettingsDialogButton />
         </Toolbar>
       </AppBar>
 
