@@ -7,7 +7,6 @@ import {
   Divider,
   List,
   ListItem,
-  ListItemButton,
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
@@ -43,21 +42,18 @@ export const ArtistItem = ({
         background: containedInLineup && markWhenInLineUp ? "#bffde6" : "",
       }}
     >
-      <ListItemButton
-        onClick={() => setExpandedArtist(expanded ? undefined : id)}
-      >
+      <ListItem onClick={() => setExpandedArtist(expanded ? undefined : id)}>
         <ListItemIcon>
           <PersonIcon />
         </ListItemIcon>
         <ListItemText primary={name} secondary={`${tracks.length} songs`} />
+        {expanded ? <ExpandLess /> : <ExpandMore />}
         <ListItemSecondaryAction>
           <LaunchIcon
             onClick={() => window.open(`spotify:artist:${id}`, "_blank")}
-            sx={{ marginRight: 1 }}
           />
-          {expanded ? <ExpandLess /> : <ExpandMore />}
         </ListItemSecondaryAction>
-      </ListItemButton>
+      </ListItem>
       {expanded && <Divider />}
       <Collapse in={expanded}>
         <List dense disablePadding>
@@ -74,7 +70,6 @@ export const ArtistItem = ({
                 <ListItemSecondaryAction>
                   <LaunchIcon
                     onClick={() => window.open(`spotify:track:${id}`, "_blank")}
-                    sx={{ marginRight: 4 }}
                   />
                 </ListItemSecondaryAction>
               </ListItem>
