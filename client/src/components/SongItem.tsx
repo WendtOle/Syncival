@@ -1,6 +1,7 @@
 import { Track } from "../state/types";
 import "./Playlist.css";
 import {
+  IconButton,
   ListItem,
   ListItemIcon,
   ListItemSecondaryAction,
@@ -28,9 +29,11 @@ export const SongItem = ({
         secondary={artists.map(({ name }) => name).join(", ")}
       />
       <ListItemSecondaryAction>
-        <LaunchIcon
+        <IconButton
           onClick={() => window.open(`spotify:track:${id}`, "_blank")}
-        />
+        >
+          <LaunchIcon />
+        </IconButton>
       </ListItemSecondaryAction>
     </ListItem>
   );
