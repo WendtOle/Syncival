@@ -5,7 +5,7 @@ import { filteredArtistsAtom } from "../state/main";
 export const ArtistNavigationIcon = () => {
   const filteredArtists = useAtomValue(filteredArtistsAtom);
   return (
-    <Badge badgeContent={filteredArtists.length} color="info">
+    <Badge badgeContent={filteredArtists.length} max={10000} color="info">
       <PersonIcon />
     </Badge>
   );
