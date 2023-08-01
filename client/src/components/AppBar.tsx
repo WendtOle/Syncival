@@ -11,6 +11,7 @@ import { useState } from "react";
 import { Drawer } from "./Drawer";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { usePageTitle } from "../hooks/usePageTitle";
+import { LineupInspectionDialogButton } from "./LineupInspectionDialogButton";
 
 const baseRoutes = [
   RouteEnum.LINEUP_LIST,
@@ -25,6 +26,7 @@ export const AppBar = () => {
   const location = useLocation();
   const showMenuButton = baseRoutes.includes(location.pathname as RouteEnum);
   const pageTitle = usePageTitle();
+  const showLineupButton = location.pathname === RouteEnum.ARTISTS;
 
   return (
     <>
@@ -59,6 +61,7 @@ export const AppBar = () => {
           >
             {pageTitle}
           </Typography>
+          {showLineupButton && <LineupInspectionDialogButton />}
         </Toolbar>
       </MuiAppBar>
       <Drawer open={drawerOpen} setOpen={() => setDrawerOpen(false)} />
