@@ -2,6 +2,7 @@ import { useAtom } from "jotai";
 import { dataAtom } from "../state/data";
 import {
   Divider,
+  IconButton,
   List,
   ListItem,
   ListItemIcon,
@@ -53,11 +54,13 @@ export const ArtistInput = () => {
               <ListItemSecondaryAction
                 onClick={(event) => selectLineup(event, key)}
               >
-                {selectedLineupKey === key ? (
-                  <VisibilityIcon />
-                ) : (
-                  <VisibilityOffIcon />
-                )}
+                <IconButton>
+                  {selectedLineupKey === key ? (
+                    <VisibilityIcon />
+                  ) : (
+                    <VisibilityOffIcon />
+                  )}
+                </IconButton>
               </ListItemSecondaryAction>
             </ListItem>
           );

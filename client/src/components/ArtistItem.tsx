@@ -5,6 +5,7 @@ import { filteredArtistsAtom } from "../state/main";
 import {
   Collapse,
   Divider,
+  IconButton,
   List,
   ListItem,
   ListItemIcon,
@@ -47,11 +48,13 @@ export const ArtistItem = ({
           <PersonIcon />
         </ListItemIcon>
         <ListItemText primary={name} secondary={`${tracks.length} songs`} />
-        {expanded ? <ExpandLess /> : <ExpandMore />}
-        <ListItemSecondaryAction>
-          <LaunchIcon
-            onClick={() => window.open(`spotify:artist:${id}`, "_blank")}
-          />
+        <IconButton>{expanded ? <ExpandLess /> : <ExpandMore />}</IconButton>
+        <ListItemSecondaryAction
+          onClick={() => window.open(`spotify:artist:${id}`, "_blank")}
+        >
+          <IconButton>
+            <LaunchIcon />
+          </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
       {expanded && <Divider />}
@@ -68,9 +71,11 @@ export const ArtistItem = ({
                   secondary={artists.map(({ name }) => name).join(", ")}
                 />
                 <ListItemSecondaryAction>
-                  <LaunchIcon
+                  <IconButton
                     onClick={() => window.open(`spotify:track:${id}`, "_blank")}
-                  />
+                  >
+                    <LaunchIcon />
+                  </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>
             );

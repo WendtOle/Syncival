@@ -69,3 +69,7 @@ export const focusedAtom = atom<{
   id: string;
   type: "artist" | "playlist";
 } | null>(null);
+
+export const playlistTabExpandedAtom = atomWithStorage<
+  "own" | "followed" | null
+>("expanded", "own");

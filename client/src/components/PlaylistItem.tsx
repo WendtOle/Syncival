@@ -8,6 +8,7 @@ import {
 import { atom, useAtom, useAtomValue } from "jotai";
 import {
   CircularProgress,
+  IconButton,
   ListItem,
   ListItemIcon,
   ListItemSecondaryAction,
@@ -71,7 +72,10 @@ export const PlaylistItem = ({ id }: { id: string }) => {
     <ListItem
       key={id}
       onClick={() => navigate("/playlist/" + id)}
-      sx={{ background: containsLineUpArtist && visible ? "#bffde6" : "" }}
+      sx={{
+        background: containsLineUpArtist && visible ? "#bffde6" : "",
+        pl: 4,
+      }}
     >
       <ListItemIcon>
         {isOwn ? <PlaylistIcon /> : <FollowedPlaylistIcon />}
@@ -83,12 +87,12 @@ export const PlaylistItem = ({ id }: { id: string }) => {
         }/${playlistArtists.length} artists`}
       />
       <ListItemSecondaryAction onClick={() => toggle(id)}>
-        {visible ? (
-          <VisibilityIcon sx={{ marginRight: 2 }} />
-        ) : (
-          <VisibilityOffIcon sx={{ marginRight: 2 }} />
-        )}
-        <LaunchIcon onClick={goToPlaylist} />
+        <IconButton>
+          {visible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+        </IconButton>
+        <IconButton onClick={goToPlaylist}>
+          <LaunchIcon />
+        </IconButton>
       </ListItemSecondaryAction>
     </ListItem>
   );
