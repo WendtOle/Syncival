@@ -29,7 +29,11 @@ const borderBottomItems = [
 export const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const showBottomNav = ![RouteEnum.LOADING, RouteEnum.LINEUP_LIST, RouteEnum.LINEUP].includes(location.pathname as RouteEnum);
+  const showBottomNav = [
+    RouteEnum.ARTISTS,
+    RouteEnum.PLAYLIST,
+    RouteEnum.PLAYLIST_LIST,
+  ].find((route) => location.pathname.includes(route.replace(":id","")));
 
   const getItem = ({
     route,
