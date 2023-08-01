@@ -13,21 +13,24 @@ const port  = process.env.PORT || 8888;
 const authorizeURL = spotifyApi.createAuthorizeURL(scopes, 'some-state-of-my-choice', true);  
 import { artists } from './data/fusion-artists';
 
-const setCors = (res: any) => {
-    // Set CORS headers
-  res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL);
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+const setCors = (req: any, res: any) => {
+    const requestOrigin = req.headers.origin;
+    const allowedOrigins = (process.env.ALLOWED_ORIGINS ?? "").split(',');
+    if (allowedOrigins.includes(requestOrigin)) {
+        res.setHeader('Access-Control-Allow-Origin', requestOrigin);
+    }
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 }
 
 app.get('/authorizeURL', (req: any, res: any) => {
-    setCors(res);
+    setCors(req, res);
     res.send(authorizeURL);
 }
 );
 
 app.get('/authenticate', async (req: any, res: any) => {
-    setCors(res);
+    setCors(req, res);
     const { query } = url.parse(req.url);
     const { code } = querystring.parse(query);
     console.log(`code found: ${code}`);
@@ -40,7 +43,7 @@ app.get('/authenticate', async (req: any, res: any) => {
 })
 
 app.get('/accessTokenValid', async (req: any, res: any) => {
-    setCors(res);
+    setCors(req, res);
     const { query } = url.parse(req.url);
     const { accessToken } = querystring.parse(query);
     spotifyApi.setAccessToken(accessToken);
@@ -60,7 +63,7 @@ app.get('/accessTokenValid', async (req: any, res: any) => {
 })
 
 app.get('/refresh', async (req: any, res: any) => {
-    setCors(res);
+    setCors(req, res);
     const { query } = url.parse(req.url);
     const { refreshToken } = querystring.parse(query);
     try {
@@ -78,7 +81,7 @@ app.get('/refresh', async (req: any, res: any) => {
 type Something = Array<{id: string, name: string, artists: Array<{name: string, id: string}>}>
 
 app.get('/playlists', async (req: any, res: any) => {
-    setCors(res);
+    setCors(req, res);
     const { query } = url.parse(req.url);
     const { accessToken, page } = querystring.parse(query);
     try {
@@ -103,7 +106,7 @@ app.get('/playlists', async (req: any, res: any) => {
 })
 
 app.get('/tracks', async (req: any, res: any) => {
-    setCors(res);
+    setCors(req, res);
     const { query } = url.parse(req.url);
     const { accessToken, page, playlistId } = querystring.parse(query);
     try {
@@ -133,7 +136,7 @@ app.get('/tracks', async (req: any, res: any) => {
 })
 
 app.post('/createPlaylist', async (req: any, res: any) => {
-    setCors(res);
+    setCors(req, res);
     const { query } = url.parse(req.url);
     const { accessToken, trackId } = querystring.parse(query);
     try {
@@ -159,7 +162,7 @@ app.post('/createPlaylist', async (req: any, res: any) => {
 })
 
 app.get('/data', async (req: any, res: any) => {
-    setCors(res);
+    setCors(req, res);
     res.send({fusion2023Artists: artists});
     return
 })
