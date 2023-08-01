@@ -8,8 +8,9 @@ import { Playlist } from "./SinglePlaylistV2";
 import { Lineup } from "./Lineup";
 import { ArtistNavigationIcon } from "./ArtistNavigationIcon";
 import { PlaylistNavigationIcon } from "./PlaylistNavigationIcon";
-import { LineupNavigationIcon } from "./LineupNavigationIcon";
 import { DataLoading } from "./DataLoading";
+import { Drawer } from "./Drawer";
+import { AppBar } from "./AppBar";
 import { RouteEnum } from "../state/types";
 
 const borderBottomItems = [
@@ -23,17 +24,12 @@ const borderBottomItems = [
     icon: <PlaylistNavigationIcon />,
     label: "Playlists",
   },
-  {
-    route: RouteEnum.LINEUP_LIST,
-    icon: <LineupNavigationIcon />,
-    label: "Lineup",
-  },
 ];
 
 export const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const showBottomNav = location.pathname !== RouteEnum.LOADING;
+  const showBottomNav = ![RouteEnum.LOADING, RouteEnum.LINEUP_LIST, RouteEnum.LINEUP].includes(location.pathname as RouteEnum);
 
   const getItem = ({
     route,
@@ -58,6 +54,7 @@ export const App = () => {
 
   return (
     <>
+      <AppBar />
       <Routes>
         <Route path={RouteEnum.LOADING} element={<DataLoading />} />
         <Route path={RouteEnum.LINEUP_LIST} element={<ArtistInput />} />
