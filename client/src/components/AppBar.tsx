@@ -14,7 +14,6 @@ import { usePageTitle } from "../hooks/usePageTitle";
 import { LineupInspectionDialogButton } from "./LineupInspectionDialogButton";
 
 const baseRoutes = [
-  RouteEnum.LINEUP_LIST,
   RouteEnum.PLAYLIST_LIST,
   RouteEnum.ARTISTS,
   RouteEnum.LOADING,
