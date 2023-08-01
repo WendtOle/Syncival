@@ -13,6 +13,7 @@ import { isAccessTokenValid } from "../provider/accessTokenValid";
 import { refreshAccessToken } from "../provider/refreshAccessToken";
 import { authenticateWithCode } from "../provider/authenticate";
 import { Button, Typography } from "@mui/material";
+import { DebugAuthDialogWrapper } from "./DebugAuthDialogWrapper";
 
 type State = "loads" | "needsAuthentication" | "authenticated";
 
@@ -98,15 +99,17 @@ export const AuthenticationWrapper = ({
             justifyItems: "baseline",
           }}
         >
-          <Typography
-            variant="h2"
-            component="div"
-            sx={{ flexGrow: 1, letterSpacing: -4 }}
-          >
-            Artist lookup
-          </Typography>
+          <DebugAuthDialogWrapper>
+            <Typography
+                variant="h2"
+                component="div"
+                sx={{ flexGrow: 1, letterSpacing: -4 }}
+            >
+                Artist lookup
+            </Typography>
+            </DebugAuthDialogWrapper>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            You need to be registered by me:
+            You need to be whitelisted by me:
           </Typography>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Contact me through: ow-ad+artist-lookup@simplelogin.co
