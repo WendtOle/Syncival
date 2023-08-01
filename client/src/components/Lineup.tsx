@@ -39,7 +39,7 @@ export const Lineup = () => {
         </Button>
       </Toolbar>
       <List dense>
-        {artists.map((artist: string, index) => (
+        {(artists ?? []).map((artist: string, index) => (
           <ListItem key={index}>
             <ListItemIcon>
               <PersonIcon />
