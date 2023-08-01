@@ -1,13 +1,10 @@
 import {
-  AppBar,
   Button,
   CircularProgress,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Toolbar,
-  Typography,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { atom, useAtomValue, useSetAtom } from "jotai";
@@ -15,6 +12,7 @@ import { useMemo } from "react";
 import { dataAtom } from "../state/data";
 import PersonIcon from "@mui/icons-material/Person";
 import { lineupIdAtom } from "../state/main";
+import { Toolbar } from "./Toolbar";
 
 export const Lineup = () => {
   const { id } = useParams();
@@ -35,17 +33,12 @@ export const Lineup = () => {
 
   return (
     <div key={id}>
-      <AppBar position="sticky">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {id}
-          </Typography>
-          <Button variant="outlined" color="inherit" onClick={applyLineup}>
-            Use lineup
-          </Button>
-        </Toolbar>
-      </AppBar>
-      <List dense sx={{ marginBottom: "64px" }}>
+      <Toolbar>
+        <Button variant="outlined" color="info" onClick={applyLineup}>
+          Use lineup
+        </Button>
+      </Toolbar>
+      <List dense>
         {artists.map((artist: string, index) => (
           <ListItem key={index}>
             <ListItemIcon>

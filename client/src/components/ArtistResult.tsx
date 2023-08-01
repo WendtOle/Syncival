@@ -3,15 +3,9 @@ import { createPlaylist } from "../provider/createPlaylist";
 import { useAtom } from "jotai";
 import { filteredArtistsAtom } from "../state/main";
 import { accessTokenAtom } from "../state/auth";
-import {
-  AppBar,
-  Button,
-  List,
-  ListItem,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { Button, List } from "@mui/material";
 import { ArtistItem } from "./ArtistItem";
+import { Toolbar } from "./Toolbar";
 
 export const ArtistResult = () => {
   const [accessToken] = useAtom(accessTokenAtom);
@@ -38,15 +32,17 @@ export const ArtistResult = () => {
 
   return (
     <div style={{}}>
-      <AppBar position="sticky">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Matched Artists
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <Toolbar>
+        <Button
+          variant="outlined"
+          color="success"
+          onClick={createPlaylistFromFilteredTracks}
+        >
+          Create playlist
+        </Button>
+      </Toolbar>
 
-      <List dense sx={{ marginBottom: 12 }}>
+      <List dense sx={{ marginBottom: 6 }}>
         {sortedArtists.map((artist) => (
           <ArtistItem
             key={artist.id}
@@ -55,23 +51,6 @@ export const ArtistResult = () => {
             setExpandedArtist={setFoldedOutArtists}
           />
         ))}
-        <ListItem
-          sx={{
-            position: "fixed",
-            zIndex: 20000,
-            bottom: 64,
-            justifyContent: "center",
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={{ borderRadius: 16 }}
-            color="success"
-            onClick={createPlaylistFromFilteredTracks}
-          >
-            Create playlist
-          </Button>
-        </ListItem>
       </List>
     </div>
   );

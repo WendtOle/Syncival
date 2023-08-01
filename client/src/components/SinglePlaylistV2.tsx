@@ -7,23 +7,14 @@ import {
   playlistsAtom,
 } from "../state/main";
 import { useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  AppBar,
-  CircularProgress,
-  Fab,
-  List,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import SongIcon from "@mui/icons-material/Audiotrack";
-import PersonIcon from "@mui/icons-material/Person";
+import { useParams } from "react-router-dom";
+import { Button, CircularProgress, List } from "@mui/material";
 import { extractArtists } from "../util/extractArtists";
 import { SongItem } from "./SongItem";
 import { ArtistItem } from "./ArtistItem";
+import { Toolbar } from "./Toolbar";
 
 export const Playlist = () => {
-  const navigate = useNavigate();
   const { id } = useParams();
   if (!id) {
     throw new Error("No id provided");
@@ -46,8 +37,6 @@ export const Playlist = () => {
   if (!playList) {
     return <CircularProgress />;
   }
-
-  const { name } = playList;
 
   const uniqueSongs = songs
     .reduce(
@@ -92,14 +81,17 @@ export const Playlist = () => {
 
   return (
     <div key={id}>
-      <AppBar position="sticky">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Playlist: "{name}"
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <List dense component="nav" sx={{ marginBottom: 16 }}>
+      <Toolbar>
+        <Button
+          variant="outlined"
+          onClick={() =>
+            setGroupBy((cur) => (cur === "songs" ? "artist" : "songs"))
+          }
+        >
+          Group by {groupBy === "songs" ? "artist" : "song"}
+        </Button>
+      </Toolbar>
+      <List dense component="nav" sx={{ marginBottom: 6 }}>
         {groupBy === "songs"
           ? uniqueSongs.map((song) => <SongItem key={song.id} {...song} />)
           : uniqueArtists.map((artist) => {
@@ -114,15 +106,6 @@ export const Playlist = () => {
               );
             })}
       </List>
-      <Fab
-        sx={{ position: "fixed", bottom: 72, right: 16 }}
-        color="info"
-        onClick={() =>
-          setGroupBy((cur) => (cur === "songs" ? "artist" : "songs"))
-        }
-      >
-        {groupBy === "songs" ? <PersonIcon /> : <SongIcon />}
-      </Fab>
     </div>
   );
 };
