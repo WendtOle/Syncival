@@ -9,7 +9,6 @@ import { Lineup } from "./Lineup";
 import { ArtistNavigationIcon } from "./ArtistNavigationIcon";
 import { PlaylistNavigationIcon } from "./PlaylistNavigationIcon";
 import { DataLoading } from "./DataLoading";
-import { Drawer } from "./Drawer";
 import { AppBar } from "./AppBar";
 import { RouteEnum } from "../state/types";
 
@@ -33,7 +32,7 @@ export const App = () => {
     RouteEnum.ARTISTS,
     RouteEnum.PLAYLIST,
     RouteEnum.PLAYLIST_LIST,
-  ].find((route) => location.pathname.includes(route.replace(":id","")));
+  ].find((route) => location.pathname.includes(route.replace(":id", "")));
 
   const getItem = ({
     route,
