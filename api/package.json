@@ -5,7 +5,9 @@
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon",
-    "build": "rimraf dist && tsc"
+    "build": "rimraf dist && tsc",
+    "deploy:dev": "npm run build && vercel",
+    "deploy:prod": "npm run build && vercel --prod"
   },
   "author": "",
   "license": "ISC",
