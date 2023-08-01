@@ -101,13 +101,13 @@ export const AuthenticationWrapper = ({
         >
           <DebugAuthDialogWrapper>
             <Typography
-                variant="h2"
-                component="div"
-                sx={{ flexGrow: 1, letterSpacing: -4 }}
+              variant="h2"
+              component="div"
+              sx={{ flexGrow: 1, letterSpacing: -4 }}
             >
-                Artist lookup
+              Artist lookup
             </Typography>
-            </DebugAuthDialogWrapper>
+          </DebugAuthDialogWrapper>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             You need to be whitelisted by me:
           </Typography>
