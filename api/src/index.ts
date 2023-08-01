@@ -16,7 +16,7 @@ import { artists } from './data/fusion-artists';
 const setCors = (req: any, res: any) => {
     const requestOrigin = req.headers.origin;
     const allowedOrigins = (process.env.ALLOWED_ORIGINS ?? "").split(',');
-    if (allowedOrigins.includes(requestOrigin)) {
+    if (allowedOrigins.find((allowedOrigin => requestOrigin.includes(allowedOrigin)))) {
         res.setHeader('Access-Control-Allow-Origin', requestOrigin);
     }
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
