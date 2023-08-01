@@ -3,7 +3,7 @@ import { dataAtom } from "../state/data";
 import {
   Divider,
   List,
-  ListItemButton,
+  ListItem,
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
@@ -11,16 +11,21 @@ import {
 } from "@mui/material";
 import LineupIcon from "@mui/icons-material/FormatListBulleted";
 import { useNavigate } from "react-router-dom";
-import { Delete } from "@mui/icons-material";
 import { LinueupCreationDialogButton } from "./LineupCreationDialogButton";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { selectedLineupKeyAtom } from "../state/main";
 
 export const ArtistInput = () => {
-  const [data, setData] = useAtom(dataAtom);
+  const [data] = useAtom(dataAtom);
   const navigate = useNavigate();
+  const [selectedLineupKey, setSelectedLineupKey] = useAtom(
+    selectedLineupKeyAtom,
+  );
 
-  const deleteLineUp = (event: any, key: string) => {
+  const selectLineup = (event: any, key: string) => {
     event.stopPropagation();
-    setData((cur) => cur.filter((current) => current.key !== key));
+    setSelectedLineupKey(key);
   };
 
   return (
@@ -30,22 +35,33 @@ export const ArtistInput = () => {
       </Toolbar>
       <Divider />
       <List>
-        {data.map(({ key, name, artists }) => (
-          <ListItemButton key={key} onClick={() => navigate("/lineup/" + key)}>
-            <ListItemIcon>
-              <LineupIcon />
-            </ListItemIcon>
-            <ListItemText
-              primary={name}
-              secondary={`${artists.length} artists`}
-            />
-            <ListItemSecondaryAction
-              onClick={(event) => deleteLineUp(event, key)}
+        {data.map(({ key, name, artists }) => {
+          const selected = selectedLineupKey === key;
+          return (
+            <ListItem
+              key={key}
+              onClick={() => navigate("/lineup/" + key)}
+              sx={{ background: selected ? "#bffde6" : "" }}
             >
-              <Delete />
-            </ListItemSecondaryAction>
-          </ListItemButton>
-        ))}
+              <ListItemIcon>
+                <LineupIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={name}
+                secondary={`${artists.length} artists`}
+              />
+              <ListItemSecondaryAction
+                onClick={(event) => selectLineup(event, key)}
+              >
+                {selectedLineupKey === key ? (
+                  <VisibilityIcon />
+                ) : (
+                  <VisibilityOffIcon />
+                )}
+              </ListItemSecondaryAction>
+            </ListItem>
+          );
+        })}
       </List>
     </div>
   );

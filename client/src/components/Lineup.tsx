@@ -12,7 +12,7 @@ import { useMemo } from "react";
 import { dataAtom } from "../state/data";
 import PersonIcon from "@mui/icons-material/Person";
 import { Toolbar } from "./Toolbar";
-import { selectedLineupKeyAtom } from "../state/main";
+import { RouteEnum } from "../state/types";
 
 export const Lineup = () => {
   const { id } = useParams();
@@ -28,22 +28,22 @@ export const Lineup = () => {
     ),
   );
   const navigate = useNavigate();
-  const setLineupKey = useSetAtom(selectedLineupKeyAtom);
+  const setData = useSetAtom(dataAtom);
 
   if (!id) {
     return <CircularProgress />;
   }
 
-  const applyLineup = () => {
-    setLineupKey(id);
-    navigate("/playlists");
+  const deleteLinup = () => {
+    setData((current) => current.filter((current) => current.key !== id));
+    navigate(RouteEnum.LINEUP_LIST);
   };
 
   return (
     <div key={id}>
       <Toolbar>
-        <Button variant="outlined" color="info" onClick={applyLineup}>
-          Use lineup
+        <Button variant="outlined" color="info" onClick={deleteLinup}>
+          Delete
         </Button>
       </Toolbar>
       <List dense>
