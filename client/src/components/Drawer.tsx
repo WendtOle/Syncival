@@ -42,7 +42,7 @@ export const Drawer = ({
   };
 
   return (
-    <MuiDrawer open={open}>
+    <MuiDrawer open={open} onClose={() => setOpen(false)}>
       <DrawerHeader>
         <IconButton onClick={() => setOpen(false)}>
           {theme.direction === "ltr" ? (
