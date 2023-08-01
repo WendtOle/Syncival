@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import LineupIcon from "@mui/icons-material/FormatListBulleted";
 import { useNavigate } from "react-router-dom";
-import { LinueupCreationDialogWrapper } from "./LineupCreationDialogButton";
+import { LinueupCreationDialogWrapper } from "./LineupCreationDialogWrapper";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { selectedLineupKeyAtom } from "../state/main";
