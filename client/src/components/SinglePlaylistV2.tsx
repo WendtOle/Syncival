@@ -12,13 +12,11 @@ import {
   AppBar,
   CircularProgress,
   Fab,
-  IconButton,
   List,
   Toolbar,
   Typography,
 } from "@mui/material";
 import SongIcon from "@mui/icons-material/Audiotrack";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import PersonIcon from "@mui/icons-material/Person";
 import { extractArtists } from "../util/extractArtists";
 import { SongItem } from "./SongItem";
@@ -96,16 +94,6 @@ export const Playlist = () => {
     <div key={id}>
       <AppBar position="sticky">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={() => navigate("/playlists")}
-          >
-            <ArrowBackIosIcon />
-          </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Playlist: "{name}"
           </Typography>

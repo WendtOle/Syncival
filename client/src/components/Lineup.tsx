@@ -2,7 +2,6 @@ import {
   AppBar,
   Button,
   CircularProgress,
-  IconButton,
   List,
   ListItem,
   ListItemIcon,
@@ -11,7 +10,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { atom, useAtomValue, useSetAtom } from "jotai";
 import { useMemo } from "react";
 import { dataAtom } from "../state/data";
@@ -39,16 +37,6 @@ export const Lineup = () => {
     <div key={id}>
       <AppBar position="sticky">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={() => navigate("/setup")}
-          >
-            <ArrowBackIosIcon />
-          </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {id}
           </Typography>
