@@ -11,7 +11,11 @@ import { useSetAtom } from "jotai";
 import { useState } from "react";
 import { dataAtom } from "../state/data";
 
-export const LinueupCreationDialogButton = () => {
+export const LinueupCreationDialogWrapper = ({
+  children,
+}: {
+  children: (onClick: () => void) => any;
+}) => {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
   const setData = useSetAtom(dataAtom);
@@ -41,9 +45,7 @@ export const LinueupCreationDialogButton = () => {
 
   return (
     <>
-      <Button variant="outlined" onClick={() => setOpen((cur) => !cur)}>
-        Add lineup
-      </Button>
+      {children(() => setOpen(true))}
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Create Lineup manually</DialogTitle>
         <DialogContent>
