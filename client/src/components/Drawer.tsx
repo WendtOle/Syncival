@@ -13,9 +13,9 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useNavigate } from "react-router-dom";
 import DownloadIcon from "@mui/icons-material/Download";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import { RouteEnum } from "../state/types";
+import { LineupDrawerSection } from "./LineupDrawerSection";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -41,8 +41,21 @@ export const Drawer = ({
     navigate(route);
   };
 
+  const drawerWidth = 240;
+
   return (
-    <MuiDrawer open={open} onClose={() => setOpen(false)}>
+    <MuiDrawer
+      sx={{
+        width: drawerWidth,
+        flexShrink: 0,
+        "& .MuiDrawer-paper": {
+          width: drawerWidth,
+          boxSizing: "border-box",
+        },
+      }}
+      open={open}
+      onClose={() => setOpen(false)}
+    >
       <DrawerHeader>
         <IconButton onClick={() => setOpen(false)}>
           {theme.direction === "ltr" ? (
@@ -53,18 +66,17 @@ export const Drawer = ({
         </IconButton>
       </DrawerHeader>
       <Divider />
-      <List>
+      <LineupDrawerSection onSelect={() => setOpen(false)} />
+      <Divider />
+      <List dense>
+        <ListItem>
+          <ListItemText primary="Pages" />
+        </ListItem>
         <ListItem onClick={goTo(RouteEnum.ARTISTS)}>
           <ListItemIcon>
             <PersonSearchIcon />
           </ListItemIcon>
           <ListItemText primary="Comparison" />
-        </ListItem>
-        <ListItem onClick={goTo(RouteEnum.LINEUP_LIST)}>
-          <ListItemIcon>
-            <FormatListBulletedIcon />
-          </ListItemIcon>
-          <ListItemText primary="Lineup" />
         </ListItem>
         <ListItem onClick={goTo(RouteEnum.LOADING)}>
           <ListItemIcon>
@@ -73,6 +85,7 @@ export const Drawer = ({
           <ListItemText primary="Data" />
         </ListItem>
       </List>
+      <Divider />
     </MuiDrawer>
   );
 };
