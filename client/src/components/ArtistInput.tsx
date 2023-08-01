@@ -1,6 +1,7 @@
 import { useAtom } from "jotai";
 import { dataAtom } from "../state/data";
 import {
+  Button,
   Divider,
   IconButton,
   List,
@@ -12,7 +13,7 @@ import {
 } from "@mui/material";
 import LineupIcon from "@mui/icons-material/FormatListBulleted";
 import { useNavigate } from "react-router-dom";
-import { LinueupCreationDialogButton } from "./LineupCreationDialogButton";
+import { LinueupCreationDialogWrapper } from "./LineupCreationDialogButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { selectedLineupKeyAtom } from "../state/main";
@@ -32,7 +33,11 @@ export const ArtistInput = () => {
   return (
     <div>
       <Toolbar sx={{ justifyContent: "end" }}>
-        <LinueupCreationDialogButton />
+        <LinueupCreationDialogWrapper>
+          {(onClick: () => void) => (
+            <Button onClick={onClick}>Add lineup</Button>
+          )}
+        </LinueupCreationDialogWrapper>
       </Toolbar>
       <Divider />
       <List>
