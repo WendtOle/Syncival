@@ -10,15 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import { Drawer } from "./Drawer";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-
-const Header: Record<RouteEnum, () => string> = {
-  [RouteEnum.ARTISTS]: () => "TODO",
-  [RouteEnum.LINEUP_LIST]: () => "Lineups",
-  [RouteEnum.LOADING]: () => "Data",
-  [RouteEnum.PLAYLIST]: () => "TODO",
-  [RouteEnum.PLAYLIST_LIST]: () => "Your playlists",
-  [RouteEnum.LINEUP]: () => "TODO",
-};
+import { usePageTitle } from "../hooks/usePageTitle";
 
 const baseRoutes = [
   RouteEnum.LINEUP_LIST,
@@ -31,13 +23,13 @@ export const AppBar = () => {
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const location = useLocation();
-  console.log(location.pathname);
   const showMenuButton = baseRoutes.includes(location.pathname as RouteEnum);
+  const pageTitle = usePageTitle();
 
   return (
     <>
       <MuiAppBar position="sticky">
-        <Toolbar>
+        <Toolbar sx={{ justifyContent: "space-between" }}>
           {showMenuButton ? (
             <IconButton
               color="inherit"
@@ -60,8 +52,12 @@ export const AppBar = () => {
               <ArrowBackIosIcon />
             </IconButton>
           )}
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {Header[location.pathname as RouteEnum]?.()}
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, marginLeft: 4 }}
+          >
+            {pageTitle}
           </Typography>
         </Toolbar>
       </MuiAppBar>
