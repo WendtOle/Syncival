@@ -38,3 +38,11 @@ Sorry.
 # Things I learned about the spotify api
 I use my "spotify api app" with my own spotify account without any problems.
 If I want to use my spotify app with another spotify account it is necessary to register this user with "Username" and "Email" under "https://developer.spotify.com/dashboard/<some-id>/users".
+
+# How is it deployed
+
+## API
+- through vercel
+- NOT by connecting to git, because this worked for some reason not because I want to use it as a serverless function
+- but to manual deployments through `npm run deploy:prod` or `npm run deploy:dev`
+- by setting `ALLOWED_ORIGINS` environment variables multiple domains can be allowed by the api
