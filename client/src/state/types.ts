@@ -46,6 +46,5 @@ export interface DataEntry {
 
 export enum RouteEnum {
   ARTISTS = "/artists",
-  LOADING = "/",
   PLAYLIST = "/playlist/:id",
 }

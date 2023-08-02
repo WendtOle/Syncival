@@ -13,7 +13,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { usePageTitle } from "../hooks/usePageTitle";
 import { LineupInspectionDialogButton } from "./LineupInspectionDialogButton";
 
-const baseRoutes = [RouteEnum.ARTISTS, RouteEnum.LOADING];
+const baseRoutes = [RouteEnum.ARTISTS];
 
 export const AppBar = () => {
   const navigate = useNavigate();
