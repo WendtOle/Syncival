@@ -45,7 +45,7 @@ export const LineupDrawerSection = ({ onSelect }: { onSelect: () => void }) => {
           <ListItemButton
             key={key}
             onClick={() => selectLineup(key)}
-            style={selected ? { background: "#bffde6" } : {}}
+            selected={selected}
           >
             <ListItemIcon>
               <FormatListBulletedIcon />
