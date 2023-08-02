@@ -73,3 +73,8 @@ export const focusedAtom = atom<{
 export const playlistTabExpandedAtom = atomWithStorage<
   "own" | "followed" | null
 >("expanded", "own");
+
+export const initialInfoDismissedAtom = atomWithStorage<boolean>(
+  "initialInfoDismissed",
+  false,
+);
