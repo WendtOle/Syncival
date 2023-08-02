@@ -91,7 +91,7 @@ export const Playlist = () => {
           Group by {groupBy === "songs" ? "artist" : "song"}
         </Button>
       </Toolbar>
-      <List dense component="nav" sx={{ marginBottom: 6 }}>
+      <List dense>
         {groupBy === "songs"
           ? uniqueSongs.map((song) => <SongItem key={song.id} {...song} />)
           : uniqueArtists.map((artist) => {

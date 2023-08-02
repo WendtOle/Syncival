@@ -45,7 +45,7 @@ export const ArtistResult = () => {
         </Button>
       </Toolbar>
 
-      <List dense sx={{ marginBottom: 6 }}>
+      <List dense>
         {sortedArtists.map((artist) => (
           <ArtistItem
             key={artist.id}

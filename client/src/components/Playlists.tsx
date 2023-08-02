@@ -59,7 +59,7 @@ export const Playlists = () => {
         </Typography>
       </Toolbar>
 
-      <List sx={{ marginBottom: 8 }}>
+      <List>
         <ListItem
           onClick={() => setVisible((cur) => (cur === "own" ? null : "own"))}
         >

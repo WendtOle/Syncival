@@ -46,7 +46,7 @@ export const PlaylistDrawerSection = ({
     <List dense>
       <ListItem>
         <ListItemText primary="Spotify playlists" />
-        <ListItemSecondaryAction>
+        <ListItemSecondaryAction hidden>
           <IconButton>
             <MoreHorizIcon />
           </IconButton>
