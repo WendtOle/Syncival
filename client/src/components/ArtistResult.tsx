@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { createPlaylist } from "../provider/createPlaylist";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { filteredArtistsAtom } from "../state/main";
 import { accessTokenAtom } from "../state/auth";
-import { Button, List } from "@mui/material";
+import { Button, List, Typography } from "@mui/material";
 import { ArtistItem } from "./ArtistItem";
 import { Toolbar } from "./Toolbar";
 
 export const ArtistResult = () => {
   const [accessToken] = useAtom(accessTokenAtom);
-  const [filteredArtists] = useAtom(filteredArtistsAtom);
+  const filteredArtists = useAtomValue(filteredArtistsAtom);
   const [foldedOutArtists, setFoldedOutArtists] = useState<
     string | undefined
   >();
@@ -33,6 +33,9 @@ export const ArtistResult = () => {
   return (
     <div style={{}}>
       <Toolbar>
+        <Typography variant="body1" component="div" sx={{ flexGrow: 1 }}>
+          {filteredArtists.length} artists
+        </Typography>
         <Button
           variant="outlined"
           color="success"
