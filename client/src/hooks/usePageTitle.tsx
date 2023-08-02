@@ -9,9 +9,6 @@ export const usePageTitle = (): string => {
   const playlists = useAtomValue(playlistsAtom);
   const selectedLineupTitle = useLineupTitle();
 
-  if (location.pathname === RouteEnum.PLAYLIST_LIST) {
-    return "Your playlists";
-  }
   if (location.pathname === RouteEnum.ARTISTS) {
     return selectedLineupTitle;
   }
