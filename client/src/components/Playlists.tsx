@@ -1,8 +1,4 @@
-import {
-  excludedPlaylistIdsAtom,
-  playlistTabExpandedAtom,
-  playlistsAtom,
-} from "../state/main";
+import { playlistTabExpandedAtom, playlistsAtom } from "../state/main";
 import { useAtom, useAtomValue } from "jotai";
 import {
   Collapse,
@@ -13,58 +9,24 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
-  Typography,
 } from "@mui/material";
 import { PlaylistItem } from "./PlaylistItem";
-import { Toolbar } from "./Toolbar";
 import PlaylistIcon from "@mui/icons-material/Folder";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import FollowedPlaylistIcon from "@mui/icons-material/Public";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 export const Playlists = () => {
   const playlists = useAtomValue(playlistsAtom);
   const [visible, setVisible] = useAtom(playlistTabExpandedAtom);
-  const [excludedPlaylistId, setExcludedPlaylistId] = useAtom(
-    excludedPlaylistIdsAtom,
-  );
-  const filteredPlaylists = playlists.filter(
-    ({ id }) => !excludedPlaylistId.includes(id),
-  );
-
-  const allPublicToggledOff = playlists
-    .filter(({ isOwn }) => !isOwn)
-    .every(({ id }) => excludedPlaylistId.includes(id));
-
-  const togglePublic = (event: any) => {
-    event?.stopPropagation();
-    const foreignPlaylistsIds = playlists
-      .filter(({ isOwn }) => !isOwn)
-      .map(({ id }) => id);
-    if (foreignPlaylistsIds.every((id) => excludedPlaylistId.includes(id))) {
-      setExcludedPlaylistId((cur) =>
-        cur.filter((id) => !foreignPlaylistsIds.includes(id)),
-      );
-      return;
-    }
-    setExcludedPlaylistId((cur) => [...cur, ...foreignPlaylistsIds]);
-  };
 
   return (
     <>
-      <Toolbar>
-        <Typography variant="body1" component="div" sx={{ flexGrow: 1 }}>
-          Use {filteredPlaylists.length} / {playlists.length} playlists
-        </Typography>
-      </Toolbar>
-
-      <List>
+      <List dense>
         <ListItem
           onClick={() => setVisible((cur) => (cur === "own" ? null : "own"))}
         >
           <ListItemIcon>
-            <PlaylistIcon />
+            <PlaylistIcon color="info" />
           </ListItemIcon>
           <ListItemText primary="Own playlists" />
           <IconButton>
@@ -91,17 +53,10 @@ export const Playlists = () => {
           }
         >
           <ListItemIcon>
-            <FollowedPlaylistIcon />
+            <FollowedPlaylistIcon color="info" />
           </ListItemIcon>
           <ListItemText primary="Followed playlists" />
           <ListItemSecondaryAction>
-            <IconButton onClick={togglePublic}>
-              {!allPublicToggledOff ? (
-                <VisibilityIcon />
-              ) : (
-                <VisibilityOffIcon />
-              )}
-            </IconButton>
             <IconButton>
               {visible === "followed" ? <ExpandLess /> : <ExpandMore />}
             </IconButton>
@@ -120,7 +75,6 @@ export const Playlists = () => {
               ))}
           </List>
         </Collapse>
-        {visible === "followed" && <Divider />}
       </List>
     </>
   );

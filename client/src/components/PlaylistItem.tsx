@@ -1,26 +1,18 @@
 import { useMemo } from "react";
 import {
   excludedPlaylistIdsAtom,
-  filteredArtistsAtom,
   playlistSongsAtom,
   playlistsAtom,
 } from "../state/main";
 import { atom, useAtom, useAtomValue } from "jotai";
 import {
   CircularProgress,
-  IconButton,
-  ListItem,
+  ListItemButton,
   ListItemIcon,
-  ListItemSecondaryAction,
   ListItemText,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import PlaylistIcon from "@mui/icons-material/Folder";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import FollowedPlaylistIcon from "@mui/icons-material/Public";
-import { extractArtists } from "../util/extractArtists";
-import LaunchIcon from "@mui/icons-material/Launch";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 
 export const PlaylistItem = ({ id }: { id: string }) => {
   const playlist = useAtomValue(
@@ -35,14 +27,12 @@ export const PlaylistItem = ({ id }: { id: string }) => {
   const [excludedPlaylistId, setExcludedPlaylistId] = useAtom(
     excludedPlaylistIdsAtom,
   );
-  const filteredArtists = useAtomValue(filteredArtistsAtom);
-  const navigate = useNavigate();
 
   if (!playlist) {
     return <CircularProgress />;
   }
 
-  const { isOwn, name, tracks } = playlist;
+  const { name, tracks } = playlist;
 
   const visible = !excludedPlaylistId.includes(id);
   const toggle = (id: string) => {
@@ -54,46 +44,22 @@ export const PlaylistItem = ({ id }: { id: string }) => {
     });
   };
 
-  const goToPlaylist = (event: any) => {
-    event.stopPropagation();
-    window.open(`spotify:playlist:${id}`);
-  };
-
-  const playlistArtists = extractArtists(songs);
-  const matchingPlaylistArtists = filteredArtists.filter(
-    ({ id: lineupArtistId }) =>
-      playlistArtists.find(
-        ({ id: playlistArtistId }) => playlistArtistId === lineupArtistId,
-      ),
-  );
-  const containsLineUpArtist = matchingPlaylistArtists.length > 0;
-
   return (
-    <ListItem
+    <ListItemButton
       key={id}
-      onClick={() => navigate("/playlist/" + id)}
+      onClick={() => toggle(id)}
       sx={{
-        background: containsLineUpArtist && visible ? "#bffde6" : "",
         pl: 4,
       }}
     >
       <ListItemIcon>
-        {isOwn ? <PlaylistIcon /> : <FollowedPlaylistIcon />}
+        {visible ? (
+          <CheckBoxIcon color="info" />
+        ) : (
+          <CheckBoxOutlineBlankIcon color="info" />
+        )}
       </ListItemIcon>
-      <ListItemText
-        primary={name}
-        secondary={`${tracks ?? songs.length} songs, ${
-          matchingPlaylistArtists.length
-        }/${playlistArtists.length} artists`}
-      />
-      <ListItemSecondaryAction onClick={() => toggle(id)}>
-        <IconButton>
-          {visible ? <VisibilityIcon /> : <VisibilityOffIcon />}
-        </IconButton>
-        <IconButton onClick={goToPlaylist}>
-          <LaunchIcon />
-        </IconButton>
-      </ListItemSecondaryAction>
-    </ListItem>
+      <ListItemText primary={name + ` (${tracks ?? songs.length})`} />
+    </ListItemButton>
   );
 };
