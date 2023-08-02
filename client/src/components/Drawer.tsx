@@ -56,9 +56,9 @@ export const Drawer = ({
       <Divider />
       <LineupDrawerSection onSelect={() => setOpen(false)} />
       <Divider />
-      <DataDrawerSection onSelect={() => setOpen(false)} />
-      <Divider />
       <PlaylistDrawerSection onSelect={() => setOpen(false)} />
+      <Divider />
+      <DataDrawerSection />
     </MuiDrawer>
   );
 };
