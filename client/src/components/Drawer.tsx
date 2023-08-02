@@ -16,6 +16,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import { RouteEnum } from "../state/types";
 import { LineupDrawerSection } from "./LineupDrawerSection";
+import { PlaylistDrawerSection } from "./PlaylistDrawerSection";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -86,6 +87,7 @@ export const Drawer = ({
         </ListItem>
       </List>
       <Divider />
+      <PlaylistDrawerSection onSelect={() => setOpen(false)} />
     </MuiDrawer>
   );
 };
