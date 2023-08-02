@@ -1,5 +1,4 @@
 import {
-  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -9,47 +8,31 @@ import {
 } from "@mui/material";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { useAtomValue, useAtom } from "jotai";
-import { playlistsAtom, excludedPlaylistIdsAtom } from "../state/main";
+import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
+import { PlaylistDialogButton } from "./PlaylistDialogButton";
+import {
+  CheckboxState,
+  useToggleFollowedPlaylists,
+} from "../hooks/useToggleFollowedPlaylists";
 
 export const PlaylistDrawerSection = ({
   onSelect,
 }: {
   onSelect: () => void;
 }) => {
-  const playlists = useAtomValue(playlistsAtom);
-  const [excludedPlaylistId, setExcludedPlaylistId] = useAtom(
-    excludedPlaylistIdsAtom,
-  );
+  const { state, toggle } = useToggleFollowedPlaylists();
 
-  const allPublicToggledOff = playlists
-    .filter(({ isOwn }) => !isOwn)
-    .every(({ id }) => excludedPlaylistId.includes(id));
-
-  const togglePublic = (event: any) => {
-    event?.stopPropagation();
+  const onToggle = () => {
+    toggle();
     onSelect();
-    const foreignPlaylistsIds = playlists
-      .filter(({ isOwn }) => !isOwn)
-      .map(({ id }) => id);
-    if (foreignPlaylistsIds.every((id) => excludedPlaylistId.includes(id))) {
-      setExcludedPlaylistId((cur) =>
-        cur.filter((id) => !foreignPlaylistsIds.includes(id)),
-      );
-      return;
-    }
-    setExcludedPlaylistId((cur) => [...cur, ...foreignPlaylistsIds]);
   };
 
   return (
     <List dense>
       <ListItem>
         <ListItemText primary="Spotify playlists" />
-        <ListItemSecondaryAction hidden>
-          <IconButton>
-            <MoreHorizIcon />
-          </IconButton>
+        <ListItemSecondaryAction>
+          <PlaylistDialogButton />
         </ListItemSecondaryAction>
       </ListItem>
       <ListItemButton disabled>
@@ -58,12 +41,14 @@ export const PlaylistDrawerSection = ({
         </ListItemIcon>
         <ListItemText primary="Own" />
       </ListItemButton>
-      <ListItemButton onClick={togglePublic}>
+      <ListItemButton onClick={onToggle}>
         <ListItemIcon>
-          {allPublicToggledOff ? (
+          {state === CheckboxState.OFF ? (
             <CheckBoxOutlineBlankIcon />
-          ) : (
+          ) : state === CheckboxState.ON ? (
             <CheckBoxIcon color="info" />
+          ) : (
+            <IndeterminateCheckBoxIcon color="info" />
           )}
         </ListItemIcon>
         <ListItemText primary="Followed" />
