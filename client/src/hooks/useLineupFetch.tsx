@@ -12,7 +12,13 @@ export const useLineupFetch = async () => {
     return;
   }
   const fetchedLineups = await getLineups();
-  setLineups(fetchedLineups);
+  setLineups((cur) => {
+    const filteredCurrentLineups = cur.filter(
+      ({ key: curKey }) =>
+        !fetchedLineups.find(({ key: fetchedKey }) => curKey === fetchedKey),
+    );
+    return [...filteredCurrentLineups, ...fetchedLineups];
+  });
   setSelectedLineupKey(fetchedLineups[0].key);
   setLineupFetched(true);
 };
