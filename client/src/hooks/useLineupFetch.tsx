@@ -1,6 +1,6 @@
 import { useAtom, useSetAtom } from "jotai";
 import { lineupFetchedAtom } from "../state/fetch";
-import { getLineups } from "../provider/data";
+import { getLineups } from "../provider/lineups";
 import { lineupsAtom } from "../state/lineups";
 import { selectedLineupKeyAtom } from "../state/main";
 
