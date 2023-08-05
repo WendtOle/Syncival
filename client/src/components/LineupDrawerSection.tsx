@@ -11,7 +11,7 @@ import { LinueupCreationDialogWrapper } from "./LineupCreationDialogWrapper";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import { useAtomValue, useAtom } from "jotai";
-import { lineupsAtom } from "../state/data";
+import { lineupsAtom } from "../state/lineups";
 import { selectedLineupKeyAtom } from "../state/main";
 
 export const LineupDrawerSection = ({ onSelect }: { onSelect: () => void }) => {

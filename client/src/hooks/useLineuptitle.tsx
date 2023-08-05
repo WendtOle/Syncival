@@ -1,5 +1,5 @@
 import { useAtomValue } from "jotai";
-import { lineupsAtom } from "../state/data";
+import { lineupsAtom } from "../state/lineups";
 import { selectedLineupKeyAtom } from "../state/main";
 
 export const useLineupTitle = (): string => {
