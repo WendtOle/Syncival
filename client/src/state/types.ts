@@ -34,7 +34,7 @@ export interface Playlist {
   name: string;
   id: string;
   isOwn: boolean;
-  tracks?: number;
+  trackAmount?: number;
   fetched?: Date;
 }
 
