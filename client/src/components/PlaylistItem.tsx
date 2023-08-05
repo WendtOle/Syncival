@@ -32,7 +32,7 @@ export const PlaylistItem = ({ id }: { id: string }) => {
     return <CircularProgress />;
   }
 
-  const { name, tracks } = playlist;
+  const { name, trackAmount } = playlist;
 
   const visible = !excludedPlaylistId.includes(id);
   const toggle = (id: string) => {
@@ -59,7 +59,7 @@ export const PlaylistItem = ({ id }: { id: string }) => {
           <CheckBoxOutlineBlankIcon color="info" />
         )}
       </ListItemIcon>
-      <ListItemText primary={name + ` (${tracks ?? songs.length})`} />
+      <ListItemText primary={name + ` (${trackAmount ?? songs.length})`} />
     </ListItemButton>
   );
 };
