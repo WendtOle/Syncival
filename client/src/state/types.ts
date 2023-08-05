@@ -38,7 +38,7 @@ export interface Playlist {
   fetched?: Date;
 }
 
-export interface DataEntry {
+export interface Lineup {
   name: string;
   key: string;
   artists: string[];

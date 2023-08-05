@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useSetAtom } from "jotai";
 import { useState } from "react";
-import { dataAtom } from "../state/data";
+import { lineupsAtom } from "../state/data";
 import { selectedLineupKeyAtom } from "../state/main";
 
 export const LinueupCreationDialogWrapper = ({
@@ -19,7 +19,7 @@ export const LinueupCreationDialogWrapper = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
-  const setData = useSetAtom(dataAtom);
+  const setLineups = useSetAtom(lineupsAtom);
   const [lineupName, setLineupName] = useState("");
   const setSelectedLineupKey = useSetAtom(selectedLineupKeyAtom);
 
@@ -34,7 +34,7 @@ export const LinueupCreationDialogWrapper = ({
       return;
     }
     const key = Math.random().toString(36).substring(2);
-    setData((cur) => {
+    setLineups((cur) => {
       return [...cur, { key, name: lineupName, artists: parsedArtists }];
     });
     setLineupName("");

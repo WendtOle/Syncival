@@ -15,7 +15,7 @@ import { useState } from "react";
 import { useLineupTitle } from "../hooks/useLineuptitle";
 import { useLineupArtists } from "../hooks/useLineupArtists";
 import { useAtom } from "jotai";
-import { dataAtom } from "../state/data";
+import { lineupsAtom } from "../state/data";
 import { selectedLineupKeyAtom } from "../state/main";
 
 export const LineupInspectionDialogButton = () => {
@@ -24,15 +24,15 @@ export const LineupInspectionDialogButton = () => {
   const [selectedLineupKey, setSelectedLineupKey] = useAtom(
     selectedLineupKeyAtom,
   );
-  const [data, setData] = useAtom(dataAtom);
+  const [lineups, setLineups] = useAtom(lineupsAtom);
   const artists = useLineupArtists();
 
   const deleteLinup = () => {
-    setData((current) =>
+    setLineups((current) =>
       current.filter((current) => current.key !== selectedLineupKey),
     );
     setOpen(false);
-    setSelectedLineupKey(data[0].key);
+    setSelectedLineupKey(lineups[0].key);
   };
 
   return (
