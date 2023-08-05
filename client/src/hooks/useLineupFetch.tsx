@@ -1,7 +1,7 @@
 import { useAtom, useSetAtom } from "jotai";
 import { lineupFetchedAtom } from "../state/fetch";
 import { getLineups } from "../provider/data";
-import { lineupsAtom } from "../state/data";
+import { lineupsAtom } from "../state/lineups";
 import { selectedLineupKeyAtom } from "../state/main";
 
 export const useLineupFetch = async () => {

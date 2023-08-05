@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { ArtistV2, Playlist, Track } from "./types";
-import { lineupsAtom } from "./data";
+import { lineupsAtom } from "./lineups";
 
 export const LIKED_SONGS_PLAYLIST_ID = "liked_songs";
 export const likedSongsPlaylist: Playlist = {

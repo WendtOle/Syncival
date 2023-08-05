@@ -15,7 +15,7 @@ import { useState } from "react";
 import { useLineupTitle } from "../hooks/useLineuptitle";
 import { useLineupArtists } from "../hooks/useLineupArtists";
 import { useAtom } from "jotai";
-import { lineupsAtom } from "../state/data";
+import { lineupsAtom } from "../state/lineups";
 import { selectedLineupKeyAtom } from "../state/main";
 
 export const LineupInspectionDialogButton = () => {
