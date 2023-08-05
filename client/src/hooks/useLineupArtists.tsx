@@ -1,11 +1,11 @@
 import { useAtomValue } from "jotai";
-import { dataAtom } from "../state/data";
+import { lineupsAtom } from "../state/data";
 import { selectedLineupKeyAtom } from "../state/main";
 
 export const useLineupArtists = (id?: string): string[] => {
-  const data = useAtomValue(dataAtom);
+  const lineups = useAtomValue(lineupsAtom);
   const selectedLineupKey = useAtomValue(selectedLineupKeyAtom);
   return (
-    data.find(({ key }) => key === (id || selectedLineupKey))?.artists || []
+    lineups.find(({ key }) => key === (id || selectedLineupKey))?.artists || []
   );
 };

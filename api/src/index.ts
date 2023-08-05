@@ -168,7 +168,7 @@ app.post('/createPlaylist', async (req: any, res: any) => {
     }
 })
 
-app.get('/data', async (req: any, res: any) => {
+app.get('/lineups', async (req: any, res: any) => {
     setCors(req, res);
     res.send([fusion2023, tarmac2022, tomorrowland2023]);
     return

@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { ArtistV2, Playlist, Track } from "./types";
-import { dataAtom } from "./data";
+import { lineupsAtom } from "./data";
 
 export const LIKED_SONGS_PLAYLIST_ID = "liked_songs";
 export const likedSongsPlaylist: Playlist = {
@@ -48,7 +48,9 @@ export const filteredArtistsAtom = atom<ArtistV2[]>((get) => {
     ),
   );
 
-  const preprocessed = get(lineupAtom).map((artist) => artist.toLowerCase());
+  const preprocessed = get(lineupsAtom).map((artist) =>
+    artist.name.toLowerCase(),
+  );
   return artists.filter(({ name }) =>
     preprocessed.includes(name.toLocaleLowerCase()),
   );
@@ -63,7 +65,9 @@ export const lineupAtom = atom<string[]>((get) => {
   if (!lineupId) {
     return [];
   }
-  return get(dataAtom).find((entry) => entry.key === lineupId)?.artists ?? [];
+  return (
+    get(lineupsAtom).find((entry) => entry.key === lineupId)?.artists ?? []
+  );
 });
 export const focusedAtom = atom<{
   id: string;

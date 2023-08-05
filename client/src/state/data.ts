@@ -1,4 +1,4 @@
 import { atomWithStorage } from "jotai/utils";
-import { DataEntry } from "./types";
+import { Lineup } from "./types";
 
-export const dataAtom = atomWithStorage<DataEntry[]>("data", []);
+export const lineupsAtom = atomWithStorage<Lineup[]>("lineups", []);
