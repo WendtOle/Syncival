@@ -5,8 +5,10 @@ import { Playlist } from "./SinglePlaylistV2";
 import { AppBar } from "./AppBar";
 import { RouteEnum } from "../state/types";
 import { InfoDialog } from "./InfoDialog";
+import { useLineupFetch } from "../hooks/useLineupFetch";
 
 export const App = () => {
+  useLineupFetch();
   return (
     <>
       <InfoDialog />

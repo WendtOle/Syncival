@@ -62,18 +62,6 @@ export const DataDrawerSection = () => {
           primary={`Songs of ${infos[Types.SONG].count} playlists fetched`}
         />
       </ListItem>
-      <ListItem>
-        <ListItemIcon>
-          {infos[Types.LINEUP].loading ? (
-            <CircularProgress />
-          ) : infos[Types.LINEUP].finished ? (
-            <CheckIcon />
-          ) : (
-            <PendingIcon />
-          )}
-        </ListItemIcon>
-        <ListItemText primary={`Loaded ${infos[Types.LINEUP].count} lineups`} />
-      </ListItem>
     </List>
   );
 };

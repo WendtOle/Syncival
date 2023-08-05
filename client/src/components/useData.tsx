@@ -6,16 +6,12 @@ import {
   likedSongsPlaylist,
   playlistsAtom,
   playlistSongsAtom,
-  selectedLineupKeyAtom,
 } from "../state/main";
 import { useEffect, useState } from "react";
-import { getData } from "../provider/data";
-import { dataAtom } from "../state/data";
 
 export enum Types {
   PLAYLIST,
   SONG,
-  LINEUP,
 }
 
 interface Entry {
@@ -27,7 +23,6 @@ interface Entry {
 const initialValue = {
   [Types.PLAYLIST]: { count: 0 },
   [Types.SONG]: { count: 0 },
-  [Types.LINEUP]: { count: 0 },
 };
 
 export const useData = (): {
@@ -36,8 +31,6 @@ export const useData = (): {
   clear: () => void;
 } => {
   const [playlists, setPlaylists] = useAtom(playlistsAtom);
-  const [data, setData] = useAtom(dataAtom);
-  const setSelectedLineupKey = useSetAtom(selectedLineupKeyAtom);
   const setPlaylistSongs = useSetAtom(playlistSongsAtom);
   const accessToken = useAtomValue(accessTokenAtom);
   const [infos, setInfos] = useState<Record<Types, Entry>>(initialValue);
@@ -49,14 +42,12 @@ export const useData = (): {
         ...cur[Types.SONG],
         count: playlists.filter(({ fetched }) => fetched).length,
       },
-      [Types.LINEUP]: { ...cur[Types.LINEUP], count: Object.keys(data).length },
     }));
-  }, [playlists, data]);
+  }, [playlists]);
 
   const clear = () => {
     setPlaylists([likedSongsPlaylist]);
     setPlaylistSongs({});
-    setData([]);
   };
 
   const loadData = async () => {
@@ -82,21 +73,6 @@ export const useData = (): {
     setInfos((infos) => ({
       ...infos,
       [Types.SONG]: { ...infos[Types.SONG], finished: true, loading: false },
-    }));
-    setInfos((infos) => ({
-      ...infos,
-      [Types.LINEUP]: { count: Object.values(data).length, loading: true },
-    }));
-    const fetchedData = await getData();
-    setData(fetchedData);
-    setSelectedLineupKey(fetchedData[0].key);
-    setInfos((infos) => ({
-      ...infos,
-      [Types.LINEUP]: {
-        count: Object.values(data).length,
-        finished: true,
-        loading: false,
-      },
     }));
   };
 
