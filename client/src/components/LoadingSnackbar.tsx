@@ -1,4 +1,4 @@
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, CircularProgress, Snackbar } from "@mui/material";
 import { useAtomValue } from "jotai";
 import { playlistAtom, playlistSnapShotAtom } from "../state/main";
 
@@ -12,7 +12,11 @@ export const LoadingSnackbar = () => {
       message="Loading spotify playlists..."
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
     >
-      <Alert severity="info" sx={{ width: "100%", backgroundColor: "#b4e5fa" }}>
+      <Alert
+        severity="info"
+        sx={{ width: "100%", backgroundColor: "#b4e5fa" }}
+        icon={<CircularProgress size="1.3rem" />}
+      >
         Loading spotify playlists...
       </Alert>
     </Snackbar>
