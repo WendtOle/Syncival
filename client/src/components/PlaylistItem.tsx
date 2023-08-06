@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import {
   excludedPlaylistIdsAtom,
-  playlistSongsAtom,
   playlistInformationAtom,
+  playlistAtom,
 } from "../state/main";
 import { atom, useAtom, useAtomValue } from "jotai";
 import {
@@ -19,7 +19,10 @@ export const PlaylistItem = ({ id }: { id: string }) => {
     useMemo(() => atom((get) => get(playlistInformationAtom)[id]), [id]),
   );
   const songs = useAtomValue(
-    useMemo(() => atom((get) => (get(playlistSongsAtom)[id] ?? []).length), [id]),
+    useMemo(
+      () => atom((get) => (get(playlistAtom)[id]?.tracks ?? []).length),
+      [id],
+    ),
   );
   const [excludedPlaylistId, setExcludedPlaylistId] = useAtom(
     excludedPlaylistIdsAtom,
