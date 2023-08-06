@@ -9,7 +9,6 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { LineupDrawerSection } from "./LineupDrawerSection";
 import { PlaylistDrawerSection } from "./PlaylistDrawerSection";
-import { DataDrawerSection } from "./DataDrawerSection";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -57,8 +56,6 @@ export const Drawer = ({
       <LineupDrawerSection onSelect={() => setOpen(false)} />
       <Divider />
       <PlaylistDrawerSection onSelect={() => setOpen(false)} />
-      <Divider />
-      <DataDrawerSection />
     </MuiDrawer>
   );
 };
