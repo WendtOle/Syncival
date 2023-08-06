@@ -6,6 +6,7 @@ import { playlistInformationAtom, playlistSnapShotAtom } from "../state/main";
 import { useEffect } from "react";
 import { getPlaylistTracks } from "../provider/songs";
 import { toRecord } from "../util/toRecord";
+import { lineupsAtom } from "../state/lineups";
 
 export const LIKED_SONGS_PLAYLIST_ID = "liked_songs";
 export const likedSongsPlaylist: PlaylistInformation = {
@@ -19,18 +20,37 @@ export const useFetchPlaylists = async () => {
   const accessToken = useAtomValue(accessTokenAtom);
   const [playlists, setPlaylists] = useAtom(playlistInformationAtom);
   const [snapShotIds, setSnapShotIds] = useAtom(playlistSnapShotAtom);
+  const lineups = useAtomValue(lineupsAtom);
 
   useEffect(() => {
+    if (lineups.length === 0) {
+      return;
+    }
     const something = async () => {
       const playlistInformation = await fetchPlaylistInformation(accessToken);
 
+      const lineupPlaylists = Object.values(lineups).map(
+        ({ playlistId }) => playlistId,
+      );
+      const filteredPlaylistInformation = Object.entries(
+        playlistInformation,
+      ).reduce(
+        (acc, [id, playlist]) => {
+          if (!lineupPlaylists.includes(id)) {
+            return { ...acc, [id]: playlist };
+          }
+          return acc;
+        },
+        {} as Record<string, PlaylistInformation>,
+      );
+
       setPlaylists({
         [LIKED_SONGS_PLAYLIST_ID]: likedSongsPlaylist,
-        ...playlistInformation,
+        ...filteredPlaylistInformation,
       });
     };
     something();
-  }, []); //eslint-disable-line react-hooks/exhaustive-deps
+  }, [lineups]); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (Object.keys(playlists).length === 0) {
