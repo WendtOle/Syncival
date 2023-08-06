@@ -45,6 +45,7 @@ export interface Lineup {
   name: string;
   key: string;
   artists: string[];
+  playlistId?: string;
 }
 
 export enum RouteEnum {

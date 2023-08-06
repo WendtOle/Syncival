@@ -1,30 +1,17 @@
 import { useState } from "react";
-import { createPlaylist } from "../provider/createPlaylist";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 import { filteredArtistsAtom } from "../state/main";
-import { accessTokenAtom } from "../state/auth";
 import { Button, List, Typography } from "@mui/material";
 import { ArtistItem } from "./ArtistItem";
 import { Toolbar } from "./Toolbar";
+import { useCreatePlaylist } from "../hooks/useCreatePlaylist";
 
 export const ArtistResult = () => {
-  const [accessToken] = useAtom(accessTokenAtom);
   const filteredArtists = useAtomValue(filteredArtistsAtom);
   const [foldedOutArtists, setFoldedOutArtists] = useState<
     string | undefined
   >();
-
-  const createPlaylistFromFilteredTracks = async () => {
-    if (filteredArtists.length === 0) {
-      return;
-    }
-    const playlistId = await createPlaylist(
-      accessToken(),
-      filteredArtists.map(({ tracks }) => tracks[0].id),
-    );
-    const link = `spotify:playlist:${playlistId}`;
-    window.open(link, "_blank");
-  };
+  const create = useCreatePlaylist();
 
   const sortedArtists = filteredArtists.sort((a, b) => {
     return b.tracks.length - a.tracks.length;
@@ -36,11 +23,7 @@ export const ArtistResult = () => {
         <Typography variant="body1" component="div" sx={{ flexGrow: 1 }}>
           {filteredArtists.length} artists
         </Typography>
-        <Button
-          variant="outlined"
-          color="success"
-          onClick={createPlaylistFromFilteredTracks}
-        >
+        <Button variant="outlined" color="success" onClick={create}>
           Create playlist
         </Button>
       </Toolbar>
