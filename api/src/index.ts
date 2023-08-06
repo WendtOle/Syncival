@@ -126,7 +126,7 @@ app.get('/tracks', async (req: any, res: any) => {
     const { accessToken, page, playlistId } = querystring.parse(query);
     try {
         await spotifyApi.setAccessToken(accessToken);
-        console.log({playlistId, page})
+        console.log('/tracks', {playlistId, page})
         const getResponse = () => {
             if (playlistId === 'liked_songs') {
                 return spotifyApi.getMySavedTracks({limit: 50, offset: page * 50})
@@ -134,15 +134,13 @@ app.get('/tracks', async (req: any, res: any) => {
             return spotifyApi.getPlaylistTracks(playlistId,{limit: 50, offset: page * 50})
         }
         const response = await getResponse()
-        console.log({response})
         const trackData: Something = response.body.items.map(({track}) => track).filter(track => track !== null).map(({id, name, artists}: any) => {
             return {id, name, artists: artists.map(({name, id}: SpotifyApi.ArtistObjectSimplified) => ({name, id}))}
         })
-        //console.log({trackData: trackData.length})
         res.send(trackData);
         return
     } catch (err: any) {
-        console.log("Error when fetching playlists.")
+        console.log(`Error when fetching playlist tracks. "${playlistId}"`)
         console.log(err.body.message)
         res.send('error')
         return
