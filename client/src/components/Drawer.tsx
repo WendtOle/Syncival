@@ -43,6 +43,8 @@ export const Drawer = ({
       open={open}
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
+      anchor="left"
+      disableSwipeToOpen={false}
     >
       <DrawerHeader>
         <IconButton onClick={() => setOpen(false)}>
