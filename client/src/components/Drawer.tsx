@@ -1,10 +1,10 @@
 import {
   Divider,
   IconButton,
-  Drawer as MuiDrawer,
   styled,
   useTheme,
 } from "@mui/material";
+import MuiDrawer from '@mui/material/SwipeableDrawer';
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { LineupDrawerSection } from "./LineupDrawerSection";
@@ -42,6 +42,7 @@ export const Drawer = ({
       }}
       open={open}
       onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
     >
       <DrawerHeader>
         <IconButton onClick={() => setOpen(false)}>
