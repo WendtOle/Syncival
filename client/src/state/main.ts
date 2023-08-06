@@ -28,6 +28,14 @@ export const playlistAtom = atom<Record<string, Playlist>>((get) => {
   );
 });
 export const excludedPlaylistIdsAtom = atom<string[]>([]);
+
+export const filteredPlaylistAmountAtom = atom<number>((get) => {
+  const filteredPlaylists = Object.keys(get(playlistAtom)).filter(
+    (id) => !get(excludedPlaylistIdsAtom).includes(id),
+  );
+  return filteredPlaylists.length;
+});
+
 export const filteredArtistsAtom = atom<ArtistV2[]>((get) => {
   const filteredPlaylists = Object.entries(get(playlistAtom))
     .filter(([id]) => !get(excludedPlaylistIdsAtom).includes(id))
@@ -85,3 +93,5 @@ export const focusedAtom = atom<{
 export const playlistTabExpandedAtom = atomWithStorage<
   "own" | "followed" | null
 >("expanded", "own");
+
+export const informationToastAtom = atom<string | null>(null);

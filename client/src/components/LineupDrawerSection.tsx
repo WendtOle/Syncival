@@ -10,12 +10,13 @@ import {
 import { LinueupCreationDialogWrapper } from "./LineupCreationDialogWrapper";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import { useAtomValue, useAtom } from "jotai";
+import { useAtomValue, useAtom, useSetAtom } from "jotai";
 import { lineupsAtom } from "../state/lineups";
-import { selectedLineupKeyAtom } from "../state/main";
+import { informationToastAtom, selectedLineupKeyAtom } from "../state/main";
 
 export const LineupDrawerSection = ({ onSelect }: { onSelect: () => void }) => {
   const lineups = useAtomValue(lineupsAtom);
+  const setInformationToast = useSetAtom(informationToastAtom);
   const [selectedLineupKey, setSelectedLineupKey] = useAtom(
     selectedLineupKeyAtom,
   );
@@ -23,6 +24,9 @@ export const LineupDrawerSection = ({ onSelect }: { onSelect: () => void }) => {
   const selectLineup = (key: string) => {
     setSelectedLineupKey(key);
     onSelect();
+    const lineup = lineups.find((lineup) => lineup.key === key);
+    if (!lineup) return;
+    setInformationToast(`Lineup "${lineup.name}" selected`);
   };
 
   return (

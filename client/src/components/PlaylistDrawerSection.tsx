@@ -14,6 +14,8 @@ import {
   CheckboxState,
   useToggleFollowedPlaylists,
 } from "../hooks/useToggleFollowedPlaylists";
+import { useSetAtom } from "jotai";
+import { informationToastAtom } from "../state/main";
 
 export const PlaylistDrawerSection = ({
   onSelect,
@@ -21,10 +23,16 @@ export const PlaylistDrawerSection = ({
   onSelect: () => void;
 }) => {
   const { state, toggle } = useToggleFollowedPlaylists();
+  const setInformationToast = useSetAtom(informationToastAtom);
 
   const onToggle = () => {
     toggle();
     onSelect();
+    setInformationToast(
+      state === CheckboxState.ON
+        ? "Followed playlists deselected"
+        : "Followed playlists selected",
+    );
   };
 
   return (
@@ -32,7 +40,7 @@ export const PlaylistDrawerSection = ({
       <ListItem>
         <ListItemText primary="Spotify playlists" />
         <ListItemSecondaryAction>
-          <PlaylistDialogButton />
+          <PlaylistDialogButton onClose={onSelect} />
         </ListItemSecondaryAction>
       </ListItem>
       <ListItemButton disabled>
