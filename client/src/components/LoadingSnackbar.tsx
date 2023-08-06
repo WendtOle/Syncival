@@ -1,11 +1,8 @@
 import { Alert, CircularProgress, Snackbar } from "@mui/material";
-import { useAtomValue } from "jotai";
-import { playlistAtom, playlistSnapShotAtom } from "../state/main";
+import { useIsLoading } from "../hooks/useIsLoading";
 
 export const LoadingSnackbar = () => {
-  const snapshots = useAtomValue(playlistSnapShotAtom);
-  const playlists = useAtomValue(playlistAtom);
-  const open = Object.keys(snapshots).length !== Object.keys(playlists).length;
+  const open = useIsLoading();
   return (
     <Snackbar
       open={open}
