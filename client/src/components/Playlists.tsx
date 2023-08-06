@@ -39,7 +39,7 @@ export const Playlists = () => {
         {visible === "own" && <Divider />}
         <Collapse in={visible === "own"}>
           <List dense disablePadding>
-            {playlists
+            {Object.values(playlists)
               .filter(({ isOwn }) => isOwn)
               .sort((a, b) =>
                 a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,
@@ -68,7 +68,7 @@ export const Playlists = () => {
         {visible === "followed" && <Divider />}
         <Collapse in={visible === "followed"}>
           <List dense disablePadding>
-            {playlists
+            {Object.values(playlists)
               .filter(({ isOwn }) => !isOwn)
               .sort((a, b) =>
                 a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,

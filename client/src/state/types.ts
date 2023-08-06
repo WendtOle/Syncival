@@ -35,8 +35,11 @@ export interface Playlist {
   id: string;
   isOwn: boolean;
   trackAmount?: number;
-  fetched?: Date;
+  snapShotId: string;
+  tracks: Track[];
 }
+
+export type PlaylistInformation = Omit<Playlist, "tracks">;
 
 export interface Lineup {
   name: string;

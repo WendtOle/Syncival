@@ -14,7 +14,7 @@ export const usePageTitle = (): string => {
   }
   if (location.pathname.includes(RouteEnum.PLAYLIST.replace(":id", ""))) {
     const playlistId = location.pathname.split("/").pop() || "";
-    const playlist = playlists.find(({ id }) => id === playlistId);
+    const playlist = playlists[playlistId];
     return playlist ? `"${playlist?.name}"` : "";
   }
 

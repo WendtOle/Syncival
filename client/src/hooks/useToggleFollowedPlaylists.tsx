@@ -19,7 +19,9 @@ export const useToggleFollowedPlaylists = (): {
     excludedPlaylistIdsAtom,
   );
 
-  const followedPlaylists = playlists.filter(({ isOwn }) => !isOwn);
+  const followedPlaylists = Object.values(playlists).filter(
+    ({ isOwn }) => !isOwn,
+  );
 
   const allPublicToggledOff = followedPlaylists.every(({ id }) =>
     excludedPlaylistId.includes(id),

@@ -107,9 +107,10 @@ app.get('/playlists', async (req: any, res: any) => {
                 name: playlist.name,
                 id: playlist.id,
                 isOwn: playlist.owner.id === userId,
-                tracks: playlist.tracks.total
+                trackAmount: playlist.tracks.total,
+                snapShotId: playlist.snapshot_id,
             }))
-        res.send(processedPlaylists);
+        res.send(toRecord(processedPlaylists, (playlist) => playlist.id));
         return
     } catch (err: any) {
         console.log("Error when fetching playlists.")
