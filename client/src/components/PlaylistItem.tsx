@@ -16,13 +16,7 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 
 export const PlaylistItem = ({ id }: { id: string }) => {
   const playlist = useAtomValue(
-    useMemo(
-      () =>
-        atom((get) =>
-          get(playlistInformationAtom).find(({ id: cur }) => cur === id),
-        ),
-      [id],
-    ),
+    useMemo(() => atom((get) => get(playlistInformationAtom)[id]), [id]),
   );
   const songs = useAtomValue(
     useMemo(() => atom((get) => get(playlistSongsAtom)[id] ?? []), [id]),

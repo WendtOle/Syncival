@@ -20,13 +20,7 @@ export const Playlist = () => {
     throw new Error("No id provided");
   }
   const playList = useAtomValue(
-    useMemo(
-      () =>
-        atom((get) =>
-          get(playlistInformationAtom).find(({ id: cur }) => cur === id),
-        ),
-      [id],
-    ),
+    useMemo(() => atom((get) => get(playlistInformationAtom)[id]), [id]),
   );
   const [songs] = useAtom(
     useMemo(() => atom((get) => get(playlistSongsAtom)[id] ?? []), [id]),

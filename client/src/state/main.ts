@@ -1,28 +1,28 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-import { ArtistV2, Playlist, Track } from "./types";
+import { ArtistV2, PlaylistInformation, Track } from "./types";
 import { lineupsAtom } from "./lineups";
 
 export const LIKED_SONGS_PLAYLIST_ID = "liked_songs";
-export const likedSongsPlaylist: Playlist = {
+export const likedSongsPlaylist: PlaylistInformation = {
   name: "Liked Songs",
   id: LIKED_SONGS_PLAYLIST_ID,
   isOwn: true,
+  snapShotId: "",
 };
 
-export const playlistInformationAtom = atomWithStorage<Playlist[]>(
-  "playlists",
-  [likedSongsPlaylist],
-);
+export const playlistInformationAtom = atomWithStorage<
+  Record<string, PlaylistInformation>
+>("playlists", { [likedSongsPlaylist.id]: likedSongsPlaylist });
 export const playlistSongsAtom = atomWithStorage<Record<string, Track[]>>(
   "songs",
   {},
 );
 export const excludedPlaylistIdsAtom = atom<string[]>([]);
 export const filteredArtistsAtom = atom<ArtistV2[]>((get) => {
-  const filteredPlaylists = get(playlistInformationAtom).filter(
-    ({ id }) => !get(excludedPlaylistIdsAtom).includes(id),
-  );
+  const filteredPlaylists = Object.entries(get(playlistInformationAtom))
+    .filter(([id]) => !get(excludedPlaylistIdsAtom).includes(id))
+    .map(([, playlist]) => playlist);
   const filteredTracks = filteredPlaylists
     .map(({ id }) => get(playlistSongsAtom)[id] ?? [])
     .flat();
