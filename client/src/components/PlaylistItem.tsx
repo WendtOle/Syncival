@@ -19,7 +19,7 @@ export const PlaylistItem = ({ id }: { id: string }) => {
     useMemo(() => atom((get) => get(playlistInformationAtom)[id]), [id]),
   );
   const songs = useAtomValue(
-    useMemo(() => atom((get) => get(playlistSongsAtom)[id] ?? []), [id]),
+    useMemo(() => atom((get) => (get(playlistSongsAtom)[id] ?? []).length), [id]),
   );
   const [excludedPlaylistId, setExcludedPlaylistId] = useAtom(
     excludedPlaylistIdsAtom,
@@ -56,7 +56,7 @@ export const PlaylistItem = ({ id }: { id: string }) => {
           <CheckBoxOutlineBlankIcon color="info" />
         )}
       </ListItemIcon>
-      <ListItemText primary={name + ` (${trackAmount ?? songs.length})`} />
+      <ListItemText primary={name + ` (${trackAmount ?? songs})`} />
     </ListItemButton>
   );
 };
