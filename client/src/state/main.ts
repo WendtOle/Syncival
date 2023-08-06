@@ -10,16 +10,17 @@ export const likedSongsPlaylist: Playlist = {
   isOwn: true,
 };
 
-export const playlistsAtom = atomWithStorage<Playlist[]>("playlists", [
-  likedSongsPlaylist,
-]);
+export const playlistInformationAtom = atomWithStorage<Playlist[]>(
+  "playlists",
+  [likedSongsPlaylist],
+);
 export const playlistSongsAtom = atomWithStorage<Record<string, Track[]>>(
   "songs",
   {},
 );
 export const excludedPlaylistIdsAtom = atom<string[]>([]);
 export const filteredArtistsAtom = atom<ArtistV2[]>((get) => {
-  const filteredPlaylists = get(playlistsAtom).filter(
+  const filteredPlaylists = get(playlistInformationAtom).filter(
     ({ id }) => !get(excludedPlaylistIdsAtom).includes(id),
   );
   const filteredTracks = filteredPlaylists
