@@ -5,6 +5,7 @@ import { AppBar } from "./AppBar";
 import { RouteEnum } from "../state/types";
 import { useLineupFetch } from "../hooks/useLineupFetch";
 import { useFetchPlaylists } from "../hooks/useFetchPlaylists";
+import { LoadingSnackbar } from "./LoadingSnackbar";
 
 export const App = () => {
   useLineupFetch();
@@ -15,6 +16,7 @@ export const App = () => {
       <Routes>
         <Route path={RouteEnum.ARTISTS} element={<ArtistResult />} />
       </Routes>
+      <LoadingSnackbar />
     </>
   );
 };
