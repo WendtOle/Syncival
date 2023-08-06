@@ -10,7 +10,6 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemSecondaryAction,
   ListItemText,
 } from "@mui/material";
 import { PlaylistItem } from "./PlaylistItem";
@@ -59,11 +58,9 @@ export const Playlists = () => {
             <FollowedPlaylistIcon color="info" />
           </ListItemIcon>
           <ListItemText primary="Followed playlists" />
-          <ListItemSecondaryAction>
-            <IconButton>
-              {visible === "followed" ? <ExpandLess /> : <ExpandMore />}
-            </IconButton>
-          </ListItemSecondaryAction>
+          <IconButton>
+            {visible === "followed" ? <ExpandLess /> : <ExpandMore />}
+          </IconButton>
         </ListItem>
         {visible === "followed" && <Divider />}
         <Collapse in={visible === "followed"}>
