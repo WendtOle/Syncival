@@ -147,27 +147,37 @@ app.get('/tracks', async (req: any, res: any) => {
     }  
 })
 
+const timeStamp = () => {
+    const date = new Date();
+    const day = date.getDate().toString();
+    const month = (date.getMonth() + 1).toString();
+    const hour = date.getHours().toString();
+    const minute = date.getMinutes().toString();
+    return `${day}.${month}-${hour}:${minute}`
+}
+
+const createPlaylist = async (lineupName: string, ) => {
+    const name = `ArtistLookup - ${lineupName}`
+    const response_createPlaylist = await spotifyApi.createPlaylist(name, {public: false, description: `Playlist created by ArtistLookup at ${timeStamp()}`})
+    const {id} = response_createPlaylist.body
+    return id
+}
+
 app.post('/createPlaylist', async (req: any, res: any) => {
     setCors(req, res);
     const { query } = url.parse(req.url);
-    const { accessToken, trackId } = querystring.parse(query);
+    const { accessToken, trackId, lineupName, playlistId } = querystring.parse(query);
     try {
-        const date = new Date();
-        const day = date.getDate().toString();
-        const month = (date.getMonth() + 1).toString();
-        const hour = date.getHours().toString();
-        const minute = date.getMinutes().toString();
         await spotifyApi.setAccessToken(accessToken);
-        const name = "Fusion2023_YourArtists"
-        const response_createPlaylist = await spotifyApi.createPlaylist(name, {public: false, description: `Playlist created by Fusion2023 at ${day}.${month}-${hour}:${minute}`})
-        const {id} = response_createPlaylist.body
+        const id = playlistId ?? await createPlaylist(lineupName)
         const params = trackId.map((id: string) => `spotify:track:${id}`)
+        await spotifyApi.replaceTracksInPlaylist(id, [])
         // I guess that not more than x tracks can be added to a playlist at once
         for (let i = 0; i < params.length; i += 50) {
             const paramsSlice = params.slice(i, i + 50)
             await spotifyApi.addTracksToPlaylist(id, paramsSlice)
         }
-        res.send({playlistId: id, name});
+        res.send({playlistId: id});
         return
     } catch (err: any) {
         console.log("Error when creating playlist.")
