@@ -1,31 +1,39 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-import { ArtistV2, PlaylistInformation, Track } from "./types";
+import { ArtistV2, Playlist, PlaylistInformation, Track } from "./types";
 import { lineupsAtom } from "./lineups";
-
-export const LIKED_SONGS_PLAYLIST_ID = "liked_songs";
-export const likedSongsPlaylist: PlaylistInformation = {
-  name: "Liked Songs",
-  id: LIKED_SONGS_PLAYLIST_ID,
-  isOwn: true,
-  snapShotId: "",
-};
 
 export const playlistInformationAtom = atomWithStorage<
   Record<string, PlaylistInformation>
->("playlists", { [likedSongsPlaylist.id]: likedSongsPlaylist });
-export const playlistSongsAtom = atomWithStorage<Record<string, Track[]>>(
-  "songs",
+>("playlists", {});
+
+export const playlistSnapShotAtom = atomWithStorage<Record<string, Track[]>>(
+  "snapshots",
   {},
 );
+export const playlistAtom = atom<Record<string, Playlist>>((get) => {
+  const playlistInformation = get(playlistInformationAtom);
+  const playlistSnapshots = get(playlistSnapShotAtom);
+  return Object.entries(playlistInformation).reduce(
+    (prev, [id, playlist]) => {
+      const snapShotId = playlist.snapShotId;
+      const snapshot = playlistSnapshots[snapShotId] ?? [];
+      prev[id] = {
+        ...playlist,
+        tracks: snapshot,
+      };
+      return prev;
+    },
+    {} as Record<string, Playlist>,
+  );
+});
 export const excludedPlaylistIdsAtom = atom<string[]>([]);
 export const filteredArtistsAtom = atom<ArtistV2[]>((get) => {
-  const filteredPlaylists = Object.entries(get(playlistInformationAtom))
+  const filteredPlaylists = Object.entries(get(playlistAtom))
     .filter(([id]) => !get(excludedPlaylistIdsAtom).includes(id))
     .map(([, playlist]) => playlist);
-  const filteredTracks = filteredPlaylists
-    .map(({ id }) => get(playlistSongsAtom)[id] ?? [])
-    .flat();
+
+  const filteredTracks = filteredPlaylists.map(({ tracks }) => tracks).flat();
 
   const artists = Object.values(
     filteredTracks.reduce<Record<string, ArtistV2>>(
@@ -49,9 +57,8 @@ export const filteredArtistsAtom = atom<ArtistV2[]>((get) => {
     ),
   );
 
-  const preprocessed = get(lineupsAtom).map((artist) =>
-    artist.name.toLowerCase(),
-  );
+  const preprocessed = get(lineupAtom).map((artist) => artist.toLowerCase());
+
   return artists.filter(({ name }) =>
     preprocessed.includes(name.toLocaleLowerCase()),
   );
@@ -78,8 +85,3 @@ export const focusedAtom = atom<{
 export const playlistTabExpandedAtom = atomWithStorage<
   "own" | "followed" | null
 >("expanded", "own");
-
-export const initialInfoDismissedAtom = atomWithStorage<boolean>(
-  "initialInfoDismissed",
-  false,
-);

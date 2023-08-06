@@ -3,14 +3,14 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { AppBar } from "./AppBar";
 import { RouteEnum } from "../state/types";
-import { InfoDialog } from "./InfoDialog";
 import { useLineupFetch } from "../hooks/useLineupFetch";
+import { useFetchPlaylists } from "../hooks/useFetchPlaylists";
 
 export const App = () => {
   useLineupFetch();
+  useFetchPlaylists();
   return (
     <>
-      <InfoDialog />
       <AppBar />
       <Routes>
         <Route path={RouteEnum.ARTISTS} element={<ArtistResult />} />
