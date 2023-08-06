@@ -49,5 +49,4 @@ export interface Lineup {
 
 export enum RouteEnum {
   ARTISTS = "/",
-  PLAYLIST = "/playlist/:id",
 }
