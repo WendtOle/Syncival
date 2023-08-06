@@ -135,8 +135,7 @@ app.get('/tracks', async (req: any, res: any) => {
         }
         const response = await getResponse()
         console.log({response})
-        const trackData: Something = response.body.items.map(({track}: any) => {
-            const {id, name, artists} = track
+        const trackData: Something = response.body.items.map(({track}) => track).filter(track => track !== null).map(({id, name, artists}: any) => {
             return {id, name, artists: artists.map(({name, id}: SpotifyApi.ArtistObjectSimplified) => ({name, id}))}
         })
         //console.log({trackData: trackData.length})
