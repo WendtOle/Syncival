@@ -13,11 +13,24 @@ export const useLineupFetch = async () => {
   }
   const fetchedLineups = await getLineups();
   setLineups((cur) => {
-    const filteredCurrentLineups = cur.filter(
-      ({ key: curKey }) =>
-        !fetchedLineups.find(({ key: fetchedKey }) => curKey === fetchedKey),
-    );
-    return [...filteredCurrentLineups, ...fetchedLineups];
+    const modified = cur.map((lineup) => {
+      const fetchedLineup = fetchedLineups.find(
+        ({ key }) => key === lineup.key,
+      );
+      if (!fetchedLineup) {
+        return lineup;
+      }
+      return {
+        ...lineup,
+        ...fetchedLineup,
+      };
+    });
+    return [
+      ...modified,
+      ...fetchedLineups.filter(
+        ({ key }) => !cur.map(({ key }) => key).includes(key),
+      ),
+    ];
   });
   setSelectedLineupKey(fetchedLineups[0].key);
   setLineupFetched(true);
