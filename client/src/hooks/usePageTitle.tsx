@@ -1,12 +1,12 @@
 import { useLocation } from "react-router-dom";
 import { RouteEnum } from "../state/types";
-import { playlistsAtom } from "../state/main";
+import { playlistInformationAtom } from "../state/main";
 import { useAtomValue } from "jotai";
 import { useLineupTitle } from "./useLineuptitle";
 
 export const usePageTitle = (): string => {
   const location = useLocation();
-  const playlists = useAtomValue(playlistsAtom);
+  const playlists = useAtomValue(playlistInformationAtom);
   const selectedLineupTitle = useLineupTitle();
 
   if (location.pathname === RouteEnum.ARTISTS) {

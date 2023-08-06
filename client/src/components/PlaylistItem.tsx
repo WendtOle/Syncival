@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import {
   excludedPlaylistIdsAtom,
   playlistSongsAtom,
-  playlistsAtom,
+  playlistInformationAtom,
 } from "../state/main";
 import { atom, useAtom, useAtomValue } from "jotai";
 import {
@@ -17,7 +17,10 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 export const PlaylistItem = ({ id }: { id: string }) => {
   const playlist = useAtomValue(
     useMemo(
-      () => atom((get) => get(playlistsAtom).find(({ id: cur }) => cur === id)),
+      () =>
+        atom((get) =>
+          get(playlistInformationAtom).find(({ id: cur }) => cur === id),
+        ),
       [id],
     ),
   );

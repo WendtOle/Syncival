@@ -4,7 +4,7 @@ import { atom, useAtom, useAtomValue } from "jotai";
 import {
   filteredArtistsAtom,
   playlistSongsAtom,
-  playlistsAtom,
+  playlistInformationAtom,
 } from "../state/main";
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -21,7 +21,10 @@ export const Playlist = () => {
   }
   const playList = useAtomValue(
     useMemo(
-      () => atom((get) => get(playlistsAtom).find(({ id: cur }) => cur === id)),
+      () =>
+        atom((get) =>
+          get(playlistInformationAtom).find(({ id: cur }) => cur === id),
+        ),
       [id],
     ),
   );

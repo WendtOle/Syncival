@@ -1,5 +1,8 @@
 import { useAtomValue, useAtom } from "jotai";
-import { playlistsAtom, excludedPlaylistIdsAtom } from "../state/main";
+import {
+  playlistInformationAtom,
+  excludedPlaylistIdsAtom,
+} from "../state/main";
 
 export enum CheckboxState {
   OFF,
@@ -11,7 +14,7 @@ export const useToggleFollowedPlaylists = (): {
   state: CheckboxState;
   toggle: () => void;
 } => {
-  const playlists = useAtomValue(playlistsAtom);
+  const playlists = useAtomValue(playlistInformationAtom);
   const [excludedPlaylistId, setExcludedPlaylistId] = useAtom(
     excludedPlaylistIdsAtom,
   );
