@@ -1,4 +1,10 @@
-import { CircularProgress, Toolbar, IconButton, Typography, AppBar } from "@mui/material";
+import {
+  CircularProgress,
+  Toolbar,
+  IconButton,
+  Typography,
+  AppBar,
+} from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 
 import BackIcon from "@mui/icons-material/ArrowBackIos";
@@ -7,7 +13,7 @@ import { tracksAtom } from "../state/main";
 import { useAtomValue } from "jotai";
 
 export const SongScreen = () => {
-    const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
   const songs = useAtomValue(tracksAtom);
   const navigate = useNavigate();
 
@@ -42,8 +48,15 @@ export const SongScreen = () => {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <iframe title={`spotify-snippet-player-${id}`} style={{"borderRadius":"12px"}} src={`https://open.spotify.com/embed/track/${song.id}?utm_source=generator`} width="100%" height="352"  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-
+      <iframe
+        title={`spotify-snippet-player-${id}`}
+        style={{ borderRadius: "12px" }}
+        src={`https://open.spotify.com/embed/track/${song.id}?utm_source=generator`}
+        width="100%"
+        height="352"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"
+      ></iframe>
     </div>
   );
-}
+};

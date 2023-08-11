@@ -23,7 +23,6 @@ export const AppBarMenu = () => {
 
   return (
     <>
-      
       <IconButton color="inherit" onClick={onOpen}>
         <MoreVertIcon />
       </IconButton>
@@ -56,8 +55,10 @@ export const AppBarMenu = () => {
             )}
           </PlaylistDialogButton>
           <CreatePlaylistDialogWrapper>
-            {(onClick) => <MenuItem onClick={onClick}>Create playlist</MenuItem>}
-            </CreatePlaylistDialogWrapper>
+            {(onClick) => (
+              <MenuItem onClick={onClick}>Create playlist</MenuItem>
+            )}
+          </CreatePlaylistDialogWrapper>
           <MenuItem onClick={() => localStorage.clear()}>Clear cache</MenuItem>
         </MenuList>
       </Menu>

@@ -31,7 +31,9 @@ export const useCreatePlaylist = () => {
     const { name, key } = selectedLineup;
     const newPlaylistId = await createPlaylist(
       accessToken(),
-      songSelection === "one" ? filteredArtists.map(({ tracks }) => tracks[0]) : filteredArtists.flatMap(({ tracks }) => tracks),
+      songSelection === "one"
+        ? filteredArtists.map(({ tracks }) => tracks[0])
+        : filteredArtists.flatMap(({ tracks }) => tracks),
       name,
       key,
       lineupPlaylistId[key]?.[0],

@@ -31,10 +31,10 @@ export const SongsGroupedByArtist = () => {
       {sortedArtists.map(({ id, name, tracks: artistTracks }) => (
         <li key={`section-${id}`}>
           <ul>
-          <ListSubHeader
-                onClick={() => navigate(`/artist/${id}`)}
-                name={name}
-              />
+            <ListSubHeader
+              onClick={() => navigate(`/artist/${id}`)}
+              name={name}
+            />
             {artistTracks
               .map((id) => tracks[id as any])
               .sort((a, b) => a.name.localeCompare(b.name))
