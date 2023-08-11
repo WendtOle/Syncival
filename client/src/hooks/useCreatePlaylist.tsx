@@ -8,7 +8,7 @@ import { useLineupPlaylist } from "./useLineupPlaylist";
 
 export const useCreatePlaylist = () => {
   const accessToken = useAtomValue(accessTokenAtom);
-  const [lineups, setLineups] = useAtom(lineupsAtom);
+  const lineups = useAtomValue(lineupsAtom);
   const selectedLineupKey = useAtomValue(selectedLineupKeyAtom);
   const filteredArtists = useFilteredArtists();
   const lineupPlaylistId = useLineupPlaylist();
@@ -36,13 +36,6 @@ export const useCreatePlaylist = () => {
       key,
       lineupPlaylistId[key]?.[0],
     );
-    setLineups((lineups) => [
-      ...lineups.filter(({ key }) => key !== selectedLineupKey),
-      {
-        ...selectedLineup,
-        playlistId: newPlaylistId,
-      },
-    ]);
     const link = `spotify:playlist:${newPlaylistId}`;
     window.open(link, "_blank");
   };
