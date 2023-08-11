@@ -1,4 +1,4 @@
-import { List, ListItemButton, ListSubheader } from "@mui/material";
+import { List } from "@mui/material";
 import { SongItem } from "./SongItem";
 import { useAtomValue } from "jotai";
 import { filteredArtistsAtom, tracksAtom } from "../state/main";

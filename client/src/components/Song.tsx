@@ -1,7 +1,6 @@
-import { CircularProgress, Toolbar, IconButton, Typography, List, AppBar } from "@mui/material";
+import { CircularProgress, Toolbar, IconButton, Typography, AppBar } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
-import { useArtistInfo } from "../hooks/useArtistInfo";
-import { SongItem } from "./SongItem";
+
 import BackIcon from "@mui/icons-material/ArrowBackIos";
 import LaunchIcon from "@mui/icons-material/Launch";
 import { tracksAtom } from "../state/main";
@@ -43,7 +42,7 @@ export const SongScreen = () => {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <iframe style={{"borderRadius":"12px"}} src={`https://open.spotify.com/embed/track/${song.id}?utm_source=generator`} width="100%" height="352"  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <iframe title={`spotify-snippet-player-${id}`} style={{"borderRadius":"12px"}} src={`https://open.spotify.com/embed/track/${song.id}?utm_source=generator`} width="100%" height="352"  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
     </div>
   );

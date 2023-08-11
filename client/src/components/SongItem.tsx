@@ -1,16 +1,11 @@
 import { Artist, TrackV2 } from "../state/types";
 import "./Playlist.css";
 import {
-  IconButton,
-  ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemSecondaryAction,
   ListItemText,
 } from "@mui/material";
 import SongIcon from "@mui/icons-material/Audiotrack";
-import LaunchIcon from "@mui/icons-material/Launch";
-import { useNavigate } from "react-router-dom";
 import { SongDialogWrapper } from "./SongDialogWrapper";
 
 export const SongItem = ({
@@ -19,7 +14,6 @@ export const SongItem = ({
   artists,
   relevantArtists,
 }: Omit<TrackV2, "relevantArtists"> & { relevantArtists?: Artist[] }) => {
-  const navigate = useNavigate();
   const secondary = () => {
     if (!relevantArtists) {
       return artists.map(({ name }) => name).join(", ");
