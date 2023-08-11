@@ -10,8 +10,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { useLineupTitle } from "../hooks/useLineuptitle";
-import { useLineupArtists } from "../hooks/useLineupArtists";
 import { useLineups } from "../hooks/useLineups";
 
 export const LineupInspectionDialogButton = ({
@@ -19,10 +17,9 @@ export const LineupInspectionDialogButton = ({
 }: {
   children: (onClick: () => void) => void;
 }) => {
-  const { deleteSelected } = useLineups();
+  const { deleteSelected, selected } = useLineups();
   const [open, setOpen] = useState(false);
-  const selectedLineupTitle = useLineupTitle();
-  const artists = useLineupArtists();
+  const artists = selected?.artists ?? [];
 
   const deleteLinup = () => {
     deleteSelected();
@@ -33,7 +30,7 @@ export const LineupInspectionDialogButton = ({
     <>
       {children(() => setOpen(true))}
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle sx={{ width: 300 }}>{selectedLineupTitle}</DialogTitle>
+        <DialogTitle sx={{ width: 300 }}>{selected?.name ?? ""}</DialogTitle>
         <Typography sx={{ marginLeft: 4, marginBottom: 2 }} variant="body2">
           {artists.length} Artists
         </Typography>

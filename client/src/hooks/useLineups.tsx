@@ -1,6 +1,7 @@
 import { useSetAtom, useAtom } from "jotai";
 import { lineupsAtom } from "../state/lineups";
 import { informationToastAtom, selectedLineupKeyAtom } from "../state/main";
+import { Lineup as ActualLineup } from "../state/types";
 
 interface Lineup {
   key: string;
@@ -12,6 +13,7 @@ export const useLineups = (): {
   lineups: Lineup[];
   select: (key: string) => void;
   deleteSelected: () => void;
+  selected: ActualLineup | undefined;
 } => {
   const [lineups, setLineups] = useAtom(lineupsAtom);
   const setInformationToast = useSetAtom(informationToastAtom);
@@ -41,5 +43,6 @@ export const useLineups = (): {
     })),
     select,
     deleteSelected,
+    selected: lineups.find(({ key }) => key === selectedLineupKey),
   };
 };

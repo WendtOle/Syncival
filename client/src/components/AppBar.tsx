@@ -6,13 +6,13 @@ import {
   Menu,
 } from "@mui/material";
 import { useState } from "react";
-import { usePageTitle } from "../hooks/usePageTitle";
 import { AppBarMenu } from "./AppBarMenu";
 import SortIcon from "@mui/icons-material/Sort";
 import { SortMenu } from "./SortMenu";
+import { useLineups } from "../hooks/useLineups";
 
 export const AppBar = () => {
-  const pageTitle = usePageTitle();
+  const { selected } = useLineups();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   return (
     <>
@@ -24,7 +24,7 @@ export const AppBar = () => {
             color="inherit"
             sx={{ flexGrow: 1, fontWeight: 400, letterSpacing: -0.5 }}
           >
-            {pageTitle}
+            {selected?.name ?? "No lineup selected"}
           </Typography>
           <IconButton
             color="inherit"
