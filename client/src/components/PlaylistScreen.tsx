@@ -14,15 +14,15 @@ import { useAtomValue } from "jotai";
 import {
   playlistAtom,
   matchedSongsByPlaylistAtom,
-  tracksAtom,
 } from "../state/main";
+import { useSongs } from "../hooks/useSongs";
 
 export const PlaylistScreen = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const playlists = useAtomValue(playlistAtom);
   const groupedSongs = useAtomValue(matchedSongsByPlaylistAtom);
-  const tracks = useAtomValue(tracksAtom);
+  const tracks = useSongs();
 
   if (!id || !playlists[id]) {
     return <CircularProgress />;

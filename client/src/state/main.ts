@@ -87,19 +87,6 @@ export const artistsAtom = atom<Record<string, ArtistV3>>((get) => {
   return artists;
 });
 
-export const tracksAtom = atom<Record<string, Track>>((get) => {
-  const tracks = Object.values(get(playlistAtom))
-    .map(({ tracks }) => tracks)
-    .flat();
-  return tracks.reduce(
-    (prev, track) => {
-      prev[track.id] = track;
-      return prev;
-    },
-    {} as Record<string, Track>,
-  );
-});
-
 export const filteredArtistsAtom = atom<ArtistV3[]>((get) => {
   const preprocessed = get(lineupAtom).map((artist) => artist.toLowerCase());
   return Object.values(get(artistsAtom)).filter(({ name }) =>

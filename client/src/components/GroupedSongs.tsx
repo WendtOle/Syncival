@@ -4,15 +4,15 @@ import { useAtomValue } from "jotai";
 import {
   matchedSongsByPlaylistAtom,
   playlistAtom,
-  tracksAtom,
 } from "../state/main";
 import { useNavigate } from "react-router-dom";
 import { ListSubHeader } from "./ListSubHeader";
+import { useSongs } from "../hooks/useSongs";
 
 export const GroupedSongs = () => {
   const navigate = useNavigate();
-  const tracks = useAtomValue(tracksAtom);
   const playlists = useAtomValue(playlistAtom);
+  const tracks = useSongs();
   const groupedSongs = useAtomValue(matchedSongsByPlaylistAtom);
 
   const sortedGroupedSongs = Object.entries(groupedSongs).sort(

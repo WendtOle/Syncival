@@ -2,12 +2,13 @@ import { List, ListSubheader } from "@mui/material";
 import { useMatchedSongs } from "../hooks/useMatchedSongs";
 import { SongItem } from "./SongItem";
 import { useAtomValue } from "jotai";
-import { matchedSongsByPlaylistAtom, tracksAtom } from "../state/main";
+import { matchedSongsByPlaylistAtom } from "../state/main";
 import { sortAtom } from "../state/ui";
+import { useSongs } from "../hooks/useSongs";
 
 export const SongsList = () => {
   const songs = useMatchedSongs();
-  const tracks = useAtomValue(tracksAtom);
+  const tracks = useSongs();
   const groupedSongs = useAtomValue(matchedSongsByPlaylistAtom);
   const sort = useAtomValue(sortAtom);
   const sortedSongs = songs.sort((a, b) => a.name.localeCompare(b.name));

@@ -9,12 +9,11 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import BackIcon from "@mui/icons-material/ArrowBackIos";
 import LaunchIcon from "@mui/icons-material/Launch";
-import { tracksAtom } from "../state/main";
-import { useAtomValue } from "jotai";
+import { useSongs } from "../hooks/useSongs";
 
 export const SongScreen = () => {
   const { id } = useParams<{ id: string }>();
-  const songs = useAtomValue(tracksAtom);
+  const songs = useSongs();
   const navigate = useNavigate();
 
   if (!id || !songs[id]) {
