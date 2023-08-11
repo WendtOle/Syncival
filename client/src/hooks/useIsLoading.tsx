@@ -1,8 +1,8 @@
 import { useAtomValue } from "jotai";
-import { playlistSnapShotAtom, playlistAtom } from "../state/main";
+import { playlistSnapShotAtom, playlistInformationAtom } from "../state/main";
 
 export const useIsLoading = () => {
   const snapshots = useAtomValue(playlistSnapShotAtom);
-  const playlists = useAtomValue(playlistAtom);
+  const playlists = useAtomValue(playlistInformationAtom);
   return Object.keys(snapshots).length !== Object.keys(playlists).length;
 };

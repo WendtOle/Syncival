@@ -14,6 +14,7 @@ export const likedSongsPlaylist: PlaylistInformation = {
   id: LIKED_SONGS_PLAYLIST_ID,
   isOwn: true,
   snapShotId: "",
+  snapShotDate: new Date(),
 };
 
 export const useFetchPlaylists = async () => {
@@ -23,34 +24,38 @@ export const useFetchPlaylists = async () => {
   const lineups = useAtomValue(lineupsAtom);
 
   useEffect(() => {
-    if (lineups.length === 0) {
+    if (!accessToken || lineups.length === 0) {
       return;
     }
     const something = async () => {
       const playlistInformation = await fetchPlaylistInformation(accessToken);
 
-      const lineupPlaylists = Object.values(lineups).map(
-        ({ playlistId }) => playlistId,
-      );
-      const filteredPlaylistInformation = Object.entries(
-        playlistInformation,
-      ).reduce(
-        (acc, [id, playlist]) => {
-          if (!lineupPlaylists.includes(id)) {
-            return { ...acc, [id]: playlist };
-          }
-          return acc;
-        },
-        {} as Record<string, PlaylistInformation>,
-      );
+      setPlaylists((existingPlaylists) => {
+        const filtered = Object.values(playlistInformation)
+          .filter(({ id }) => {
+            const matching = existingPlaylists[id];
+            if (!matching) {
+              return true;
+            }
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yesterdayMillis = yesterday.getTime();
+            const playlistTime = new Date(matching.snapShotDate).getTime();
+            return matching.isOwn || playlistTime < yesterdayMillis;
+          })
+          .map((playlist) => ({ ...playlist, snapShotDate: new Date() }));
 
-      setPlaylists({
-        [LIKED_SONGS_PLAYLIST_ID]: likedSongsPlaylist,
-        ...filteredPlaylistInformation,
+        const newPlaylists = toRecord(filtered, ({ id }) => id);
+
+        return {
+          ...existingPlaylists,
+          [LIKED_SONGS_PLAYLIST_ID]: likedSongsPlaylist,
+          ...newPlaylists,
+        };
       });
     };
     something();
-  }, [lineups]); //eslint-disable-line react-hooks/exhaustive-deps
+  }, [lineups, accessToken]); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (Object.keys(playlists).length === 0) {

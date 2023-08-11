@@ -24,10 +24,29 @@ export interface ArtistV2 {
   tracks: Track[];
 }
 
+export interface ArtistV3 {
+  id: string;
+  name: string;
+  tracks: string[];
+}
+
+export interface ArtistV4 {
+  id: string;
+  name: string;
+  tracks: TrackV2[];
+}
+
 export interface Track {
   id: string;
   name: string;
   artists: Artist[];
+}
+
+export interface TrackV2 {
+  id: string;
+  name: string;
+  artists: Artist[];
+  relevantArtists: Artist[];
 }
 
 export interface Playlist {
@@ -36,6 +55,7 @@ export interface Playlist {
   isOwn: boolean;
   trackAmount?: number;
   snapShotId: string;
+  snapShotDate: Date;
   tracks: Track[];
 }
 
@@ -45,9 +65,11 @@ export interface Lineup {
   name: string;
   key: string;
   artists: string[];
-  playlistId?: string;
 }
 
 export enum RouteEnum {
   ARTISTS = "/",
+  ARTIST = "/artist/:id",
+  PLAYLIST = "/playlist/:id",
+  SONG = "/song/:id",
 }
