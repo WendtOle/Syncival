@@ -1,9 +1,3 @@
-import { useMemo } from "react";
-import {
-  excludedPlaylistIdsAtom,
-  playlistInformationAtom,
-} from "../state/main";
-import { atom, useAtom, useAtomValue } from "jotai";
 import {
   CircularProgress,
   ListItemButton,
@@ -12,50 +6,33 @@ import {
 } from "@mui/material";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import { usePlaylists } from "../hooks/usePlaylists";
+import { usePlaylist } from "../hooks/usePlaylist";
 
 export const PlaylistItem = ({ id }: { id: string }) => {
-  const playlist = useAtomValue(
-    useMemo(() => atom((get) => get(playlistInformationAtom)[id]), [id]),
-  );
-  const playlists = usePlaylists();
-  const songs = (playlists[id]?.tracks ?? []).length;
-  const [excludedPlaylistId, setExcludedPlaylistId] = useAtom(
-    excludedPlaylistIdsAtom,
-  );
+  const { playlist, exclude } = usePlaylist(id);
 
   if (!playlist) {
     return <CircularProgress />;
   }
 
-  const { name, trackAmount } = playlist;
-
-  const visible = !excludedPlaylistId.includes(id);
-  const toggle = (id: string) => {
-    setExcludedPlaylistId((cur) => {
-      if (cur.includes(id)) {
-        return cur.filter((curId) => curId !== id);
-      }
-      return [...cur, id];
-    });
-  };
+  const { name, trackAmount, excluded, tracks } = playlist;
 
   return (
     <ListItemButton
       key={id}
-      onClick={() => toggle(id)}
+      onClick={exclude}
       sx={{
         pl: 4,
       }}
     >
       <ListItemIcon>
-        {visible ? (
+        {!excluded ? (
           <CheckBoxIcon color="info" />
         ) : (
           <CheckBoxOutlineBlankIcon color="info" />
         )}
       </ListItemIcon>
-      <ListItemText primary={name + ` (${trackAmount ?? songs})`} />
+      <ListItemText primary={name + ` (${trackAmount ?? tracks.length})`} />
     </ListItemButton>
   );
 };
