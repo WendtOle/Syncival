@@ -1,36 +1,23 @@
-import { ArtistV2 } from "../state/types";
+import { ArtistV3 } from "../state/types";
 import "./Playlist.css";
 import { useAtomValue } from "jotai";
 import { filteredArtistsAtom } from "../state/main";
-import {
-  Collapse,
-  Divider,
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText,
-} from "@mui/material";
-import SongIcon from "@mui/icons-material/Audiotrack";
+import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import LaunchIcon from "@mui/icons-material/Launch";
+import { useNavigate } from "react-router-dom";
 
 export const ArtistItem = ({
   id,
   name,
   tracks,
-  expandedArtist,
-  setExpandedArtist,
   markWhenInLineUp,
-}: ArtistV2 & {
+}: ArtistV3 & {
   expandedArtist?: string;
   setExpandedArtist: (id?: string) => void;
   markWhenInLineUp?: boolean;
 }) => {
+  const navigate = useNavigate();
   const filteredArtists = useAtomValue(filteredArtistsAtom);
-  const expanded = expandedArtist === id;
 
   const containedInLineup = filteredArtists.find(
     ({ id: curId }) => curId === id,
@@ -43,46 +30,12 @@ export const ArtistItem = ({
         background: containedInLineup && markWhenInLineUp ? "#bffde6" : "",
       }}
     >
-      <ListItem onClick={() => setExpandedArtist(expanded ? undefined : id)}>
+      <ListItemButton onClick={() => navigate(`/artist/${id}`)}>
         <ListItemIcon>
           <PersonIcon />
         </ListItemIcon>
         <ListItemText primary={name} secondary={`${tracks.length} songs`} />
-        <IconButton>{expanded ? <ExpandLess /> : <ExpandMore />}</IconButton>
-        <ListItemSecondaryAction
-          onClick={() => window.open(`spotify:artist:${id}`, "_blank")}
-        >
-          <IconButton>
-            <LaunchIcon />
-          </IconButton>
-        </ListItemSecondaryAction>
-      </ListItem>
-      {expanded && <Divider />}
-      <Collapse in={expanded}>
-        <List dense disablePadding>
-          {tracks.map(({ name, id, artists }) => {
-            return (
-              <ListItem key={id} sx={{ pl: 4 }}>
-                <ListItemIcon>
-                  <SongIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary={name}
-                  secondary={artists.map(({ name }) => name).join(", ")}
-                />
-                <ListItemSecondaryAction>
-                  <IconButton
-                    onClick={() => window.open(`spotify:track:${id}`, "_blank")}
-                  >
-                    <LaunchIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            );
-          })}
-        </List>
-      </Collapse>
-      {expanded && <Divider />}
+      </ListItemButton>
     </div>
   );
 };
