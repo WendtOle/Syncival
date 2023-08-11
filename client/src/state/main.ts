@@ -1,7 +1,6 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { PlaylistInformation, Track } from "./types";
-import { lineupsAtom } from "./lineups";
 
 export const playlistInformationAtom = atomWithStorage<
   Record<string, PlaylistInformation>

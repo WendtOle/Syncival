@@ -3,17 +3,13 @@ import CheckIcon from "@mui/icons-material/Check";
 import { useLineups } from "../hooks/useLineups";
 
 export const AppBarMenuLineupSection = () => {
-  const {lineups, selectLineup} = useLineups();
+  const { lineups, select } = useLineups();
 
   return (
     <>
       {lineups.map(({ key, name, selected }) => {
         return (
-          <MenuItem
-            key={key}
-            onClick={() => selectLineup(key)}
-            selected={selected}
-          >
+          <MenuItem key={key} onClick={() => select(key)} selected={selected}>
             {selected && (
               <ListItemIcon>
                 <CheckIcon />
