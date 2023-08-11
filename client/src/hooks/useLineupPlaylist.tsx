@@ -1,9 +1,9 @@
 import { useAtomValue } from "jotai";
-import { lineupsAtom } from "../state/lineups";
 import { playlistInformationAtom } from "../state/main";
+import { useLineups } from "./useLineups";
 
 export const useLineupPlaylist = () => {
-  const lineups = useAtomValue(lineupsAtom);
+  const {lineups} = useLineups();
   const playlists = useAtomValue(playlistInformationAtom);
   return Object.values(lineups)
     .map(({ key }) => key)
