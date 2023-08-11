@@ -1,8 +1,5 @@
-import {
-  playlistTabExpandedAtom,
-  playlistInformationAtom,
-} from "../state/main";
-import { useAtom, useAtomValue } from "jotai";
+import { playlistTabExpandedAtom } from "../state/main";
+import { useAtom } from "jotai";
 import {
   Collapse,
   Divider,
@@ -16,9 +13,10 @@ import { PlaylistItem } from "./PlaylistItem";
 import PlaylistIcon from "@mui/icons-material/Folder";
 import FollowedPlaylistIcon from "@mui/icons-material/Public";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { usePlaylists } from "../hooks/usePlaylists";
 
 export const Playlists = () => {
-  const playlists = useAtomValue(playlistInformationAtom);
+  const playlists = usePlaylists();
   const [visible, setVisible] = useAtom(playlistTabExpandedAtom);
 
   return (
