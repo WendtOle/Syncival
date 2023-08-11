@@ -19,15 +19,6 @@ export const selectedLineupKeyAtom = atomWithStorage<string | null>(
   null,
 );
 
-export const lineupAtom = atom<string[]>((get) => {
-  const lineupId = get(selectedLineupKeyAtom);
-  if (!lineupId) {
-    return [];
-  }
-  return (
-    get(lineupsAtom).find((entry) => entry.key === lineupId)?.artists ?? []
-  );
-});
 export const focusedAtom = atom<{
   id: string;
   type: "artist" | "playlist";
