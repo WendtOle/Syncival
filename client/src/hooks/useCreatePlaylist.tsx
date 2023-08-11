@@ -2,15 +2,20 @@ import { useAtom, useAtomValue } from "jotai";
 import { accessTokenAtom } from "../state/auth";
 import { createPlaylist } from "../provider/createPlaylist";
 import { lineupsAtom } from "../state/lineups";
-import { filteredArtistsAtom, selectedLineupKeyAtom } from "../state/main";
+import {
+  filteredArtistsAtom,
+  lineupPlaylistIdsAtom,
+  selectedLineupKeyAtom,
+} from "../state/main";
 
 export const useCreatePlaylist = () => {
   const accessToken = useAtomValue(accessTokenAtom);
   const [lineups, setLineups] = useAtom(lineupsAtom);
   const selectedLineupKey = useAtomValue(selectedLineupKeyAtom);
   const filteredArtists = useAtomValue(filteredArtistsAtom);
+  const lineupPlaylistId = useAtomValue(lineupPlaylistIdsAtom);
 
-  const create = async () => {
+  const create = (songSelection: "all" | "one") => async () => {
     if (filteredArtists.length === 0) {
       return;
     }
@@ -23,12 +28,13 @@ export const useCreatePlaylist = () => {
       console.warn("no lineup selected");
       return;
     }
-    const { name, playlistId } = selectedLineup;
+    const { name, key } = selectedLineup;
     const newPlaylistId = await createPlaylist(
       accessToken(),
-      filteredArtists.map(({ tracks }) => tracks[0].id),
+      songSelection === "one" ? filteredArtists.map(({ tracks }) => tracks[0]) : filteredArtists.flatMap(({ tracks }) => tracks),
       name,
-      playlistId,
+      key,
+      lineupPlaylistId[key]?.[0],
     );
     setLineups((lineups) => [
       ...lineups.filter(({ key }) => key !== selectedLineupKey),
@@ -37,7 +43,7 @@ export const useCreatePlaylist = () => {
         playlistId: newPlaylistId,
       },
     ]);
-    const link = `spotify:playlist:${playlistId}`;
+    const link = `spotify:playlist:${newPlaylistId}`;
     window.open(link, "_blank");
   };
 

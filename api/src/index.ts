@@ -156,8 +156,8 @@ const timeStamp = () => {
     return `${day}.${month}-${hour}:${minute}`
 }
 
-const createPlaylist = async (lineupName: string, ) => {
-    const name = `ArtistLookup - ${lineupName}`
+const createPlaylist = async (lineupName: string, key: string ) => {
+    const name = `ArtistLookup - ${lineupName} [${key}]`
     const response_createPlaylist = await spotifyApi.createPlaylist(name, {public: false, description: `Playlist created by ArtistLookup at ${timeStamp()}`})
     const {id} = response_createPlaylist.body
     return id
@@ -166,10 +166,10 @@ const createPlaylist = async (lineupName: string, ) => {
 app.post('/createPlaylist', async (req: any, res: any) => {
     setCors(req, res);
     const { query } = url.parse(req.url);
-    const { accessToken, trackId, lineupName, playlistId } = querystring.parse(query);
+    const { accessToken, trackId, lineupName, playlistId, lineupKey} = querystring.parse(query);
     try {
         await spotifyApi.setAccessToken(accessToken);
-        const id = playlistId ?? await createPlaylist(lineupName)
+        const id = playlistId ?? await createPlaylist(lineupName,lineupKey)
         const params = trackId.map((id: string) => `spotify:track:${id}`)
         await spotifyApi.replaceTracksInPlaylist(id, [])
         // I guess that not more than x tracks can be added to a playlist at once
@@ -181,7 +181,7 @@ app.post('/createPlaylist', async (req: any, res: any) => {
         return
     } catch (err: any) {
         console.log("Error when creating playlist.")
-        console.log(err.body.message)
+        console.log(err)
         res.send({status: 'error'})
         return
     }
