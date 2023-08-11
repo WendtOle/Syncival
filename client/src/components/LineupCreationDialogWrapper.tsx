@@ -7,10 +7,8 @@ import {
   DialogActions,
   Chip,
 } from "@mui/material";
-import { useSetAtom } from "jotai";
 import { useState } from "react";
-import { lineupsAtom } from "../state/lineups";
-import { selectedLineupKeyAtom } from "../state/main";
+import { useLineups } from "../hooks/useLineups";
 
 export const LinueupCreationDialogWrapper = ({
   children,
@@ -19,9 +17,8 @@ export const LinueupCreationDialogWrapper = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
-  const setLineups = useSetAtom(lineupsAtom);
+  const {add} = useLineups();
   const [lineupName, setLineupName] = useState("");
-  const setSelectedLineupKey = useSetAtom(selectedLineupKeyAtom);
 
   const parsedArtists = text
     .replace(/"/g, "")
@@ -33,12 +30,8 @@ export const LinueupCreationDialogWrapper = ({
     if (lineupName.length === 0 || parsedArtists.length === 0) {
       return;
     }
-    const key = Math.random().toString(36).substring(2);
-    setLineups((cur) => {
-      return [...cur, { key, name: lineupName, artists: parsedArtists }];
-    });
+    add({name: lineupName, artists: parsedArtists});
     setLineupName("");
-    setSelectedLineupKey(key);
     setOpen(false);
   };
 
