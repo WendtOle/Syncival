@@ -2,18 +2,16 @@ import { useAtom, useAtomValue } from "jotai";
 import { accessTokenAtom } from "../state/auth";
 import { createPlaylist } from "../provider/createPlaylist";
 import { lineupsAtom } from "../state/lineups";
-import {
-  filteredArtistsAtom,
-  lineupPlaylistIdsAtom,
-  selectedLineupKeyAtom,
-} from "../state/main";
+import { selectedLineupKeyAtom } from "../state/main";
+import { useFilteredArtists } from "./useFilteredArtists";
+import { useLineupPlaylist } from "./useLineupPlaylist";
 
 export const useCreatePlaylist = () => {
   const accessToken = useAtomValue(accessTokenAtom);
   const [lineups, setLineups] = useAtom(lineupsAtom);
   const selectedLineupKey = useAtomValue(selectedLineupKeyAtom);
-  const filteredArtists = useAtomValue(filteredArtistsAtom);
-  const lineupPlaylistId = useAtomValue(lineupPlaylistIdsAtom);
+  const filteredArtists = useFilteredArtists();
+  const lineupPlaylistId = useLineupPlaylist();
 
   const create = (songSelection: "all" | "one") => async () => {
     if (filteredArtists.length === 0) {

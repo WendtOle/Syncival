@@ -1,17 +1,21 @@
-import { useAtomValue } from "jotai";
 import { TrackV2 } from "../state/types";
-import {
-  filteredArtistsAtom,
-  matchedSongsAtom,
-} from "../state/main";
 import { useSongs } from "./useSongs";
+import { useFilteredArtists } from "./useFilteredArtists";
+import { usePlaylists } from "./usePlaylists";
 
-export const useMatchedSongs = (): TrackV2[] => {
-  const filteredArtists = useAtomValue(filteredArtistsAtom);
+export const useMatchedSongs = (): {
+  defaulty: TrackV2[];
+  byPlaylist: Record<string, string[]>;
+} => {
+  const filteredArtists = useFilteredArtists();
+  const playlists = usePlaylists();
   const filteredArtistIds = filteredArtists.map((artist) => artist.id);
-  const matchedSongs = useAtomValue(matchedSongsAtom);
+  const matchedSongs = [
+    ...new Set(filteredArtists.map(({ tracks }) => tracks).flat()),
+  ];
+
   const songs = useSongs();
-  return matchedSongs.map((id) => {
+  const defaulty = matchedSongs.map((id) => {
     const song = songs[id];
     const output: TrackV2 = {
       ...song,
@@ -21,4 +25,19 @@ export const useMatchedSongs = (): TrackV2[] => {
     };
     return output;
   });
+
+  const byPlaylist = Object.entries(playlists).reduce(
+    (prev, [id, { tracks }]) => {
+      const filteredTracks = tracks
+        .map(({ id }) => id)
+        .filter((id) => matchedSongs.includes(id));
+      if (filteredTracks.length === 0) {
+        return prev;
+      }
+      return { ...prev, [id]: filteredTracks };
+    },
+    {} as Record<string, string[]>,
+  );
+
+  return { defaulty, byPlaylist };
 };

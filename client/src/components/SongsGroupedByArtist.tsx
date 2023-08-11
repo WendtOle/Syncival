@@ -1,14 +1,13 @@
 import { List } from "@mui/material";
 import { SongItem } from "./SongItem";
-import { useAtomValue } from "jotai";
-import { filteredArtistsAtom } from "../state/main";
 import { useNavigate } from "react-router-dom";
 import { ListSubHeader } from "./ListSubHeader";
 import { useSongs } from "../hooks/useSongs";
+import { useFilteredArtists } from "../hooks/useFilteredArtists";
 
 export const SongsGroupedByArtist = () => {
   const navigate = useNavigate();
-  const filteredArtists = useAtomValue(filteredArtistsAtom);
+  const filteredArtists = useFilteredArtists();
   const tracks = useSongs();
 
   const sortedArtists = filteredArtists.sort(

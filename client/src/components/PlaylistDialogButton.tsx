@@ -8,11 +8,8 @@ import {
 import { Playlists } from "./Playlists";
 import { useState } from "react";
 import { useToggleFollowedPlaylists } from "../hooks/useToggleFollowedPlaylists";
-import { useAtomValue, useSetAtom } from "jotai";
-import {
-  filteredPlaylistAmountAtom,
-  informationToastAtom,
-} from "../state/main";
+import { useSetAtom } from "jotai";
+import { informationToastAtom } from "../state/main";
 
 export const PlaylistDialogButton = ({
   onClose,
@@ -24,12 +21,11 @@ export const PlaylistDialogButton = ({
   const [open, setOpen] = useState(false);
   const { toggle } = useToggleFollowedPlaylists();
   const setInformationToast = useSetAtom(informationToastAtom);
-  const filteredPlaylistAmount = useAtomValue(filteredPlaylistAmountAtom);
 
   const onCloseDialog = () => {
     setOpen(false);
     onClose();
-    setInformationToast(`Selected ${filteredPlaylistAmount} playlists`);
+    setInformationToast(`Selected TODO ... playlists`);
   };
 
   return (

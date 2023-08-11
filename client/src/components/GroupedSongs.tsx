@@ -1,19 +1,16 @@
 import { List } from "@mui/material";
 import { SongItem } from "./SongItem";
-import { useAtomValue } from "jotai";
-import {
-  matchedSongsByPlaylistAtom,
-  playlistAtom,
-} from "../state/main";
 import { useNavigate } from "react-router-dom";
 import { ListSubHeader } from "./ListSubHeader";
+import { usePlaylists } from "../hooks/usePlaylists";
 import { useSongs } from "../hooks/useSongs";
+import { useMatchedSongs } from "../hooks/useMatchedSongs";
 
 export const GroupedSongs = () => {
   const navigate = useNavigate();
-  const playlists = useAtomValue(playlistAtom);
   const tracks = useSongs();
-  const groupedSongs = useAtomValue(matchedSongsByPlaylistAtom);
+  const playlists = usePlaylists();
+  const { byPlaylist: groupedSongs } = useMatchedSongs();
 
   const sortedGroupedSongs = Object.entries(groupedSongs).sort(
     (a, b) => b[1].length - a[1].length,

@@ -1,10 +1,9 @@
 import { ArtistV3 } from "../state/types";
 import "./Playlist.css";
-import { useAtomValue } from "jotai";
-import { filteredArtistsAtom } from "../state/main";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate } from "react-router-dom";
+import { useFilteredArtists } from "../hooks/useFilteredArtists";
 
 export const ArtistItem = ({
   id,
@@ -17,7 +16,7 @@ export const ArtistItem = ({
   markWhenInLineUp?: boolean;
 }) => {
   const navigate = useNavigate();
-  const filteredArtists = useAtomValue(filteredArtistsAtom);
+  const filteredArtists = useFilteredArtists();
 
   const containedInLineup = filteredArtists.find(
     ({ id: curId }) => curId === id,

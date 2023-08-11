@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { useAtomValue } from "jotai";
-import { filteredArtistsAtom } from "../state/main";
 import { List } from "@mui/material";
 import { ArtistItem } from "./ArtistItem";
+import { useFilteredArtists } from "../hooks/useFilteredArtists";
 
 export const ArtistList = () => {
-  const filteredArtists = useAtomValue(filteredArtistsAtom);
+  const filteredArtists = useFilteredArtists();
   const [foldedOutArtists, setFoldedOutArtists] = useState<
     string | undefined
   >();

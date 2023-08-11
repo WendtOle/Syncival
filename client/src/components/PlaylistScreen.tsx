@@ -10,18 +10,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import LaunchIcon from "@mui/icons-material/Launch";
 import BackIcon from "@mui/icons-material/ArrowBackIos";
 import { SongItem } from "./SongItem";
-import { useAtomValue } from "jotai";
-import {
-  playlistAtom,
-  matchedSongsByPlaylistAtom,
-} from "../state/main";
+import { usePlaylists } from "../hooks/usePlaylists";
 import { useSongs } from "../hooks/useSongs";
+import { useMatchedSongs } from "../hooks/useMatchedSongs";
 
 export const PlaylistScreen = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const playlists = useAtomValue(playlistAtom);
-  const groupedSongs = useAtomValue(matchedSongsByPlaylistAtom);
+  const playlists = usePlaylists();
+  const { byPlaylist: groupedSongs } = useMatchedSongs();
   const tracks = useSongs();
 
   if (!id || !playlists[id]) {
