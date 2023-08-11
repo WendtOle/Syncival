@@ -1,11 +1,9 @@
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  IconButton,
   List,
   ListItem,
   ListItemText,
@@ -18,7 +16,11 @@ import { useAtom } from "jotai";
 import { lineupsAtom } from "../state/lineups";
 import { selectedLineupKeyAtom } from "../state/main";
 
-export const LineupInspectionDialogButton = () => {
+export const LineupInspectionDialogButton = ({
+  children,
+}: {
+  children: (onClick: () => void) => void;
+}) => {
   const [open, setOpen] = useState(false);
   const selectedLineupTitle = useLineupTitle();
   const [selectedLineupKey, setSelectedLineupKey] = useAtom(
@@ -37,9 +39,7 @@ export const LineupInspectionDialogButton = () => {
 
   return (
     <>
-      <IconButton color="inherit" onClick={() => setOpen(true)}>
-        <MoreHorizIcon />
-      </IconButton>
+      {children(() => setOpen(true))}
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle sx={{ width: 300 }}>{selectedLineupTitle}</DialogTitle>
         <Typography sx={{ marginLeft: 4, marginBottom: 2 }} variant="body2">
