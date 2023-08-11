@@ -16,10 +16,14 @@ import { artists as tarmac2022 } from './data/tarmac-2022';
 import { artists as tomorrowland2023 } from './data/tomorrowland-2023';
 
 
-const setCors = (req: any, res: any) => {
-    const requestOrigin = req.headers.origin;
+const isAllowedOrigin = (requestOrigin: string) => {
     const allowedOrigins = (process.env.ALLOWED_ORIGINS ?? "").split(',');
-    if (allowedOrigins.find((allowedOrigin => requestOrigin.includes(allowedOrigin)))) {
+    return allowedOrigins.find((allowedOrigin => requestOrigin.includes(allowedOrigin)))
+}
+
+const setCors = (req: any, res: any) => {
+    const requestOrigin = req.headers.origin ?? [];
+    if (isAllowedOrigin(requestOrigin)) {
         res.setHeader('Access-Control-Allow-Origin', requestOrigin);
     }
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -28,6 +32,11 @@ const setCors = (req: any, res: any) => {
 
 app.get('/authorizeURL', (req: any, res: any) => {
     setCors(req, res);
+    const requestOrigin = req.headers.origin ?? "localhost:3000"; 
+    if (isAllowedOrigin(requestOrigin)) {
+        spotifyApi.setRedirectURI(requestOrigin)
+    }
+    const authorizeURL = spotifyApi.createAuthorizeURL(scopes, 'some-state-of-my-choice', true);  
     res.send(authorizeURL);
 }
 );
