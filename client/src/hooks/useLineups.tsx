@@ -1,4 +1,4 @@
-import { useAtomValue, useSetAtom, useAtom } from "jotai";
+import { useSetAtom, useAtom } from "jotai";
 import { lineupsAtom } from "../state/lineups";
 import { informationToastAtom, selectedLineupKeyAtom } from "../state/main";
 
@@ -11,8 +11,9 @@ interface Lineup {
 export const useLineups = (): {
   lineups: Lineup[];
   select: (key: string) => void;
+  deleteSelected: () => void;
 } => {
-  const lineups = useAtomValue(lineupsAtom);
+  const [lineups, setLineups] = useAtom(lineupsAtom);
   const setInformationToast = useSetAtom(informationToastAtom);
   const [selectedLineupKey, setSelectedLineupKey] = useAtom(
     selectedLineupKeyAtom,
@@ -25,6 +26,13 @@ export const useLineups = (): {
     setInformationToast(`Lineup "${lineup.name}" selected`);
   };
 
+  const deleteSelected = () => {
+    setLineups((current) =>
+      current.filter((current) => current.key !== selectedLineupKey),
+    );
+    setSelectedLineupKey(lineups[0].key);
+  };
+
   return {
     lineups: lineups.map(({ key, name }) => ({
       key,
@@ -32,5 +40,6 @@ export const useLineups = (): {
       selected: selectedLineupKey === key,
     })),
     select,
+    deleteSelected,
   };
 };
