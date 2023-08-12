@@ -40,5 +40,5 @@ export const useLineupFetch = async () => {
       setLineupFetched(true);
     };
     something();
-  }, []);
+  }, []);//eslint-disable-line react-hooks/exhaustive-deps
 };
