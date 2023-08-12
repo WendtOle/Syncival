@@ -7,6 +7,7 @@ import { SongsGroupedByArtist } from "./SongsGroupedByArtist";
 import { SortMenu } from "./SortMenu";
 import { AppBarMenu } from "./AppBarMenu";
 import { useLineups } from "../hooks/useLineups";
+import { ExlusionSnackbar } from "./ExlusionSnackbar";
 
 export const ArtistResult = () => {
   const { selected } = useLineups();
@@ -22,6 +23,7 @@ export const ArtistResult = () => {
         {sort === SortOption.ARTISTS && <SongsGroupedByArtist />}
         {sort === SortOption.PLAYLISTS && <GroupedSongs />}
       </div>
+      <ExlusionSnackbar />
     </>
   );
 };

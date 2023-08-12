@@ -19,3 +19,5 @@ export const sortAtom = atomWithStorage<SortOption>(
 );
 
 export const appBarHeightAtom = atom(0);
+
+export const dismissedExcludedPlaylistIdsAtom = atom<string[]>([]);
