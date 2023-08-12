@@ -16,7 +16,10 @@ export const SpotifyIFrameWrapper = ({
       {children(() => setOpen(true))}
       <Dialog
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={(e: any) => {
+          e.stopPropagation();
+          setOpen(false);
+        }}
         PaperProps={{
           sx: { backgroundColor: "transparent", borderRadius: "12px" },
         }}
