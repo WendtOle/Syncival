@@ -3,20 +3,22 @@ import {
   MenuItem,
   ListItemText,
   ListItemIcon,
-  Menu,
+  Popper,
+  Grow,
+  Paper,
+  ClickAwayListener,
+  IconButton,
 } from "@mui/material";
 import { useAtom } from "jotai";
 import { SortOption, SortOptionNames, sortAtom } from "../state/ui";
 import CheckIcon from "@mui/icons-material/Check";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import SortIcon from "@mui/icons-material/Sort";
 
-export const SortMenuWrapper = ({
-  children,
-}: {
-  children: (onClick: (props: any) => void) => any;
-}) => {
+export const SortMenu = () => {
   const [sort, setSort] = useAtom(sortAtom);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef<HTMLButtonElement>(null);
 
   const onClick = (option: SortOption) => () =>
     setSort((cur) => {
@@ -26,34 +28,44 @@ export const SortMenuWrapper = ({
 
   return (
     <>
-      {children((e) => setAnchorEl(e.currentTarget))}
-      <Menu
-        open={anchorEl !== null}
-        onClose={() => setAnchorEl(null)}
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
+      <IconButton color="inherit" onClick={() => setOpen(true)} ref={anchorRef}>
+        <SortIcon />
+      </IconButton>
+      <Popper
+        open={open}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        placement="bottom-end"
+        transition
+        disablePortal
       >
-        <MenuList dense disablePadding>
-          <MenuItem>Group by</MenuItem>
-          {Object.entries(SortOptionNames).map(([key, value]) => (
-            <MenuItem onClick={onClick(key as SortOption)} key={key}>
-              {sort === key && (
-                <ListItemIcon color="inherit">
-                  <CheckIcon />
-                </ListItemIcon>
-              )}
-              <ListItemText inset={sort !== key}>{value}</ListItemText>
-            </MenuItem>
-          ))}
-        </MenuList>
-      </Menu>
+        {({ TransitionProps }) => (
+          <Grow
+            {...TransitionProps}
+            style={{
+              transformOrigin: "right top",
+            }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={() => setOpen(false)}>
+                <MenuList dense>
+                  <MenuItem disabled>Group by</MenuItem>
+                  {Object.entries(SortOptionNames).map(([key, value]) => (
+                    <MenuItem onClick={onClick(key as SortOption)} key={key}>
+                      {sort === key && (
+                        <ListItemIcon color="inherit">
+                          <CheckIcon />
+                        </ListItemIcon>
+                      )}
+                      <ListItemText inset={sort !== key}>{value}</ListItemText>
+                    </MenuItem>
+                  ))}
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
     </>
   );
 };

@@ -1,12 +1,6 @@
-import {
-  AppBar as MuiAppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-} from "@mui/material";
+import { AppBar as MuiAppBar, Toolbar, Typography } from "@mui/material";
 import { AppBarMenu } from "./AppBarMenu";
-import SortIcon from "@mui/icons-material/Sort";
-import { SortMenuWrapper } from "./SortMenu";
+import { SortMenu } from "./SortMenu";
 import { useLineups } from "../hooks/useLineups";
 
 export const AppBar = () => {
@@ -23,13 +17,7 @@ export const AppBar = () => {
           >
             {selected?.name ?? "No lineup selected"}
           </Typography>
-          <SortMenuWrapper>
-            {(onClick) => (
-              <IconButton color="inherit" onClick={onClick}>
-                <SortIcon />
-              </IconButton>
-            )}
-          </SortMenuWrapper>
+          <SortMenu />
           <AppBarMenu />
         </Toolbar>
       </MuiAppBar>
