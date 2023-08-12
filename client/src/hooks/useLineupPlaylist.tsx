@@ -3,7 +3,7 @@ import { playlistInformationAtom } from "../state/main";
 import { useLineups } from "./useLineups";
 
 export const useLineupPlaylist = () => {
-  const {lineups} = useLineups();
+  const { lineups } = useLineups();
   const playlists = useAtomValue(playlistInformationAtom);
   return Object.values(lineups)
     .map(({ key }) => key)

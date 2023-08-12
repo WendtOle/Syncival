@@ -38,7 +38,7 @@ export const useLineupFetch = async () => {
       });
       setSelectedLineupKey(fetchedLineups[0].key);
       setLineupFetched(true);
-    }
-    something()
+    };
+    something();
   }, []);
 };

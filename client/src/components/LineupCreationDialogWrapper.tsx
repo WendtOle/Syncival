@@ -17,7 +17,7 @@ export const LinueupCreationDialogWrapper = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
-  const {add} = useLineups();
+  const { add } = useLineups();
   const [lineupName, setLineupName] = useState("");
 
   const parsedArtists = text
@@ -30,7 +30,7 @@ export const LinueupCreationDialogWrapper = ({
     if (lineupName.length === 0 || parsedArtists.length === 0) {
       return;
     }
-    add({name: lineupName, artists: parsedArtists});
+    add({ name: lineupName, artists: parsedArtists });
     setLineupName("");
     setOpen(false);
   };

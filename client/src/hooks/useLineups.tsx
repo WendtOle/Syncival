@@ -15,7 +15,7 @@ export const useLineups = (): {
   select: (key: string) => void;
   deleteSelected: () => void;
   selected: ActualLineup | undefined;
-  add: (props: {name: string, artists: string[]}) => void;
+  add: (props: { name: string; artists: string[] }) => void;
 } => {
   const [lineups, setLineups] = useAtom(lineupsAtom);
   const setInformationToast = useSetAtom(informationToastAtom);
@@ -23,13 +23,20 @@ export const useLineups = (): {
     selectedLineupKeyAtom,
   );
 
-  const adjustedLineups = useMemo(() => lineups.map(({ key, name }) => ({
-    key,
-    name,
-    selected: selectedLineupKey === key,
-  })), [selectedLineupKey, lineups])
+  const adjustedLineups = useMemo(
+    () =>
+      lineups.map(({ key, name }) => ({
+        key,
+        name,
+        selected: selectedLineupKey === key,
+      })),
+    [selectedLineupKey, lineups],
+  );
 
-  const selected = useMemo(() => lineups.find(({ key }) => key === selectedLineupKey), [lineups, selectedLineupKey])
+  const selected = useMemo(
+    () => lineups.find(({ key }) => key === selectedLineupKey),
+    [lineups, selectedLineupKey],
+  );
 
   const select = (key: string) => {
     setSelectedLineupKey(key);
@@ -45,7 +52,7 @@ export const useLineups = (): {
     setSelectedLineupKey(lineups[0].key);
   };
 
-  const add = ({name, artists}: {name: string, artists: string[]}) => {
+  const add = ({ name, artists }: { name: string; artists: string[] }) => {
     const key = Math.random().toString(36).substring(2);
     setLineups((cur) => {
       return [...cur, { key, name, artists }];
@@ -58,6 +65,6 @@ export const useLineups = (): {
     select,
     deleteSelected,
     selected,
-    add
+    add,
   };
 };
