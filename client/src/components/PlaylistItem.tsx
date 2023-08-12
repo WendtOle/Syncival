@@ -1,12 +1,10 @@
 import {
   CircularProgress,
+  IconButton,
   ListItemButton,
-  ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
 } from "@mui/material";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import { usePlaylist } from "../hooks/usePlaylist";
 import { InfoIcon } from "./Icons";
 import { SpotifyIFrameWrapper } from "./SpotifyIFrameWrapper";
@@ -18,24 +16,25 @@ export const PlaylistItem = ({ id }: { id: string }) => {
     return <CircularProgress />;
   }
 
-  const { name, trackAmount, excluded, tracks } = playlist;
+  const { name, trackAmount, excluded, tracks, isOwn } = playlist;
 
   return (
     <ListItemButton
       key={id}
       onClick={exclude}
-      sx={{
-        pl: 4,
-      }}
+      style={
+        excluded
+          ? { backgroundColor: "whiteSmoke", textDecoration: "line-through" }
+          : {}
+      }
+      sx={{ pl: 4 }}
     >
-      <ListItemIcon>
-        {!excluded ? (
-          <CheckBoxIcon color="info" />
-        ) : (
-          <CheckBoxOutlineBlankIcon color="info" />
-        )}
-      </ListItemIcon>
-      <ListItemText primary={name + ` (${trackAmount ?? tracks.length})`} />
+      <ListItemText
+        primary={name}
+        secondary={`${isOwn ? "Own" : "Followed"} - ${
+          trackAmount ?? tracks.length
+        } tracks`}
+      />
       <ListItemSecondaryAction>
         <SpotifyIFrameWrapper id={id} type="playlist">
           {(onClick) => (
