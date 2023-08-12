@@ -50,16 +50,25 @@ export const SortMenu = () => {
               <ClickAwayListener onClickAway={() => setOpen(false)}>
                 <MenuList dense>
                   <MenuItem disabled>Group by</MenuItem>
-                  {Object.entries(SortOptionNames).map(([key, value]) => (
-                    <MenuItem onClick={onClick(key as SortOption)} key={key}>
-                      {sort === key && (
-                        <ListItemIcon color="inherit">
-                          <CheckIcon />
-                        </ListItemIcon>
-                      )}
-                      <ListItemText inset={sort !== key}>{value}</ListItemText>
-                    </MenuItem>
-                  ))}
+                  {Object.entries(SortOptionNames).map(([key, value]) => {
+                    const selected = sort === key;
+                    return (
+                      <MenuItem
+                        onClick={onClick(key as SortOption)}
+                        key={key}
+                        selected={selected}
+                      >
+                        {selected && (
+                          <ListItemIcon color="inherit">
+                            <CheckIcon />
+                          </ListItemIcon>
+                        )}
+                        <ListItemText inset={sort !== key}>
+                          {value}
+                        </ListItemText>
+                      </MenuItem>
+                    );
+                  })}
                 </MenuList>
               </ClickAwayListener>
             </Paper>
