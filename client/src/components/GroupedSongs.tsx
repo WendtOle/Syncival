@@ -5,12 +5,14 @@ import { ListSubHeader } from "./ListSubHeader";
 import { usePlaylists } from "../hooks/usePlaylists";
 import { useSongs } from "../hooks/useSongs";
 import { useMatchedSongs } from "../hooks/useMatchedSongs";
+import { useContentHeight } from "../hooks/useContentHeight";
 
 export const GroupedSongs = () => {
   const navigate = useNavigate();
   const tracks = useSongs();
   const playlists = usePlaylists();
   const { byPlaylist: groupedSongs } = useMatchedSongs();
+  const maxHeight = useContentHeight();
 
   const sortedGroupedSongs = Object.entries(groupedSongs).sort(
     (a, b) => b[1].length - a[1].length,
@@ -25,7 +27,7 @@ export const GroupedSongs = () => {
           bgcolor: "background.paper",
           position: "relative",
           overflow: "auto",
-          maxHeight: "90vh",
+          maxHeight: maxHeight - 8,
           "& ul": { padding: 0 },
         }}
         subheader={<li />}

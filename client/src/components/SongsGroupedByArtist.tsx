@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { ListSubHeader } from "./ListSubHeader";
 import { useSongs } from "../hooks/useSongs";
 import { useFilteredArtists } from "../hooks/useFilteredArtists";
+import { useContentHeight } from "../hooks/useContentHeight";
 
 export const SongsGroupedByArtist = () => {
   const navigate = useNavigate();
   const filteredArtists = useFilteredArtists();
   const tracks = useSongs();
+  const maxHeight = useContentHeight();
 
   const sortedArtists = filteredArtists.sort(
     (a, b) => b.tracks.length - a.tracks.length,
@@ -22,9 +24,8 @@ export const SongsGroupedByArtist = () => {
         bgcolor: "background.paper",
         position: "relative",
         overflow: "auto",
-        maxHeight: "93vh",
+        maxHeight: maxHeight - 8,
         "& ul": { padding: 0 },
-        //marginTop: 6,
       }}
       subheader={<li />}
     >

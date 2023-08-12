@@ -1,3 +1,4 @@
+import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
 export enum SortOption {
@@ -16,3 +17,5 @@ export const sortAtom = atomWithStorage<SortOption>(
   "groupBy",
   SortOption.DEFAULT,
 );
+
+export const appBarHeightAtom = atom(0);
