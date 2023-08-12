@@ -6,6 +6,7 @@ import { useLineupFetch } from "../hooks/useLineupFetch";
 import { useFetchPlaylists } from "../hooks/useFetchPlaylists";
 import { LoadingSnackbar } from "./LoadingSnackbar";
 import { InformationSnackbar } from "./InformationSnackbar";
+import { ExcludePlaylistScreen } from "./ExludePlaylistScreen";
 
 export const App = () => {
   useLineupFetch();
@@ -14,6 +15,7 @@ export const App = () => {
     <>
       <Routes>
         <Route path={RouteEnum.ARTISTS} element={<ArtistResult />} />
+        <Route path={RouteEnum.EXCLUDE} element={<ExcludePlaylistScreen />} />
       </Routes>
       <InformationSnackbar />
       <LoadingSnackbar />

@@ -4,12 +4,13 @@ import { useState } from "react";
 import { LineupInspectionDialogButton } from "./LineupInspectionDialogButton";
 import { AppBarMenuLineupSection } from "./AppBarMenuLineupSection";
 import { LinueupCreationDialogWrapper } from "./LineupCreationDialogWrapper";
-import { PlaylistDialogButton } from "./PlaylistDialogButton";
 import { CreatePlaylistDialogWrapper } from "./CreatePlaylistDialogWrapper";
+import { useNavigate } from "react-router-dom";
 
 export const AppBarMenu = () => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const navigate = useNavigate();
 
   const onOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -49,11 +50,9 @@ export const AppBarMenu = () => {
             {(onClick) => <MenuItem onClick={onClick}>Add lineup</MenuItem>}
           </LinueupCreationDialogWrapper>
           <Divider />
-          <PlaylistDialogButton onClose={() => {}}>
-            {(onClick) => (
-              <MenuItem onClick={onClick}>Filter playlist</MenuItem>
-            )}
-          </PlaylistDialogButton>
+          <MenuItem onClick={() => navigate("/exclude")}>
+            Filter playlist
+          </MenuItem>
           <CreatePlaylistDialogWrapper>
             {(onClick) => (
               <MenuItem onClick={onClick}>Create playlist</MenuItem>
