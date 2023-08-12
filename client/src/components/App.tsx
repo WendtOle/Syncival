@@ -8,7 +8,6 @@ import { LoadingSnackbar } from "./LoadingSnackbar";
 import { InformationSnackbar } from "./InformationSnackbar";
 import { ArtistScreen } from "./ArtistScreen";
 import { PlaylistScreen } from "./PlaylistScreen";
-import { SongScreen } from "./Song";
 
 export const App = () => {
   useLineupFetch();
@@ -19,7 +18,6 @@ export const App = () => {
         <Route path={RouteEnum.ARTISTS} element={<ArtistResult />} />
         <Route path={RouteEnum.ARTIST} element={<ArtistScreen />} />
         <Route path={RouteEnum.PLAYLIST} element={<PlaylistScreen />} />
-        <Route path={RouteEnum.SONG} element={<SongScreen />} />
       </Routes>
       <InformationSnackbar />
       <LoadingSnackbar />
