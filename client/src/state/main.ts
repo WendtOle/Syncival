@@ -11,7 +11,10 @@ export const playlistSnapShotAtom = atomWithStorage<Record<string, Track[]>>(
   {},
 );
 
-export const excludedPlaylistIdsAtom = atom<string[]>([]);
+export const excludedPlaylistIdsAtom = atomWithStorage<string[]>(
+  "excludedPlaylistIds",
+  [],
+);
 
 export const selectedLineupKeyAtom = atomWithStorage<string | null>(
   "selectedLineup",
