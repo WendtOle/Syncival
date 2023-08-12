@@ -1,12 +1,14 @@
 import { Dialog } from "@mui/material";
 import { useState } from "react";
 
-export const SongDialogWrapper = ({
+export const SpotifyIFrameWrapper = ({
   children,
   id,
+  type,
 }: {
   id: string;
   children: (onClick: () => void) => any;
+  type: "track" | "artist" | "playlist";
 }) => {
   const [open, setOpen] = useState(false);
   return (
@@ -21,7 +23,7 @@ export const SongDialogWrapper = ({
       >
         <iframe
           title={`spotify-snippet-player-${id}`}
-          src={`https://open.spotify.com/embed/track/${id}?utm_source=generator`}
+          src={`https://open.spotify.com/embed/${type}/${id}?utm_source=generator`}
           width="100%"
           height="352"
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"

@@ -2,7 +2,7 @@ import { Artist, TrackV2 } from "../state/types";
 import "./Playlist.css";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import SongIcon from "@mui/icons-material/Audiotrack";
-import { SongDialogWrapper } from "./SongDialogWrapper";
+import { SpotifyIFrameWrapper } from "./SpotifyIFrameWrapper";
 
 export const SongItem = ({
   id,
@@ -21,7 +21,7 @@ export const SongItem = ({
     );
   };
   return (
-    <SongDialogWrapper id={id}>
+    <SpotifyIFrameWrapper id={id} type="track">
       {(onClick) => (
         <ListItemButton key={id} onClick={onClick}>
           <ListItemIcon>
@@ -30,6 +30,6 @@ export const SongItem = ({
           <ListItemText primary={name} secondary={secondary()} />
         </ListItemButton>
       )}
-    </SongDialogWrapper>
+    </SpotifyIFrameWrapper>
   );
 };

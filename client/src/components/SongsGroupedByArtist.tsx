@@ -1,13 +1,12 @@
 import { List } from "@mui/material";
 import { SongItem } from "./SongItem";
-import { useNavigate } from "react-router-dom";
 import { ListSubHeader } from "./ListSubHeader";
 import { useSongs } from "../hooks/useSongs";
 import { useFilteredArtists } from "../hooks/useFilteredArtists";
 import { useContentHeight } from "../hooks/useContentHeight";
+import { SpotifyIFrameWrapper } from "./SpotifyIFrameWrapper";
 
 export const SongsGroupedByArtist = () => {
-  const navigate = useNavigate();
   const filteredArtists = useFilteredArtists();
   const tracks = useSongs();
   const maxHeight = useContentHeight();
@@ -32,10 +31,9 @@ export const SongsGroupedByArtist = () => {
       {sortedArtists.map(({ id, name, tracks: artistTracks }) => (
         <li key={`section-${id}`}>
           <ul>
-            <ListSubHeader
-              onClick={() => navigate(`/artist/${id}`)}
-              name={name}
-            />
+            <SpotifyIFrameWrapper id={id} type="artist">
+              {(onClick) => <ListSubHeader onClick={onClick} name={name} />}
+            </SpotifyIFrameWrapper>
             {artistTracks
               .map((id) => tracks[id as any])
               .sort((a, b) => a.name.localeCompare(b.name))
