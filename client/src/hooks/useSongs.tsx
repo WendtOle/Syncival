@@ -1,16 +1,21 @@
-import { Track } from "../state/types";
+import { useMemo } from "react";
+import { Playlist, Track } from "../state/types";
 import { usePlaylists } from "./usePlaylists";
 
-export const useSongs = () => {
-  const { selected: playlists } = usePlaylists();
-  const tracks = Object.values(playlists)
-    .map(({ tracks }) => tracks)
-    .flat();
-  return tracks.reduce(
-    (prev, track) => {
-      prev[track.id] = track;
+export const getSongsFromPlaylists = (playlists: Playlist[]) => {
+  return playlists.reduce(
+    (prev, { tracks }) => {
+      tracks.forEach((track) => (prev[track.id] = track));
       return prev;
     },
     {} as Record<string, Track>,
+  );
+};
+
+export const useSongs = () => {
+  const { selected } = usePlaylists();
+  return useMemo(
+    () => getSongsFromPlaylists(Object.values(selected)),
+    [selected],
   );
 };

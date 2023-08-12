@@ -4,15 +4,16 @@ import {
   excludedPlaylistIdsAtom,
 } from "../state/main";
 
-export enum CheckboxState {
-  OFF,
-  INTERMEDIATE,
-  ON,
+export enum ExclusionState {
+  NONE,
+  SOME,
+  ALL,
 }
 
-export const useToggleFollowedPlaylists = (): {
-  state: CheckboxState;
-  toggle: () => void;
+export const usePlaylistExclusion = (): {
+  state: ExclusionState;
+  excludeFollowed: () => void;
+  includeAll: () => void;
 } => {
   const playlists = useAtomValue(playlistInformationAtom);
   const [excludedPlaylistId, setExcludedPlaylistId] = useAtom(
@@ -27,27 +28,19 @@ export const useToggleFollowedPlaylists = (): {
     excludedPlaylistId.includes(id),
   );
 
-  const allPublicToggledOn = followedPlaylists.every(
-    ({ id }) => !excludedPlaylistId.includes(id),
-  );
-
-  const togglePublic = () => {
+  const exclude = () => {
     const foreignPlaylistsIds = followedPlaylists.map(({ id }) => id);
-    if (foreignPlaylistsIds.every((id) => excludedPlaylistId.includes(id))) {
-      setExcludedPlaylistId((cur) =>
-        cur.filter((id) => !foreignPlaylistsIds.includes(id)),
-      );
-      return;
-    }
     setExcludedPlaylistId((cur) => [...cur, ...foreignPlaylistsIds]);
   };
 
   return {
-    state: allPublicToggledOff
-      ? CheckboxState.OFF
-      : allPublicToggledOn
-      ? CheckboxState.ON
-      : CheckboxState.INTERMEDIATE,
-    toggle: togglePublic,
+    state:
+      excludedPlaylistId.length === 0
+        ? ExclusionState.NONE
+        : allPublicToggledOff
+        ? ExclusionState.ALL
+        : ExclusionState.SOME,
+    excludeFollowed: exclude,
+    includeAll: () => setExcludedPlaylistId([]),
   };
 };
