@@ -6,7 +6,6 @@ import { playlistInformationAtom, playlistSnapShotAtom } from "../state/main";
 import { useEffect } from "react";
 import { getPlaylistTracks } from "../provider/songs";
 import { toRecord } from "../util/toRecord";
-import { useLineups } from "./useLineups";
 
 export const LIKED_SONGS_PLAYLIST_ID = "liked_songs";
 export const likedSongsPlaylist: PlaylistInformation = {
@@ -21,10 +20,9 @@ export const useFetchPlaylists = async () => {
   const accessToken = useAtomValue(accessTokenAtom);
   const [playlists, setPlaylists] = useAtom(playlistInformationAtom);
   const [snapShotIds, setSnapShotIds] = useAtom(playlistSnapShotAtom);
-  const {lineups} = useLineups();
 
   useEffect(() => {
-    if (!accessToken || lineups.length === 0) {
+    if (!accessToken) {
       return;
     }
     const something = async () => {
@@ -55,7 +53,7 @@ export const useFetchPlaylists = async () => {
       });
     };
     something();
-  }, [lineups, accessToken]); //eslint-disable-line react-hooks/exhaustive-deps
+  }, [accessToken, setPlaylists]);
 
   useEffect(() => {
     if (Object.keys(playlists).length === 0) {
