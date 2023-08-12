@@ -3,17 +3,14 @@ import {
   Toolbar,
   Typography,
   IconButton,
-  Menu,
 } from "@mui/material";
-import { useState } from "react";
 import { AppBarMenu } from "./AppBarMenu";
 import SortIcon from "@mui/icons-material/Sort";
-import { SortMenu } from "./SortMenu";
+import { SortMenuWrapper } from "./SortMenu";
 import { useLineups } from "../hooks/useLineups";
 
 export const AppBar = () => {
   const { selected } = useLineups();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   return (
     <>
       <MuiAppBar position="sticky">
@@ -26,30 +23,16 @@ export const AppBar = () => {
           >
             {selected?.name ?? "No lineup selected"}
           </Typography>
-          <IconButton
-            color="inherit"
-            onClick={(e) => setAnchorEl(e.currentTarget)}
-          >
-            <SortIcon />
-          </IconButton>
+          <SortMenuWrapper>
+            {(onClick) => (
+              <IconButton color="inherit" onClick={onClick}>
+                <SortIcon />
+              </IconButton>
+            )}
+          </SortMenuWrapper>
           <AppBarMenu />
         </Toolbar>
       </MuiAppBar>
-      <Menu
-        open={anchorEl !== null}
-        onClose={() => setAnchorEl(null)}
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-      >
-        <SortMenu />
-      </Menu>
     </>
   );
 };
