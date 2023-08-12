@@ -6,7 +6,7 @@ import { Playlist } from "../state/types";
 export const usePlaylist = (
   id: string,
 ): { playlist: Playlist & { excluded: boolean }; exclude: () => void } => {
-  const playlists = usePlaylists();
+  const { all: playlists } = usePlaylists();
   const playlist = playlists[id as any];
   const [excludedPlaylistId, setExcludedPlaylistId] = useAtom(
     excludedPlaylistIdsAtom,

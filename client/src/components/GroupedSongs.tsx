@@ -9,7 +9,7 @@ import { SpotifyIFrameWrapper } from "./SpotifyIFrameWrapper";
 
 export const GroupedSongs = () => {
   const tracks = useSongs();
-  const playlists = usePlaylists();
+  const { selected: playlists } = usePlaylists();
   const { byPlaylist: groupedSongs } = useMatchedSongs();
   const maxHeight = useContentHeight();
 

@@ -2,7 +2,7 @@ import { Track } from "../state/types";
 import { usePlaylists } from "./usePlaylists";
 
 export const useSongs = () => {
-  const playlists = usePlaylists();
+  const { selected: playlists } = usePlaylists();
   const tracks = Object.values(playlists)
     .map(({ tracks }) => tracks)
     .flat();

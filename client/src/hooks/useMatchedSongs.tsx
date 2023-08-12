@@ -8,7 +8,7 @@ export const useMatchedSongs = (): {
   byPlaylist: Record<string, string[]>;
 } => {
   const filteredArtists = useFilteredArtists();
-  const playlists = usePlaylists();
+  const { selected: playlists } = usePlaylists();
   const filteredArtistIds = filteredArtists.map((artist) => artist.id);
   const matchedSongs = [
     ...new Set(filteredArtists.map(({ tracks }) => tracks).flat()),
