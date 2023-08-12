@@ -2,6 +2,7 @@ import { useSetAtom, useAtom } from "jotai";
 import { lineupsAtom } from "../state/lineups";
 import { informationToastAtom, selectedLineupKeyAtom } from "../state/main";
 import { Lineup as ActualLineup } from "../state/types";
+import { useMemo } from "react";
 
 interface Lineup {
   key: string;
@@ -21,6 +22,14 @@ export const useLineups = (): {
   const [selectedLineupKey, setSelectedLineupKey] = useAtom(
     selectedLineupKeyAtom,
   );
+
+  const adjustedLineups = useMemo(() => lineups.map(({ key, name }) => ({
+    key,
+    name,
+    selected: selectedLineupKey === key,
+  })), [selectedLineupKey, lineups])
+
+  const selected = useMemo(() => lineups.find(({ key }) => key === selectedLineupKey), [lineups, selectedLineupKey])
 
   const select = (key: string) => {
     setSelectedLineupKey(key);
@@ -45,14 +54,10 @@ export const useLineups = (): {
   };
 
   return {
-    lineups: lineups.map(({ key, name }) => ({
-      key,
-      name,
-      selected: selectedLineupKey === key,
-    })),
+    lineups: adjustedLineups,
     select,
     deleteSelected,
-    selected: lineups.find(({ key }) => key === selectedLineupKey),
+    selected,
     add
   };
 };
