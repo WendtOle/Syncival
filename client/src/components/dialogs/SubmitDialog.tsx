@@ -4,16 +4,20 @@ import { useState } from "react";
 export const SubmitDialog = ({
   children,
   onSubmit,
+  title,
+  submitText,
 }: {
   children: (onClick: () => void) => any;
   onSubmit: () => void;
+  title: string;
+  submitText: string;
 }) => {
   const [open, setOpen] = useState(false);
   return (
     <>
       {children(() => setOpen(true))}
       <Dialog open={open}>
-        <DialogTitle>Abort lineup creation?</DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>
           <Button
@@ -22,7 +26,7 @@ export const SubmitDialog = ({
               onSubmit();
             }}
           >
-            Abort
+            {submitText}
           </Button>
         </DialogActions>
       </Dialog>

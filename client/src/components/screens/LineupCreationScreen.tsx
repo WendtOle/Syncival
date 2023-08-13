@@ -28,7 +28,11 @@ export const LinueupCreationScreen = () => {
   const navigateBack = () => navigate(-1);
 
   const abortButton = canAddLineup ? (
-    <SubmitDialog onSubmit={navigateBack}>
+    <SubmitDialog
+      onSubmit={navigateBack}
+      title="Abort lineup creation?"
+      submitText="Abort"
+    >
       {(onClick) => (
         <IconButton color="inherit" onClick={onClick}>
           <ClearIcon />
