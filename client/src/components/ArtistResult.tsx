@@ -39,7 +39,6 @@ export const ArtistResult = () => {
         {sort === SortOption.ARTISTS && <SongsGroupedByArtist />}
         {sort === SortOption.PLAYLISTS && <GroupedSongs />}
       </div>
-      <ExlusionSnackbar />
     </>
   );
 };

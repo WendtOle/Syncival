@@ -1,12 +1,10 @@
 import { Alert, CircularProgress, Snackbar } from "@mui/material";
 import { useIsLoading } from "../hooks/useIsLoading";
-import { useExcludedSnackbarOpen } from "../hooks/useExcludedSnackbarOpen";
 
 export const LoadingSnackbar = () => {
   const open = useIsLoading();
-  const { isOpen: exclusionSnackbarOpen } = useExcludedSnackbarOpen();
 
-  const bottom = exclusionSnackbarOpen ? "64px" : "8px";
+  const bottom = "8px";
   return (
     <Snackbar
       open={open}

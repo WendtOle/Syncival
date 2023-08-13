@@ -3,12 +3,10 @@ import { useIsLoading } from "../hooks/useIsLoading";
 import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import { informationToastAtom } from "../state/main";
-import { useExcludedSnackbarOpen } from "../hooks/useExcludedSnackbarOpen";
 
 export const InformationSnackbar = () => {
   const [informationToast, setInformationToast] = useAtom(informationToastAtom);
   const loadingSnackbarOpen = useIsLoading();
-  const { isOpen: excludedSnackbarOpen } = useExcludedSnackbarOpen();
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -24,12 +22,7 @@ export const InformationSnackbar = () => {
     setInformationToast(null);
   };
 
-  const bottom =
-    loadingSnackbarOpen && excludedSnackbarOpen
-      ? "120px"
-      : loadingSnackbarOpen || excludedSnackbarOpen
-      ? "64px"
-      : "8px";
+  const bottom = loadingSnackbarOpen ? "64px" : "8px";
 
   return (
     <Snackbar
