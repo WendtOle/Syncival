@@ -3,9 +3,9 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
 import { LineupInspectionDialogButton } from "./LineupInspectionDialogButton";
 import { AppBarMenuLineupSection } from "./AppBarMenuLineupSection";
-import { LinueupCreationDialogWrapper } from "./LineupCreationDialogWrapper";
 import { CreatePlaylistDialogWrapper } from "./CreatePlaylistDialogWrapper";
 import { useNavigate } from "react-router-dom";
+import { RouteEnum } from "../state/types";
 
 export const AppBarMenu = () => {
   const [open, setOpen] = useState(false);
@@ -46,11 +46,11 @@ export const AppBarMenu = () => {
           <LineupInspectionDialogButton>
             {(onClick) => <MenuItem onClick={onClick}>Inspect lineup</MenuItem>}
           </LineupInspectionDialogButton>
-          <LinueupCreationDialogWrapper>
-            {(onClick) => <MenuItem onClick={onClick}>Add lineup</MenuItem>}
-          </LinueupCreationDialogWrapper>
+          <MenuItem onClick={() => navigate(RouteEnum.LINEUP)}>
+            Add lineup
+          </MenuItem>
           <Divider />
-          <MenuItem onClick={() => navigate("/exclude")}>
+          <MenuItem onClick={() => navigate(RouteEnum.EXCLUDE)}>
             Filter playlist
           </MenuItem>
           <CreatePlaylistDialogWrapper>

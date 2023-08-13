@@ -1,4 +1,5 @@
 import {
+  Box,
   IconButton,
   AppBar as MuiAppBar,
   Toolbar,
@@ -13,10 +14,16 @@ import { useNavigate } from "react-router-dom";
 interface AppBarProps {
   title: string;
   showBackButton?: boolean;
+  customNavigationButton?: JSX.Element;
   children?: any;
 }
 
-export const AppBar = ({ title, children, showBackButton }: AppBarProps) => {
+export const AppBar = ({
+  title,
+  children,
+  showBackButton,
+  customNavigationButton,
+}: AppBarProps) => {
   const navigate = useNavigate();
   const appBarRef = useRef<any>(null);
   const setAppBarHeight = useSetAtom(appBarHeightAtom);
@@ -39,15 +46,15 @@ export const AppBar = ({ title, children, showBackButton }: AppBarProps) => {
     <>
       <MuiAppBar position="sticky" ref={appBarRef}>
         <Toolbar sx={{ justifyContent: "space-between" }}>
-          {showBackButton && (
-            <IconButton
-              color="inherit"
-              onClick={() => navigate(-1)}
-              sx={{ marginRight: 1 }}
-            >
-              <BackIcon />
-            </IconButton>
-          )}
+          <Box sx={{ marginRight: 1 }}>
+            {customNavigationButton}
+            {!customNavigationButton && showBackButton && (
+              <IconButton color="inherit" onClick={() => navigate(-1)}>
+                <BackIcon />
+              </IconButton>
+            )}
+          </Box>
+
           <Typography
             variant="h6"
             component="div"
