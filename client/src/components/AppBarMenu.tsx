@@ -1,7 +1,6 @@
 import { Divider, IconButton, Menu, MenuItem, MenuList } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
-import { LineupInspectionDialogButton } from "./LineupInspectionDialogButton";
 import { AppBarMenuLineupSection } from "./AppBarMenuLineupSection";
 import { CreatePlaylistDialogWrapper } from "./CreatePlaylistDialogWrapper";
 import { useNavigate } from "react-router-dom";
@@ -43,10 +42,10 @@ export const AppBarMenu = () => {
         <MenuList dense disablePadding>
           <AppBarMenuLineupSection />
           <Divider />
-          <LineupInspectionDialogButton>
-            {(onClick) => <MenuItem onClick={onClick}>Inspect lineup</MenuItem>}
-          </LineupInspectionDialogButton>
           <MenuItem onClick={() => navigate(RouteEnum.LINEUP)}>
+            Inspect lineup
+          </MenuItem>
+          <MenuItem onClick={() => navigate(RouteEnum.NEW_LINEUP)}>
             Add lineup
           </MenuItem>
           <Divider />

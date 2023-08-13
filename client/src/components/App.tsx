@@ -8,6 +8,7 @@ import { LoadingSnackbar } from "./LoadingSnackbar";
 import { InformationSnackbar } from "./InformationSnackbar";
 import { ExcludePlaylistScreen } from "./ExludePlaylistScreen";
 import { LinueupCreationScreen } from "./screens/LineupCreationScreen";
+import { LineupInspectionScreen } from "./screens/LineupInspectionScreen";
 
 export const App = () => {
   useLineupFetch();
@@ -17,6 +18,10 @@ export const App = () => {
       <Routes>
         <Route path={RouteEnum.ARTISTS} element={<ArtistResult />} />
         <Route path={RouteEnum.EXCLUDE} element={<ExcludePlaylistScreen />} />
+        <Route
+          path={RouteEnum.NEW_LINEUP}
+          element={<LinueupCreationScreen />}
+        />
         <Route path={RouteEnum.LINEUP} element={<LineupInspectionScreen />} />
       </Routes>
       <InformationSnackbar />

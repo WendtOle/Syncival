@@ -70,5 +70,6 @@ export interface Lineup {
 export enum RouteEnum {
   ARTISTS = "/",
   EXCLUDE = "/exclude",
+  LINEUP = "/lineup",
   NEW_LINEUP = "/add",
 }
