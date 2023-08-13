@@ -76,7 +76,7 @@ export const AppBar = ({
               </>
             )}
           </Typography>
-          <SpotifyLogo size={24} />
+          <SpotifyLogo size={24} variant="black" />
           {children}
         </Toolbar>
         {isLoading && <LinearProgress color="primary" />}
