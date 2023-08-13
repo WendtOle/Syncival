@@ -50,8 +50,12 @@ export const AppBar = ({
 
   return (
     <>
-      <MuiAppBar position="sticky" ref={appBarRef}>
-        <Toolbar sx={{ justifyContent: "space-between", alignItems: "bace " }}>
+      <MuiAppBar
+        position="sticky"
+        ref={appBarRef}
+        sx={{ "&.MuiAppBar-root": { boxShadow: "none" } }}
+      >
+        <Toolbar sx={{ justifyContent: "space-between" }}>
           <Box sx={{ marginRight: 1 }}>
             {customNavigationButton}
             {!customNavigationButton && showBackButton && (
