@@ -24,15 +24,12 @@ export const InformationSnackbar = () => {
     setInformationToast(null);
   };
 
-  console.log({ loadingSnackbarOpen, excludedSnackbarOpen });
-
   const bottom =
     loadingSnackbarOpen && excludedSnackbarOpen
       ? "120px"
       : loadingSnackbarOpen || excludedSnackbarOpen
       ? "64px"
       : "8px";
-  console.log({ bottom });
 
   return (
     <Snackbar
