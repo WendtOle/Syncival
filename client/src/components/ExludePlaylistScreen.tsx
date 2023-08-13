@@ -2,7 +2,7 @@ import { useExcludedInfo } from "../hooks/useExcludedInfo";
 import { AppBar } from "./AppBar";
 import { Playlists } from "./Playlists";
 import { ExcludedPlaylistDialog } from "./ExcludedPlaylistDialog";
-import { ExcludeMenu } from "../hooks/ExcludeMenu";
+import { ExcludeMenu } from "./ExcludeMenu";
 
 export const ExcludePlaylistScreen = () => {
   const { playlists } = useExcludedInfo();

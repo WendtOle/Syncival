@@ -1,7 +1,10 @@
 import { IconButton, Menu, MenuItem, MenuList } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
-import { ExclusionState, usePlaylistExclusion } from "./usePlaylistExclusion";
+import {
+  ExclusionState,
+  usePlaylistExclusion,
+} from "../hooks/usePlaylistExclusion";
 
 export const ExcludeMenu = () => {
   const [open, setOpen] = useState(false);
