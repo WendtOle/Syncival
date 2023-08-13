@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 interface AppBarProps {
   title: string;
+  shortTitle?: string;
   showBackButton?: boolean;
   customNavigationButton?: JSX.Element;
   children?: any;
@@ -20,6 +21,7 @@ interface AppBarProps {
 
 export const AppBar = ({
   title,
+  shortTitle,
   children,
   showBackButton,
   customNavigationButton,
@@ -61,7 +63,14 @@ export const AppBar = ({
             color="inherit"
             sx={{ flexGrow: 1, fontWeight: 400, letterSpacing: -0.5 }}
           >
-            {title}
+            {!shortTitle ? (
+              <div>{title}</div>
+            ) : (
+              <>
+                <Box sx={{ display: { sm: "none" } }}>{shortTitle}</Box>
+                <Box sx={{ display: { xs: "none", sm: "block" } }}>{title}</Box>
+              </>
+            )}
           </Typography>
           {children}
         </Toolbar>
