@@ -1,6 +1,7 @@
 import {
   Box,
   IconButton,
+  LinearProgress,
   AppBar as MuiAppBar,
   Toolbar,
   Typography,
@@ -10,6 +11,7 @@ import { useSetAtom } from "jotai";
 import { appBarHeightAtom } from "../state/ui";
 import BackIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate } from "react-router-dom";
+import { useIsLoading } from "../hooks/useIsLoading";
 
 interface AppBarProps {
   title: string;
@@ -28,6 +30,7 @@ export const AppBar = ({
 }: AppBarProps) => {
   const navigate = useNavigate();
   const appBarRef = useRef<any>(null);
+  const isLoading = useIsLoading();
   const setAppBarHeight = useSetAtom(appBarHeightAtom);
 
   useEffect(() => {
@@ -74,6 +77,7 @@ export const AppBar = ({
           </Typography>
           {children}
         </Toolbar>
+        {isLoading && <LinearProgress color="primary" />}
       </MuiAppBar>
     </>
   );

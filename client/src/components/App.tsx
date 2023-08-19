@@ -4,7 +4,6 @@ import { Route, Routes } from "react-router-dom";
 import { RouteEnum } from "../state/types";
 import { useLineupFetch } from "../hooks/useLineupFetch";
 import { useFetchPlaylists } from "../hooks/useFetchPlaylists";
-import { LoadingSnackbar } from "./LoadingSnackbar";
 import { InformationSnackbar } from "./InformationSnackbar";
 import { ExcludePlaylistScreen } from "./ExludePlaylistScreen";
 import { LinueupCreationScreen } from "./screens/LineupCreationScreen";
@@ -25,7 +24,6 @@ export const App = () => {
         <Route path={RouteEnum.LINEUP} element={<LineupInspectionScreen />} />
       </Routes>
       <InformationSnackbar />
-      <LoadingSnackbar />
     </>
   );
 };
