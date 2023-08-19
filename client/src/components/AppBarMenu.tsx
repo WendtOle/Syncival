@@ -42,7 +42,7 @@ export const AppBarMenu = () => {
         }}
       >
         <MenuList dense disablePadding>
-          <AppBarMenuLineupSection />
+          <AppBarMenuLineupSection onSelect={onClose} />
           <Divider />
           <MenuItem onClick={() => navigate(RouteEnum.LINEUP)}>
             Inspect lineup
