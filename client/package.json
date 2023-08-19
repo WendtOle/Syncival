@@ -27,7 +27,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format-lint": "npx prettier --write . && eslint . --ext .js,.jsx,.ts,.tsx"
+    "format-lint": "npx prettier --log-level=warn --write . && eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "eslintConfig": {
     "extends": [
