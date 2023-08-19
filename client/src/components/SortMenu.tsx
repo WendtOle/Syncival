@@ -10,7 +10,7 @@ import { useAtom } from "jotai";
 import { SortOption, SortOptionNames, sortAtom } from "../state/ui";
 import CheckIcon from "@mui/icons-material/Check";
 import { useState } from "react";
-import SortIcon from "@mui/icons-material/Sort";
+import { SettingsIcon } from "./Icons";
 
 export const SortMenu = () => {
   const [sort, setSort] = useAtom(sortAtom);
@@ -27,7 +27,7 @@ export const SortMenu = () => {
   return (
     <>
       <IconButton color="inherit" onClick={(e) => setAnchorEl(e.currentTarget)}>
-        <SortIcon />
+        <SettingsIcon />
       </IconButton>
       <Menu
         open={anchorEl !== null}
@@ -43,7 +43,6 @@ export const SortMenu = () => {
         }}
       >
         <MenuList dense disablePadding>
-          <MenuItem disabled>Group by</MenuItem>
           {Object.entries(SortOptionNames).map(([key, value]) => {
             const selected = sort === key;
             return (

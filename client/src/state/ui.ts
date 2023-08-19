@@ -8,9 +8,9 @@ export enum SortOption {
 }
 
 export const SortOptionNames: Record<SortOption, string> = {
-  [SortOption.DEFAULT]: "None",
-  [SortOption.ARTISTS]: "Artists",
-  [SortOption.PLAYLISTS]: "Playlists",
+  [SortOption.DEFAULT]: "Show all songs",
+  [SortOption.ARTISTS]: "Group by artist",
+  [SortOption.PLAYLISTS]: "Group by playlist",
 };
 
 export const sortAtom = atomWithStorage<SortOption>(
