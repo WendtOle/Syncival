@@ -7,8 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useRef } from "react";
-import { useSetAtom } from "jotai";
-import { appBarHeightAtom } from "../state/ui";
+import { useAtomValue, useSetAtom } from "jotai";
+import { appBarHeightAtom, scrolledAtom } from "../state/ui";
 import BackIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate } from "react-router-dom";
 import { useIsLoading } from "../hooks/useIsLoading";
@@ -33,6 +33,7 @@ export const AppBar = ({
   const appBarRef = useRef<any>(null);
   const isLoading = useIsLoading();
   const setAppBarHeight = useSetAtom(appBarHeightAtom);
+  const isScrolled = useAtomValue(scrolledAtom)
 
   useEffect(() => {
     const handleResize = () => {
@@ -53,6 +54,7 @@ export const AppBar = ({
       <MuiAppBar
         position="sticky"
         ref={appBarRef}
+        style={{backgroundColor: isScrolled ? "#fff9c4" : "white", transition: "background-color 0.7s ease"}}
         sx={{ "&.MuiAppBar-root": { boxShadow: "none" } }}
       >
         <Toolbar sx={{ justifyContent: "space-between" }}>

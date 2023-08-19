@@ -19,5 +19,6 @@ export const sortAtom = atomWithStorage<SortOption>(
 );
 
 export const appBarHeightAtom = atom(0);
+export const scrolledAtom = atom(false);
 
 export const spotifyTrackIdAtom = atom<string | null>(null);
