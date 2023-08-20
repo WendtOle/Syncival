@@ -112,13 +112,20 @@ app.get('/playlists', async (req: any, res: any) => {
         const userId = await getUserId()
         
         const playlists = await spotifyApi.getUserPlaylists({limit: 50, offset: page * 50})
-        const processedPlaylists = playlists.body.items.map((playlist: SpotifyApi.PlaylistObjectSimplified) => ({
+        const processedPlaylists = playlists.body.items.map((playlist: SpotifyApi.PlaylistObjectSimplified) => {
+            const image = playlist.images.reduce((smallest: any, image: any) => {
+                if (image.height < smallest.height) return image
+                return smallest
+            }, playlist.images[0])
+            return ({
                 name: playlist.name,
                 id: playlist.id,
                 isOwn: playlist.owner.id === userId,
                 trackAmount: playlist.tracks.total,
                 snapShotId: playlist.snapshot_id,
-            }))
+                imageUrl: image?.url
+            });
+        })
         res.send(toRecord(processedPlaylists, (playlist) => playlist.id));
         return
     } catch (err: any) {

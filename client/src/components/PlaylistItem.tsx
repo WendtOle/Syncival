@@ -8,6 +8,7 @@ import {
 import { usePlaylist } from "../hooks/usePlaylist";
 import { InfoIcon } from "./Icons";
 import { SpotifyIFrameWrapper } from "./SpotifyIFrameWrapper";
+import { CoverArt } from "./CoverArt";
 
 export const PlaylistItem = ({ id }: { id: string }) => {
   const { playlist, exclude } = usePlaylist(id);
@@ -16,7 +17,7 @@ export const PlaylistItem = ({ id }: { id: string }) => {
     return <CircularProgress />;
   }
 
-  const { name, trackAmount, excluded, tracks, isOwn } = playlist;
+  const { name, trackAmount, excluded, tracks, isOwn, imageUrl } = playlist;
 
   return (
     <ListItemButton
@@ -27,13 +28,15 @@ export const PlaylistItem = ({ id }: { id: string }) => {
           ? { backgroundColor: "whiteSmoke", textDecoration: "line-through" }
           : {}
       }
-      sx={{ pl: 4 }}
+      sx={{ paddingTop: 1, paddingBottom: 1 }}
     >
+      <CoverArt imageUrl={imageUrl} />
       <ListItemText
         primary={name}
         secondary={`${isOwn ? "Own" : "Followed"} - ${
           trackAmount ?? tracks.length
         } tracks`}
+        sx={{ marginLeft: 2 }}
       />
       <ListItemSecondaryAction>
         <SpotifyIFrameWrapper id={id} type="playlist">
@@ -43,8 +46,9 @@ export const PlaylistItem = ({ id }: { id: string }) => {
                 e.stopPropagation();
                 onClick();
               }}
+              disabled={id === "liked_songs"}
             >
-              <InfoIcon color="info" />
+              <InfoIcon />
             </IconButton>
           )}
         </SpotifyIFrameWrapper>
