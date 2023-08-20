@@ -1,10 +1,11 @@
-import { Box, IconButton, List, ListItem, ListItemText } from "@mui/material";
+import { Box, IconButton, ListItem, ListItemText } from "@mui/material";
 import { useLineups } from "../../hooks/useLineups";
 import { AppBar } from "../AppBar";
 import { DeleteIcon } from "../Icons";
 import { SubmitDialog } from "../dialogs/SubmitDialog";
 import { useNavigate } from "react-router-dom";
 import { LineupInspectionInformationDialog } from "../dialogs/LineupInspectionInformationDialog";
+import { List } from "../List";
 
 export const LineupInspectionScreen = () => {
   const { deleteSelected, selected } = useLineups();
@@ -41,7 +42,7 @@ export const LineupInspectionScreen = () => {
           <LineupInspectionInformationDialog />
         </Box>
       </AppBar>
-      <List dense>
+      <List>
         {(selected?.artists ?? [])
           .sort((a, b) => (a > b ? 1 : -1))
           .map((artist, index) => (
