@@ -16,36 +16,34 @@ export const GroupedSongs = () => {
   );
 
   return (
-    <>
-      <List>
-        {sortedGroupedSongs
-          .map(([playlist]) => playlist)
-          .map((playlist) => (
-            <li key={`section-${playlist}`}>
-              <ul>
-                <SpotifyIFrameWrapper id={playlist} type="playlist">
-                  {(onClick) => (
-                    <ListSubHeader
-                      onClick={onClick}
-                      name={playlists[playlist].name}
+    <List>
+      {sortedGroupedSongs
+        .map(([playlist]) => playlist)
+        .map((playlist) => (
+          <li key={`section-${playlist}`}>
+            <ul>
+              <SpotifyIFrameWrapper id={playlist} type="playlist">
+                {(onClick) => (
+                  <ListSubHeader
+                    onClick={onClick}
+                    name={playlists[playlist].name}
+                  />
+                )}
+              </SpotifyIFrameWrapper>
+              {groupedSongs[playlist]
+                .map((id) => tracks[id])
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((song, index) => {
+                  return (
+                    <SongItem
+                      key={`${playlist}-${song.id}-${index}`}
+                      {...song}
                     />
-                  )}
-                </SpotifyIFrameWrapper>
-                {groupedSongs[playlist]
-                  .map((id) => tracks[id])
-                  .sort((a, b) => a.name.localeCompare(b.name))
-                  .map((song, index) => {
-                    return (
-                      <SongItem
-                        key={`${playlist}-${song.id}-${index}`}
-                        {...song}
-                      />
-                    );
-                  })}
-              </ul>
-            </li>
-          ))}
-      </List>
-    </>
+                  );
+                })}
+            </ul>
+          </li>
+        ))}
+    </List>
   );
 };
