@@ -12,6 +12,7 @@ import { appBarHeightAtom } from "../state/ui";
 import BackIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate } from "react-router-dom";
 import { useIsLoading } from "../hooks/useIsLoading";
+import { SpotifyLogo } from "../SpotifyLogo";
 
 interface AppBarProps {
   title: string;
@@ -50,7 +51,7 @@ export const AppBar = ({
   return (
     <>
       <MuiAppBar position="sticky" ref={appBarRef}>
-        <Toolbar sx={{ justifyContent: "space-between" }}>
+        <Toolbar sx={{ justifyContent: "space-between", alignItems: "bace " }}>
           <Box sx={{ marginRight: 1 }}>
             {customNavigationButton}
             {!customNavigationButton && showBackButton && (
@@ -75,6 +76,7 @@ export const AppBar = ({
               </>
             )}
           </Typography>
+          <SpotifyLogo size={24} />
           {children}
         </Toolbar>
         {isLoading && <LinearProgress color="primary" />}
