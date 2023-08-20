@@ -38,21 +38,22 @@ export const PlaylistItem = ({ id }: { id: string }) => {
         } tracks`}
         sx={{ marginLeft: 2 }}
       />
-      <ListItemSecondaryAction>
-        <SpotifyIFrameWrapper id={id} type="playlist">
-          {(onClick) => (
-            <IconButton
-              onClick={(e) => {
-                e.stopPropagation();
-                onClick();
-              }}
-              disabled={id === "liked_songs"}
-            >
-              <InfoIcon />
-            </IconButton>
-          )}
-        </SpotifyIFrameWrapper>
-      </ListItemSecondaryAction>
+      {id !== "liked_songs" && tracks.length > 0 && (
+        <ListItemSecondaryAction>
+          <SpotifyIFrameWrapper id={id} type="playlist">
+            {(onClick) => (
+              <IconButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClick();
+                }}
+              >
+                <InfoIcon />
+              </IconButton>
+            )}
+          </SpotifyIFrameWrapper>
+        </ListItemSecondaryAction>
+      )}
     </ListItemButton>
   );
 };
