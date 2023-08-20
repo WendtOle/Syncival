@@ -1,17 +1,15 @@
-import { List } from "@mui/material";
 import { SongItem } from "./SongItem";
 import { ListSubHeader } from "./ListSubHeader";
 import { usePlaylists } from "../hooks/usePlaylists";
 import { useSongs } from "../hooks/useSongs";
 import { useMatchedSongs } from "../hooks/useMatchedSongs";
-import { useContentHeight } from "../hooks/useContentHeight";
 import { SpotifyIFrameWrapper } from "./SpotifyIFrameWrapper";
+import { List } from "./List";
 
 export const GroupedSongs = () => {
   const tracks = useSongs();
   const { selected: playlists } = usePlaylists();
   const { byPlaylist: groupedSongs } = useMatchedSongs();
-  const maxHeight = useContentHeight();
 
   const sortedGroupedSongs = Object.entries(groupedSongs).sort(
     (a, b) => b[1].length - a[1].length,
@@ -19,18 +17,7 @@ export const GroupedSongs = () => {
 
   return (
     <>
-      <List
-        dense
-        sx={{
-          width: "100%",
-          bgcolor: "background.paper",
-          position: "relative",
-          overflow: "auto",
-          maxHeight: maxHeight - 8,
-          "& ul": { padding: 0 },
-        }}
-        subheader={<li />}
-      >
+      <List>
         {sortedGroupedSongs
           .map(([playlist]) => playlist)
           .map((playlist) => (

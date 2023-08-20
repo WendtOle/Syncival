@@ -1,24 +1,13 @@
-import { List } from "@mui/material";
 import { useMatchedSongs } from "../hooks/useMatchedSongs";
+import { List } from "./List";
 import { SongItem } from "./SongItem";
-import { useContentHeight } from "../hooks/useContentHeight";
 
 export const SongsList = () => {
   const { defaulty: songs } = useMatchedSongs();
   const sortedSongs = songs.sort((a, b) => a.name.localeCompare(b.name));
-  const maxHeight = useContentHeight();
 
   return (
-    <List
-      dense
-      sx={{
-        width: "100%",
-        bgcolor: "background.paper",
-        position: "relative",
-        overflow: "auto",
-        maxHeight: maxHeight - 16,
-      }}
-    >
+    <List>
       {sortedSongs.map((song) => (
         <SongItem key={song.id} {...song} />
       ))}
