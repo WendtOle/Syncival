@@ -41,6 +41,7 @@ export interface Track {
   name: string;
   artists: Artist[];
   imageUrl?: string;
+  albumName: string;
 }
 
 export interface TrackV2 {
@@ -49,6 +50,7 @@ export interface TrackV2 {
   artists: Artist[];
   imageUrl?: string;
   relevantArtists: Artist[];
+  albumName: string;
 }
 
 export interface Playlist {

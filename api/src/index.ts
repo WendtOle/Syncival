@@ -90,7 +90,7 @@ app.get('/refresh', async (req: any, res: any) => {
     
 })
 
-type Something = Array<{id: string, name: string, artists: Array<{name: string, id: string}>, imageUrl?: string}>
+type Something = Array<{id: string, name: string, artists: Array<{name: string, id: string}>, imageUrl?: string, albumName: string}>
 
 function toRecord<T, K extends string | number | symbol>(
     array: T[],
@@ -148,7 +148,7 @@ app.get('/tracks', async (req: any, res: any) => {
                 if (image.height < smallest.height) return image
                 return smallest
             }, album.images[0])
-            return {id, name, artists: artists.map(({name, id}: SpotifyApi.ArtistObjectSimplified) => ({name, id})), imageUrl: image?.url}
+            return {id, name, artists: artists.map(({name, id}: SpotifyApi.ArtistObjectSimplified) => ({name, id})), imageUrl: image?.url, albumName: album.name}
         })
         res.send(trackData);
         return

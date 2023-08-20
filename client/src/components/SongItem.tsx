@@ -1,8 +1,10 @@
 import { Artist, TrackV2 } from "../state/types";
 import "./Playlist.css";
-import { ListItemButton, ListItemText } from "@mui/material";
+import { ListItemButton, ListItemText, Typography } from "@mui/material";
 import { useSetAtom } from "jotai";
 import { spotifyTrackIdAtom } from "../state/ui";
+import { SpotifyMetadataType, truncate } from "../util/truncateSpotifyMetadata";
+import { SongArtistInfo } from "./SongArtistInfo";
 import { CoverArt } from "./CoverArt";
 
 export const SongItem = ({
@@ -11,18 +13,23 @@ export const SongItem = ({
   artists,
   relevantArtists,
   imageUrl,
+  albumName,
 }: Omit<TrackV2, "relevantArtists"> & { relevantArtists?: Artist[] }) => {
   const setSoptifyId = useSetAtom(spotifyTrackIdAtom);
   const secondary = () => {
-    if (!relevantArtists) {
-      return artists.map(({ name }) => name).join(", ");
-    }
-    const notRelevantArtists = artists.length - relevantArtists.length;
     return (
-      relevantArtists.map(({ name }) => name).join(", ") +
-      (notRelevantArtists > 0 ? ` (+${notRelevantArtists})` : "")
+      <>
+        <SongArtistInfo
+          artists={artists}
+          relevantArtists={relevantArtists}
+          length={30}
+        />
+        {truncate(formattedAlbumName, SpotifyMetadataType.ALBUM)}
+      </>
     );
   };
+
+  const formattedAlbumName = albumName ? ` - ${albumName}` : "";
   return (
     <ListItemButton
       key={id}
@@ -31,7 +38,11 @@ export const SongItem = ({
     >
       <CoverArt imageUrl={imageUrl} />
       <ListItemText
-        primary={name}
+        primary={
+          <Typography variant="body1" sx={{}}>
+            {truncate(name, SpotifyMetadataType.SONG, 31)}
+          </Typography>
+        }
         secondary={secondary()}
         sx={{ marginLeft: 2 }}
       />
