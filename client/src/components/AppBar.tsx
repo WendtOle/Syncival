@@ -56,7 +56,7 @@ export const AppBar = ({
         sx={{ "&.MuiAppBar-root": { boxShadow: "none" } }}
       >
         <Toolbar sx={{ justifyContent: "space-between" }}>
-          <Box sx={{ marginRight: 1 }}>
+          <Box>
             {customNavigationButton}
             {!customNavigationButton && showBackButton && (
               <IconButton color="inherit" onClick={() => navigate(-1)}>
