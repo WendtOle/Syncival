@@ -61,6 +61,7 @@ export interface Playlist {
   snapShotId: string;
   snapShotDate: Date;
   tracks: Track[];
+  imageUrl?: string;
 }
 
 export type PlaylistInformation = Omit<Playlist, "tracks">;
