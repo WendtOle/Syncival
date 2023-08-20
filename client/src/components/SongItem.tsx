@@ -2,7 +2,8 @@ import { Artist, TrackV2 } from "../state/types";
 import "./Playlist.css";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import SongIcon from "@mui/icons-material/Audiotrack";
-import { SpotifyIFrameWrapper } from "./SpotifyIFrameWrapper";
+import { useSetAtom } from "jotai";
+import { spotifyTrackIdAtom } from "../state/ui";
 
 export const SongItem = ({
   id,
@@ -10,6 +11,7 @@ export const SongItem = ({
   artists,
   relevantArtists,
 }: Omit<TrackV2, "relevantArtists"> & { relevantArtists?: Artist[] }) => {
+  const setSoptifyId = useSetAtom(spotifyTrackIdAtom);
   const secondary = () => {
     if (!relevantArtists) {
       return artists.map(({ name }) => name).join(", ");
@@ -21,15 +23,11 @@ export const SongItem = ({
     );
   };
   return (
-    <SpotifyIFrameWrapper id={id} type="track">
-      {(onClick) => (
-        <ListItemButton key={id} onClick={onClick}>
-          <ListItemIcon>
-            <SongIcon />
-          </ListItemIcon>
-          <ListItemText primary={name} secondary={secondary()} />
-        </ListItemButton>
-      )}
-    </SpotifyIFrameWrapper>
+    <ListItemButton key={id} onClick={() => setSoptifyId(id)}>
+      <ListItemIcon>
+        <SongIcon />
+      </ListItemIcon>
+      <ListItemText primary={name} secondary={secondary()} />
+    </ListItemButton>
   );
 };

@@ -12,6 +12,7 @@ import { Badge, IconButton } from "@mui/material";
 import { useExcludedInfo } from "../hooks/useExcludedInfo";
 import { useNavigate } from "react-router-dom";
 import { RouteEnum } from "../state/types";
+import { BottomSpotifyPlayer } from "./BottomSpotifyPlayer";
 
 export const ArtistResult = () => {
   const { selected } = useLineups();
@@ -39,6 +40,7 @@ export const ArtistResult = () => {
         {sort === SortOption.ARTISTS && <SongsGroupedByArtist />}
         {sort === SortOption.PLAYLISTS && <GroupedSongs />}
       </div>
+      <BottomSpotifyPlayer />
     </>
   );
 };
