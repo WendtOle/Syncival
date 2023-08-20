@@ -14,6 +14,7 @@ const authorizeURL = spotifyApi.createAuthorizeURL(scopes, 'some-state-of-my-cho
 import { artists as fusion2023 } from './data/fusion-artists';
 import { artists as tarmac2022 } from './data/tarmac-2022';
 import { artists as tomorrowland2023 } from './data/tomorrowland-2023';
+import { artists as tarmac2023 } from './data/tarmac-2023';
 
 
 const isAllowedOrigin = (requestOrigin: string) => {
@@ -209,7 +210,7 @@ app.post('/createPlaylist', async (req: any, res: any) => {
 
 app.get('/lineups', async (req: any, res: any) => {
     setCors(req, res);
-    res.send([fusion2023, tarmac2022, tomorrowland2023]);
+    res.send([fusion2023, tarmac2022, tomorrowland2023, tarmac2023]);
     return
 })
 
