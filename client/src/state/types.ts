@@ -40,12 +40,14 @@ export interface Track {
   id: string;
   name: string;
   artists: Artist[];
+  imageUrl?: string;
 }
 
 export interface TrackV2 {
   id: string;
   name: string;
   artists: Artist[];
+  imageUrl?: string;
   relevantArtists: Artist[];
 }
 
