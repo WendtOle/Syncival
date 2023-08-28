@@ -85,7 +85,7 @@ export const AppBar = ({
           <SpotifyLogo size={24} variant="black" />
           {children}
         </Toolbar>
-        {isLoading && <LinearProgress color="primary" />}
+        {isLoading && <LinearProgress color="inherit" />}
       </MuiAppBar>
     </>
   );
