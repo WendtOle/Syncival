@@ -14,7 +14,8 @@ export const App = () => {
   useLineupFetch();
   useFetchPlaylists();
   return (
-    <>
+    <div style={{display: "flex", justifyContent: "center"}}>
+    <div style={{maxWidth: 800, width: "100%"}}>
       <Routes>
         <Route path={RouteEnum.ARTISTS} element={<ArtistResult />} />
         <Route path={RouteEnum.EXCLUDE} element={<ExcludePlaylistScreen />} />
@@ -26,6 +27,7 @@ export const App = () => {
       </Routes>
       <BottomSpotifyPlayer />
       <InformationSnackbar />
-    </>
+    </div>
+    </div>
   );
 };
