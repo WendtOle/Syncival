@@ -6,6 +6,8 @@ import ExcludeIcon from "@mui/icons-material/FilterAlt";
 import SettingsIcon from "@mui/icons-material/Tune";
 import CloseIcon from "@mui/icons-material/Close";
 import UpIcon from "@mui/icons-material/KeyboardArrowUp";
+import CheckIcon from "@mui/icons-material/Check";
+
 
 export {
   InfoIcon,
@@ -16,4 +18,5 @@ export {
   SettingsIcon,
   CloseIcon,
   UpIcon,
+  CheckIcon
 };
