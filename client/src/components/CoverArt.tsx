@@ -1,4 +1,4 @@
-import { SpotifyLogo } from "../SpotifyLogo";
+import { SpotifyLogo } from "../logo/SpotifyIcon";
 
 export const CoverArt = ({
   imageUrl: nullableImageUrl,
