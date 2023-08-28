@@ -30,7 +30,7 @@ export const SpotifyIFrameWrapper = ({
             paddingBottom: 2,
             height: "75vh",
             width: "85vw",
-            maxWidth: "800px",
+            maxWidth: "700px",
             maxHeight: "600px",
           },
         }}
