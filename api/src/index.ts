@@ -14,16 +14,7 @@ import { artists as tarmac2022 } from './data/tarmac-2022';
 import { artists as tomorrowland2023 } from './data/tomorrowland-2023';
 import { artists as tarmac2023 } from './data/tarmac-2023';
 import { authorizeURL } from './authorizeURL';
-import { isAllowedOrigin } from './isAllowedOrigin';
-
-const setCors = (req: any, res: any) => {
-    const requestOrigin = req.headers.origin ?? [];
-    if (isAllowedOrigin(requestOrigin)) {
-        res.setHeader('Access-Control-Allow-Origin', requestOrigin);
-    }
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-}
+import { setCors } from './setCors';
 
 app.use((req: any, res: any, next: any) => {
     setCors(req, res);
