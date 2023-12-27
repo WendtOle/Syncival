@@ -15,12 +15,7 @@ import { artists as fusion2023 } from './data/fusion-artists';
 import { artists as tarmac2022 } from './data/tarmac-2022';
 import { artists as tomorrowland2023 } from './data/tomorrowland-2023';
 import { artists as tarmac2023 } from './data/tarmac-2023';
-
-
-const isAllowedOrigin = (requestOrigin: string) => {
-    const allowedOrigins = (process.env.ALLOWED_ORIGINS ?? "").split(',');
-    return allowedOrigins.find((allowedOrigin => requestOrigin.includes(allowedOrigin)))
-}
+import { isAllowedOrigin } from './isAllowedOrigin';
 
 const setCors = (req: any, res: any) => {
     const requestOrigin = req.headers.origin ?? [];
