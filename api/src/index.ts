@@ -14,6 +14,7 @@ import { setCors } from './setCors';
 import { createPlaylist } from './createPlaylist';
 import { sendLineups } from './sendLineups';
 import { sendTracks } from './sendTracks';
+import { toRecord } from './toRecord';
 
 app.use((req: any, res: any, next: any) => {
     setCors(req, res);
@@ -67,18 +68,6 @@ app.get('/refresh', async (req: any, res: any) => {
     }
     
 })
-
-
-function toRecord<T, K extends string | number | symbol>(
-    array: T[],
-    keyExtractor: (item: T) => K
-  ): Record<K, T> {
-    return array.reduce((record, item) => {
-      const key = keyExtractor(item);
-      record[key] = item;
-      return record;
-    }, {} as Record<K, T>);
-  }
 
 app.get('/playlists', async (req: any, res: any) => {
     const { query } = url.parse(req.url);
