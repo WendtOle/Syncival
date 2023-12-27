@@ -9,13 +9,10 @@ const querystring = require('querystring');
 
 const app = express();
 const port  = process.env.PORT || 8888;
-import { artists as fusion2023 } from './data/fusion-artists';
-import { artists as tarmac2022 } from './data/tarmac-2022';
-import { artists as tomorrowland2023 } from './data/tomorrowland-2023';
-import { artists as tarmac2023 } from './data/tarmac-2023';
 import { authorizeURL } from './authorizeURL';
 import { setCors } from './setCors';
 import { createPlaylist } from './createPlaylist';
+import { sendLineups } from './sendLineups';
 
 app.use((req: any, res: any, next: any) => {
     setCors(req, res);
@@ -146,11 +143,7 @@ app.get('/tracks', async (req: any, res: any) => {
 })
 
 app.post('/createPlaylist', createPlaylist)
-
-app.get('/lineups', async (req: any, res: any) => {
-    res.send([fusion2023, tarmac2022, tomorrowland2023, tarmac2023]);
-    return
-})
+app.get('/lineups', sendLineups)
 
 
 app.listen(port, () => {
