@@ -1,5 +1,5 @@
 const SPOTIFY_LOGO_MIN_SIZE = 21;
-export const SpotifyLogo = ({
+export const SpotifyIcon = ({
   variant,
   size: nullableSize,
 }: {
