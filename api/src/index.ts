@@ -3,7 +3,6 @@ import { getTokens } from './authorizeApi';
 
 const express = require('express');
 import {spotifyApi} from "./getSpotifyApi";
-import { getUserId } from './getUserId';
 const url = require('url');
 const querystring = require('querystring');
 
@@ -14,7 +13,7 @@ import { setCors } from './setCors';
 import { createPlaylist } from './createPlaylist';
 import { sendLineups } from './sendLineups';
 import { sendTracks } from './sendTracks';
-import { toRecord } from './toRecord';
+import { sendPlaylists } from './sendPlaylists';
 
 app.use((req: any, res: any, next: any) => {
     setCors(req, res);
@@ -69,38 +68,7 @@ app.get('/refresh', async (req: any, res: any) => {
     
 })
 
-app.get('/playlists', async (req: any, res: any) => {
-    const { query } = url.parse(req.url);
-    const { accessToken, page } = querystring.parse(query);
-    try {
-        await spotifyApi.setAccessToken(accessToken);
-        const userId = await getUserId()
-        
-        const playlists = await spotifyApi.getUserPlaylists({limit: 50, offset: page * 50})
-        const processedPlaylists = playlists.body.items.map((playlist: SpotifyApi.PlaylistObjectSimplified) => {
-            const image = playlist.images.reduce((smallest: any, image: any) => {
-                if (image.height < smallest.height) return image
-                return smallest
-            }, playlist.images[0])
-            return ({
-                name: playlist.name,
-                id: playlist.id,
-                isOwn: playlist.owner.id === userId,
-                trackAmount: playlist.tracks.total,
-                snapShotId: playlist.snapshot_id,
-                imageUrl: image?.url
-            });
-        })
-        res.send(toRecord(processedPlaylists, (playlist) => playlist.id));
-        return
-    } catch (err: any) {
-        console.log("Error when fetching playlists.")
-        console.log(err.body.message)
-        res.send('error')
-        return
-    }  
-})
-
+app.get('/playlists', sendPlaylists)
 app.get('/tracks', sendTracks)
 app.post('/createPlaylist', createPlaylist)
 app.get('/lineups', sendLineups)
