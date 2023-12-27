@@ -12,7 +12,7 @@ import { appBarHeightAtom, scrolledAtom } from "../state/ui";
 import BackIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate } from "react-router-dom";
 import { useIsLoading } from "../hooks/useIsLoading";
-import { SpotifyLogo } from "../logo/SpotifyIcon";
+import { SpotifyIcon } from "../logo/SpotifyIcon";
 
 interface AppBarProps {
   title: string;

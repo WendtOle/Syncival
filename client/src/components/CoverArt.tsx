@@ -1,4 +1,4 @@
-import { SpotifyLogo } from "../logo/SpotifyIcon";
+import { SpotifyIcon } from "../logo/SpotifyIcon";
 
 export const CoverArt = ({
   imageUrl: nullableImageUrl,
@@ -6,7 +6,7 @@ export const CoverArt = ({
   imageUrl?: string;
 }) => {
   if (!nullableImageUrl) {
-    return <SpotifyLogo variant="black" size={28} />;
+    return <SpotifyIcon variant="black" size={28} />;
   }
 
   return (
