@@ -6,7 +6,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { appBarHeightAtom, scrolledAtom } from "../state/ui";
 import BackIcon from "@mui/icons-material/ArrowBackIos";
@@ -32,6 +32,8 @@ export const AppBar = ({
 }: AppBarProps) => {
   const navigate = useNavigate();
   const appBarRef = useRef<any>(null);
+  const appBarHeight = useRef<number>(48);
+  const [logoIconHeight, setLogoIconHeight] = useState(24);
   const isLoading = useIsLoading();
   const setAppBarHeight = useSetAtom(appBarHeightAtom);
   const isScrolled = useAtomValue(scrolledAtom)
@@ -44,6 +46,7 @@ export const AppBar = ({
       }
       const height = appBarRef.current.clientHeight;
       setAppBarHeight(height);
+      setLogoIconHeight(height / 2)
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -83,17 +86,15 @@ export const AppBar = ({
               </>
             )}
             </Typography>
-          
-          <Box sx={{position: "fixed", width: "100%", display: "flex", justifyContent: "center", zIndex: -1}}>
-              <SpotifyIcon size={24} variant="black" sx={{ display: { sm: "none" } }}/>
-              <SpotifyLogo height={24} variant="black" sx={{ display: { xs: "none", sm: "block" } }}/>
-          </Box>
-          
           <Box>
             {children}
           </Box>
           
         </Toolbar>
+        <Box sx={{position: "absolute", width: "100%", display: "flex", justifyContent: "center", zIndex: -1}}>
+              <SpotifyIcon size={logoIconHeight} variant="black" sx={{ display: { sm: "none" } }}/>
+              <SpotifyLogo height={logoIconHeight} variant="black" sx={{ display: { xs: "none", sm: "block" } }}/>
+          </Box>
         {isLoading && <LinearProgress color="inherit" />}
       </MuiAppBar>
     </>
