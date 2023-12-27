@@ -14,6 +14,7 @@ import { createPlaylist } from './createPlaylist';
 import { sendLineups } from './sendLineups';
 import { sendTracks } from './sendTracks';
 import { sendPlaylists } from './sendPlaylists';
+import { refresh } from './refresh';
 
 app.use((req: any, res: any, next: any) => {
     setCors(req, res);
@@ -53,21 +54,7 @@ app.get('/accessTokenValid', async (req: any, res: any) => {
     }
 })
 
-app.get('/refresh', async (req: any, res: any) => {
-    const { query } = url.parse(req.url);
-    const { refreshToken } = querystring.parse(query);
-    try {
-        spotifyApi.setRefreshToken(refreshToken)
-        const response = await spotifyApi.refreshAccessToken()
-        res.send(response.body['access_token']);
-        return
-    } catch(error: any) {
-        console.log(error)
-        console.log('some error occured')
-    }
-    
-})
-
+app.get('/refresh', refresh )
 app.get('/playlists', sendPlaylists)
 app.get('/tracks', sendTracks)
 app.post('/createPlaylist', createPlaylist)
