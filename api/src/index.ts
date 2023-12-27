@@ -15,6 +15,7 @@ import { sendLineups } from './sendLineups';
 import { sendTracks } from './sendTracks';
 import { sendPlaylists } from './sendPlaylists';
 import { refresh } from './refresh';
+import { isAccessTokenValid } from './isAccessTokenValid';
 
 app.use((req: any, res: any, next: any) => {
     setCors(req, res);
@@ -35,25 +36,7 @@ app.get('/authenticate', async (req: any, res: any) => {
     res.send(error);
 })
 
-app.get('/accessTokenValid', async (req: any, res: any) => {
-    const { query } = url.parse(req.url);
-    const { accessToken } = querystring.parse(query);
-    spotifyApi.setAccessToken(accessToken);
-    try {
-        await spotifyApi.getMe();
-        res.send('ok');
-        return
-    } catch (error: any) {
-        if (error.body.error.message === "The access token expired") {
-            res.send('expired');
-            return
-        }
-        console.log({error})
-        res.send('error');
-        return
-    }
-})
-
+app.get('/accessTokenValid', isAccessTokenValid)
 app.get('/refresh', refresh )
 app.get('/playlists', sendPlaylists)
 app.get('/tracks', sendTracks)
