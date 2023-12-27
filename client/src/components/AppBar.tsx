@@ -13,6 +13,7 @@ import BackIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate } from "react-router-dom";
 import { useIsLoading } from "../hooks/useIsLoading";
 import { SpotifyIcon } from "../logo/SpotifyIcon";
+import { SpotifyLogo } from "../logo/SpotifyLogo";
 
 interface AppBarProps {
   title: string;
@@ -81,9 +82,17 @@ export const AppBar = ({
                 <Box sx={{ display: { xs: "none", sm: "block" } }}>{title}</Box>
               </>
             )}
-          </Typography>
-          <SpotifyLogo size={24} variant="black" />
-          {children}
+            </Typography>
+          
+          <Box sx={{position: "fixed", width: "100%", display: "flex", justifyContent: "center", zIndex: -1}}>
+              <SpotifyIcon size={24} variant="black" sx={{ display: { sm: "none" } }}/>
+              <SpotifyLogo height={24} variant="black" sx={{ display: { xs: "none", sm: "block" } }}/>
+          </Box>
+          
+          <Box>
+            {children}
+          </Box>
+          
         </Toolbar>
         {isLoading && <LinearProgress color="inherit" />}
       </MuiAppBar>
