@@ -9,6 +9,7 @@ import { ExcludePlaylistScreen } from "./ExludePlaylistScreen";
 import { LinueupCreationScreen } from "./screens/LineupCreationScreen";
 import { LineupInspectionScreen } from "./screens/LineupInspectionScreen";
 import { BottomSpotifyPlayer } from "./BottomSpotifyPlayer";
+import { LinupSelectionScreen } from "./screens/LineupSelectionScreen";
 
 export const App = () => {
   useLineupFetch();
@@ -17,6 +18,7 @@ export const App = () => {
     <div style={{display: "flex", justifyContent: "center"}}>
     <div style={{maxWidth: 800, width: "100%"}}>
       <Routes>
+        <Route path={RouteEnum.LINEUP_SELECTION} element={<LinupSelectionScreen />} />
         <Route path={RouteEnum.ARTISTS} element={<ArtistResult />} />
         <Route path={RouteEnum.EXCLUDE} element={<ExcludePlaylistScreen />} />
         <Route

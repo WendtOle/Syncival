@@ -77,4 +77,5 @@ export enum RouteEnum {
   EXCLUDE = "/exclude",
   LINEUP = "/lineup",
   NEW_LINEUP = "/add",
+  LINEUP_SELECTION = "/lineup-selection",
 }
