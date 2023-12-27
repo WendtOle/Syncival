@@ -15,6 +15,7 @@ import { artists as tomorrowland2023 } from './data/tomorrowland-2023';
 import { artists as tarmac2023 } from './data/tarmac-2023';
 import { authorizeURL } from './authorizeURL';
 import { setCors } from './setCors';
+import { createPlaylist } from './createPlaylist';
 
 app.use((req: any, res: any, next: any) => {
     setCors(req, res);
@@ -144,44 +145,7 @@ app.get('/tracks', async (req: any, res: any) => {
     }  
 })
 
-const timeStamp = () => {
-    const date = new Date();
-    const day = date.getDate().toString();
-    const month = (date.getMonth() + 1).toString();
-    const hour = date.getHours().toString();
-    const minute = date.getMinutes().toString();
-    return `${day}.${month}-${hour}:${minute}`
-}
-
-const createPlaylist = async (lineupName: string, key: string ) => {
-    const name = `ArtistLookup - ${lineupName} [${key}]`
-    const response_createPlaylist = await spotifyApi.createPlaylist(name, {public: false, description: `Playlist created by ArtistLookup at ${timeStamp()}`})
-    const {id} = response_createPlaylist.body
-    return id
-}
-
-app.post('/createPlaylist', async (req: any, res: any) => {
-    const { query } = url.parse(req.url);
-    const { accessToken, trackId, lineupName, playlistId, lineupKey} = querystring.parse(query);
-    try {
-        await spotifyApi.setAccessToken(accessToken);
-        const id = playlistId ?? await createPlaylist(lineupName,lineupKey)
-        const params = trackId.map((id: string) => `spotify:track:${id}`)
-        await spotifyApi.replaceTracksInPlaylist(id, [])
-        // I guess that not more than x tracks can be added to a playlist at once
-        for (let i = 0; i < params.length; i += 50) {
-            const paramsSlice = params.slice(i, i + 50)
-            await spotifyApi.addTracksToPlaylist(id, paramsSlice)
-        }
-        res.send({playlistId: id});
-        return
-    } catch (err: any) {
-        console.log("Error when creating playlist.")
-        console.log(err)
-        res.send({status: 'error'})
-        return
-    }
-})
+app.post('/createPlaylist', createPlaylist)
 
 app.get('/lineups', async (req: any, res: any) => {
     res.send([fusion2023, tarmac2022, tomorrowland2023, tarmac2023]);
