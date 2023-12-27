@@ -31,8 +31,12 @@ const setCors = (req: any, res: any) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 }
 
-app.get('/authorizeURL', (req: any, res: any) => {
+app.use((req: any, res: any, next: any) => {
     setCors(req, res);
+    next();
+});
+
+app.get('/authorizeURL', (req: any, res: any) => {
     const requestOrigin = req.headers.origin ?? "localhost:3000"; 
     if (isAllowedOrigin(requestOrigin)) {
         spotifyApi.setRedirectURI(requestOrigin)
@@ -43,7 +47,6 @@ app.get('/authorizeURL', (req: any, res: any) => {
 );
 
 app.get('/authenticate', async (req: any, res: any) => {
-    setCors(req, res);
     const { query } = url.parse(req.url);
     const { code } = querystring.parse(query);
     console.log(`code found: ${code}`);
@@ -56,7 +59,6 @@ app.get('/authenticate', async (req: any, res: any) => {
 })
 
 app.get('/accessTokenValid', async (req: any, res: any) => {
-    setCors(req, res);
     const { query } = url.parse(req.url);
     const { accessToken } = querystring.parse(query);
     spotifyApi.setAccessToken(accessToken);
@@ -76,7 +78,6 @@ app.get('/accessTokenValid', async (req: any, res: any) => {
 })
 
 app.get('/refresh', async (req: any, res: any) => {
-    setCors(req, res);
     const { query } = url.parse(req.url);
     const { refreshToken } = querystring.parse(query);
     try {
@@ -105,7 +106,6 @@ function toRecord<T, K extends string | number | symbol>(
   }
 
 app.get('/playlists', async (req: any, res: any) => {
-    setCors(req, res);
     const { query } = url.parse(req.url);
     const { accessToken, page } = querystring.parse(query);
     try {
@@ -138,7 +138,6 @@ app.get('/playlists', async (req: any, res: any) => {
 })
 
 app.get('/tracks', async (req: any, res: any) => {
-    setCors(req, res);
     const { query } = url.parse(req.url);
     const { accessToken, page, playlistId } = querystring.parse(query);
     try {
@@ -185,7 +184,6 @@ const createPlaylist = async (lineupName: string, key: string ) => {
 }
 
 app.post('/createPlaylist', async (req: any, res: any) => {
-    setCors(req, res);
     const { query } = url.parse(req.url);
     const { accessToken, trackId, lineupName, playlistId, lineupKey} = querystring.parse(query);
     try {
@@ -209,7 +207,6 @@ app.post('/createPlaylist', async (req: any, res: any) => {
 })
 
 app.get('/lineups', async (req: any, res: any) => {
-    setCors(req, res);
     res.send([fusion2023, tarmac2022, tomorrowland2023, tarmac2023]);
     return
 })
