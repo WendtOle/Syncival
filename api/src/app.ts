@@ -1,6 +1,5 @@
 // setup simple express server
 import { getTokens } from './authorizeApi';
-import { scopes } from './shopifyAuthorisationScopes';
 
 const express = require('express');
 import {spotifyApi} from "./getSpotifyApi";
@@ -13,6 +12,7 @@ import { artists as fusion2023 } from './data/fusion-artists';
 import { artists as tarmac2022 } from './data/tarmac-2022';
 import { artists as tomorrowland2023 } from './data/tomorrowland-2023';
 import { artists as tarmac2023 } from './data/tarmac-2023';
+import { createAuthorizeURL } from './createAuthorizeURL';
 import { isAllowedOrigin } from './isAllowedOrigin';
 
 
@@ -28,14 +28,8 @@ const setCors = (req: any, res: any) => {
 app.get('/authorizeURL', (req: any, res: any) => {
     setCors(req, res);
     const requestOrigin = req.headers.origin ?? "localhost:3000"; 
-    if (isAllowedOrigin(requestOrigin)) {
-        spotifyApi.setRedirectURI(requestOrigin)
-    }
-    const authorizeURL = spotifyApi.createAuthorizeURL(scopes, 'some-state-of-my-choice', true);  
-    res.send(authorizeURL);
-
-}
-);
+    res.send(createAuthorizeURL(requestOrigin))
+});
 
 app.get('/authenticate', async (req: any, res: any) => {
     setCors(req, res);
