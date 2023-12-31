@@ -15,6 +15,7 @@ import { artists as tarmac2023 } from './data/tarmac-2023';
 import { createAuthorizeURL } from './createAuthorizeURL';
 import { checkAccessTokenValid } from './isAccessTokenValid';
 import { getRefreshedAccessToken } from './getRefreshedAccessToken';
+import { getUserPlaylists } from './getUserPlaylists';
 import { isAllowedOrigin } from './isAllowedOrigin';
 
 
@@ -99,8 +100,8 @@ app.get('/playlists', async (req: any, res: any) => {
     try {
         const userId = await getUserId(accessToken)
         
-        const playlists = await spotifyApi.getUserPlaylists({limit: 50, offset: page * 50})
-        const processedPlaylists = playlists.body.items.map((playlist: SpotifyApi.PlaylistObjectSimplified) => {
+        const playlists = await getUserPlaylists({limit: 50, page, accessToken})
+        const processedPlaylists = playlists.map((playlist: SpotifyApi.PlaylistObjectSimplified) => {
             const image = playlist.images.reduce((smallest: any, image: any) => {
                 if (image.height < smallest.height) return image
                 return smallest
