@@ -13,6 +13,7 @@ import { artists as tarmac2022 } from './data/tarmac-2022';
 import { artists as tomorrowland2023 } from './data/tomorrowland-2023';
 import { artists as tarmac2023 } from './data/tarmac-2023';
 import { createAuthorizeURL } from './createAuthorizeURL';
+import { checkAccessTokenValid } from './isAccessTokenValid';
 import { getRefreshedAccessToken } from './getRefreshedAccessToken';
 import { isAllowedOrigin } from './isAllowedOrigin';
 
@@ -49,13 +50,12 @@ app.get('/accessTokenValid', async (req: any, res: any) => {
     setCors(req, res);
     const { query } = url.parse(req.url);
     const { accessToken } = querystring.parse(query);
-    spotifyApi.setAccessToken(accessToken);
     try {
-        await spotifyApi.getMe();
+        await checkAccessTokenValid(accessToken);
         res.send('ok');
         return
     } catch (error: any) {
-        if (error.body.error.message === "The access token expired") {
+        if (error?.body?.error?.message === "The access token expired") {
             res.send('expired');
             return
         }
