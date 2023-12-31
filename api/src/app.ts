@@ -98,8 +98,7 @@ app.get('/playlists', async (req: any, res: any) => {
     const { query } = url.parse(req.url);
     const { accessToken, page } = querystring.parse(query);
     try {
-        await spotifyApi.setAccessToken(accessToken);
-        const userId = await getUserId()
+        const userId = await getUserId(accessToken)
         
         const playlists = await spotifyApi.getUserPlaylists({limit: 50, offset: page * 50})
         const processedPlaylists = playlists.body.items.map((playlist: SpotifyApi.PlaylistObjectSimplified) => {
