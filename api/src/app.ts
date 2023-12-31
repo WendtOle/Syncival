@@ -13,6 +13,7 @@ import { artists as tarmac2022 } from './data/tarmac-2022';
 import { artists as tomorrowland2023 } from './data/tomorrowland-2023';
 import { artists as tarmac2023 } from './data/tarmac-2023';
 import { createAuthorizeURL } from './createAuthorizeURL';
+import { getRefreshedAccessToken } from './getRefreshedAccessToken';
 import { isAllowedOrigin } from './isAllowedOrigin';
 
 
@@ -69,9 +70,7 @@ app.get('/refresh', async (req: any, res: any) => {
     const { query } = url.parse(req.url);
     const { refreshToken } = querystring.parse(query);
     try {
-        spotifyApi.setRefreshToken(refreshToken)
-        const response = await spotifyApi.refreshAccessToken()
-        res.send(response.body['access_token']);
+        res.send(getRefreshedAccessToken(refreshToken));
         return
     } catch(error: any) {
         console.log(error)
