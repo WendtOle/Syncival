@@ -17,6 +17,7 @@ import { checkAccessTokenValid } from './isAccessTokenValid';
 import { getRefreshedAccessToken } from './getRefreshedAccessToken';
 import { getUserPlaylists } from './getUserPlaylists';
 import { isAllowedOrigin } from './isAllowedOrigin';
+import {createPlaylist as providerCreatePlaylist} from './createPlaylist'
 
 
 const setCors = (req: any, res: any) => {
@@ -165,9 +166,9 @@ const timeStamp = () => {
     return `${day}.${month}-${hour}:${minute}`
 }
 
-const createPlaylist = async (lineupName: string, key: string ) => {
+const createPlaylist = async (accessToken: string, lineupName: string, key: string ) => {
     const name = `ArtistLookup - ${lineupName} [${key}]`
-    const response_createPlaylist = await spotifyApi.createPlaylist(name, {public: false, description: `Playlist created by ArtistLookup at ${timeStamp()}`})
+    const response_createPlaylist = await providerCreatePlaylist(accessToken, name, `Playlist created by ArtistLookup at ${timeStamp()}`)
     const {id} = response_createPlaylist.body
     return id
 }
@@ -178,7 +179,7 @@ app.post('/createPlaylist', async (req: any, res: any) => {
     const { accessToken, trackId, lineupName, playlistId, lineupKey} = querystring.parse(query);
     try {
         await spotifyApi.setAccessToken(accessToken);
-        const id = playlistId ?? await createPlaylist(lineupName,lineupKey)
+        const id = playlistId ?? await createPlaylist(accessToken, lineupName,lineupKey)
         const params = trackId.map((id: string) => `spotify:track:${id}`)
         await spotifyApi.replaceTracksInPlaylist(id, [])
         // I guess that not more than x tracks can be added to a playlist at once
