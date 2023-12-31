@@ -20,6 +20,7 @@ import { isAllowedOrigin } from './isAllowedOrigin';
 import {createPlaylist as providerCreatePlaylist} from './createPlaylist'
 import { addTracksToPlaylist } from './addTracksToPlaylist';
 import { timeStamp } from './getCurrentTimeStamp';
+import { replaceTracksInPlaylist } from './replaceTracksInPlaylist';
 
 
 const setCors = (req: any, res: any) => {
@@ -173,7 +174,7 @@ app.post('/createPlaylist', async (req: any, res: any) => {
     try {
         const id = playlistId ?? await createPlaylist(accessToken, lineupName,lineupKey)
         const params = trackId.map((id: string) => `spotify:track:${id}`)
-        await spotifyApi.replaceTracksInPlaylist(id, [])
+        replaceTracksInPlaylist(id, [], accessToken)
         // I guess that not more than x tracks can be added to a playlist at once
         for (let i = 0; i < params.length; i += 50) {
             const paramsSlice = params.slice(i, i + 50)
