@@ -19,6 +19,7 @@ import { getUserPlaylists } from './getUserPlaylists';
 import { isAllowedOrigin } from './isAllowedOrigin';
 import {createPlaylist as providerCreatePlaylist} from './createPlaylist'
 import { addTracksToPlaylist } from './addTracksToPlaylist';
+import { timeStamp } from './getCurrentTimeStamp';
 
 
 const setCors = (req: any, res: any) => {
@@ -157,15 +158,6 @@ app.get('/tracks', async (req: any, res: any) => {
         return
     }  
 })
-
-const timeStamp = () => {
-    const date = new Date();
-    const day = date.getDate().toString();
-    const month = (date.getMonth() + 1).toString();
-    const hour = date.getHours().toString();
-    const minute = date.getMinutes().toString();
-    return `${day}.${month}-${hour}:${minute}`
-}
 
 const createPlaylist = async (accessToken: string, lineupName: string, key: string ) => {
     const name = `ArtistLookup - ${lineupName} [${key}]`
