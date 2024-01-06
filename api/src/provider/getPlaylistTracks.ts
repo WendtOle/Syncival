@@ -1,4 +1,4 @@
-import { spotifyApi } from "../getSpotifyApi";
+import { spotifyApi } from "./getSpotifyApi";
 
 interface GetPlaylistTracksProps {
     playlistId: string

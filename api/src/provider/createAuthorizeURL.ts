@@ -1,6 +1,6 @@
-import { isAllowedOrigin } from "./isAllowedOrigin";
+import { isAllowedOrigin } from "../isAllowedOrigin";
 import { spotifyApi } from "./getSpotifyApi";
-import { scopes } from "./shopifyAuthorisationScopes";
+import { scopes } from "../shopifyAuthorisationScopes";
 
 export const createAuthorizeURL = (requestOrigin: string) => {
     if (isAllowedOrigin(requestOrigin)) {

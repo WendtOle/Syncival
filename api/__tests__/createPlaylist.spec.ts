@@ -5,10 +5,10 @@ const mockReplaceTracksInPlaylist = jest.fn();
 import request from 'supertest';
 import {app} from '../src/app'
 
-jest.mock('../src/createPlaylist', () => ({ createPlaylist: mockCreatePlaylist }))
+jest.mock('../src/provider/createPlaylist', () => ({ createPlaylist: mockCreatePlaylist }))
 jest.mock('../src/getCurrentTimeStamp', () => ({ timeStamp: jest.fn().mockReturnValue("08.07.23") }))
-jest.mock('../src/addTracksToPlaylist', () => ({ addTracksToPlaylist: mockAddTracksToPlaylist }))
-jest.mock('../src/replaceTracksInPlaylist', () => ({ replaceTracksInPlaylist: mockReplaceTracksInPlaylist }))
+jest.mock('../src/provider/addTracksToPlaylist', () => ({ addTracksToPlaylist: mockAddTracksToPlaylist }))
+jest.mock('../src/provider/replaceTracksInPlaylist', () => ({ replaceTracksInPlaylist: mockReplaceTracksInPlaylist }))
 
 describe('createPlaylist endpoint', () => {
 it('creates new playlist', async () => {
