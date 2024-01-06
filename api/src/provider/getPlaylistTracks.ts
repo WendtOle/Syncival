@@ -9,6 +9,6 @@ interface GetPlaylistTracksProps {
 
 export const getPlaylistTracks = async ({playlistId, accessToken, limit, page}: GetPlaylistTracksProps): Promise<SpotifyApi.PlaylistTrackObject[]> => {
     spotifyApi.setAccessToken(accessToken);
-    const data = await spotifyApi.getPlaylistTracks(playlistId, {limit, offset: page * 50});
+    const data = await spotifyApi.getPlaylistTracks(playlistId, {limit, offset: page * limit});
     return data.body.items;
 }
