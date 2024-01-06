@@ -66,6 +66,9 @@ export const useFetchPlaylists = async () => {
       const snapShotIdsToFetch = updatedSnapShotIds.filter(
         ([, snapShotId]) => !Object.keys(snapShotIds).includes(snapShotId),
       );
+      snapShotIdsToFetch.forEach(([, snapShotId]) => 
+        setSnapShotIds((cur) => ({ ...cur, [snapShotId]: [] })))
+
       for (const [id, snapShotId] of snapShotIdsToFetch) {
         const songs = await fetchPlaylistSongs(accessToken, id);
         setSnapShotIds((cur) => ({ ...cur, [snapShotId]: songs }));
