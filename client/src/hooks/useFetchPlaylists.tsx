@@ -129,7 +129,8 @@ const fetchPlaylistSongs = async (
   nextPage = 0,
 ): Promise<Track[]> => {
   const newSongs = await getPlaylistTracks(accessToken(), nextPage, playlistId);
-  if (newSongs.length === 0) {
+  const allNewSongsAlreadyPresent = newSongs.every(({id: newSongId}) => fetchedSongs.find(({id: fetchedSongId}) => newSongId === fetchedSongId))
+  if (newSongs.length === 0 || allNewSongsAlreadyPresent) {
     return fetchedSongs;
   }
 
