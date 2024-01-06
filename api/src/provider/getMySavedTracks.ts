@@ -8,6 +8,6 @@ interface GetMySavedTracksProps {
 
 export const getMySavedTracks = async ({accessToken, limit, page}: GetMySavedTracksProps): Promise<SpotifyApi.SavedTrackObject[]> => {
     spotifyApi.setAccessToken(accessToken);
-    const data = await spotifyApi.getMySavedTracks({limit, offset: page * 50});
+    const data = await spotifyApi.getMySavedTracks({limit, offset: page * limit});
     return data.body.items;
 }
