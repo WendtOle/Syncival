@@ -8,12 +8,12 @@ const mockGetUserPlaylists = jest.fn();
 import request from 'supertest';
 import {app} from '../src/app'
 
-jest.mock('../src/createAuthorizeURL', () => ({ createAuthorizeURL: mockCreateAuthorizeURL }))
-jest.mock('../src/authorizeAPI', () => ({ getTokens: mockGetTokens }))
-jest.mock('../src/isAccessTokenValid', () => ({ checkAccessTokenValid: mockCheckAccessTokenValid }))
-jest.mock('../src/getRefreshedAccessToken', () => ({ getRefreshedAccessToken: mockGetRefreshedAccessToken }))
-jest.mock('../src/getUserId', () => ({ getUserId: mockGetUserId }))
-jest.mock('../src/getUserPlaylists', () => ({ getUserPlaylists: mockGetUserPlaylists }))
+jest.mock('../src/provider/createAuthorizeURL', () => ({ createAuthorizeURL: mockCreateAuthorizeURL }))
+jest.mock('../src/provider/authorizeAPI', () => ({ getTokens: mockGetTokens }))
+jest.mock('../src/provider/isAccessTokenValid', () => ({ checkAccessTokenValid: mockCheckAccessTokenValid }))
+jest.mock('../src/provider/getRefreshedAccessToken', () => ({ getRefreshedAccessToken: mockGetRefreshedAccessToken }))
+jest.mock('../src/provider/getUserId', () => ({ getUserId: mockGetUserId }))
+jest.mock('../src/provider/getUserPlaylists', () => ({ getUserPlaylists: mockGetUserPlaylists }))
 
 describe('Auth flow', () => {
 it('sends authorization url', async () => {

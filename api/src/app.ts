@@ -1,8 +1,4 @@
-// setup simple express server
-import { getTokens } from './authorizeApi';
-
 const express = require('express');
-import { getUserId } from './getUserId';
 const url = require('url');
 const querystring = require('querystring');
 
@@ -11,18 +7,21 @@ import { artists as fusion2023 } from './data/fusion-artists';
 import { artists as tarmac2022 } from './data/tarmac-2022';
 import { artists as tomorrowland2023 } from './data/tomorrowland-2023';
 import { artists as tarmac2023 } from './data/tarmac-2023';
-import { createAuthorizeURL } from './createAuthorizeURL';
-import { checkAccessTokenValid } from './isAccessTokenValid';
-import { getRefreshedAccessToken } from './getRefreshedAccessToken';
-import { getUserPlaylists } from './getUserPlaylists';
 import { isAllowedOrigin } from './isAllowedOrigin';
-import {createPlaylist as providerCreatePlaylist} from './createPlaylist'
-import { addTracksToPlaylist } from './addTracksToPlaylist';
 import { timeStamp } from './getCurrentTimeStamp';
-import { replaceTracksInPlaylist } from './replaceTracksInPlaylist';
-import { getMySavedTracks } from './provider/getMySavedTracks';
-import { getPlaylistTracks } from './provider/getPlaylistTracks';
-
+import { 
+    getMySavedTracks, 
+    getPlaylistTracks, 
+    createPlaylist as providerCreatePlaylist,
+    addTracksToPlaylist,
+    replaceTracksInPlaylist,
+    createAuthorizeURL,
+    getTokens,
+    getUserId,
+    checkAccessTokenValid,
+    getUserPlaylists,
+    getRefreshedAccessToken
+} from './provider';
 
 const setCors = (req: any, res: any) => {
     const requestOrigin = req.headers.origin ?? [];
