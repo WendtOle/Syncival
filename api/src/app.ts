@@ -132,7 +132,8 @@ app.get('/playlists', async (req: any, res: any) => {
 app.get('/tracks', async (req: any, res: any) => {
     setCors(req, res);
     const { query } = url.parse(req.url);
-    const { accessToken, page, playlistId } = querystring.parse(query);
+    const { accessToken, page: pageString, playlistId } = querystring.parse(query);
+    const page = Number(pageString)
     try {
         console.log('/tracks', {playlistId, page})
         const getResponse = () => {
