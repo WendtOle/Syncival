@@ -32,7 +32,6 @@ export const AppBar = ({
 }: AppBarProps) => {
   const navigate = useNavigate();
   const appBarRef = useRef<any>(null);
-  const appBarHeight = useRef<number>(48);
   const [logoIconHeight, setLogoIconHeight] = useState(24);
   const isLoading = useIsLoading();
   const setAppBarHeight = useSetAtom(appBarHeightAtom);

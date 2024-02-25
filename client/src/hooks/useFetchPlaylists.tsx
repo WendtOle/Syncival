@@ -7,7 +7,7 @@ import { fetchPlaylists } from "./fetchPlaylists";
 
 export const useFetchPlaylists = () => {
   const [playlistFetchState, setPlaylistFetchState] = useAtom(
-    playlistsFetchedStateAtom
+    playlistsFetchedStateAtom,
   );
   const accessToken = useAtomValue(accessTokenAtom);
   const [playlists, setPlaylists] = useAtom(playlistInformationAtom);

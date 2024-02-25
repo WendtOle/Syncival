@@ -41,7 +41,7 @@ const updateSnapShotDate =
 
 const toRecord = <T, K extends string>(
   acc: Record<K, T>,
-  [key, value]: readonly [K, T]
+  [key, value]: readonly [K, T],
 ): Record<K, T> => ({ ...acc, [key]: value });
 
 interface FetchPlaylistInformationProps {
@@ -66,9 +66,9 @@ const fetchPlaylistInformation = async ({
     ...fetchedPlaylists,
     ...simpleToRecord(
       Object.values(newPlaylists).filter(
-        ({ id }) => fetchedPlaylists[id] === undefined
+        ({ id }) => fetchedPlaylists[id] === undefined,
       ),
-      ({ id }) => id
+      ({ id }) => id,
     ),
   };
   return await fetchPlaylistInformation({
