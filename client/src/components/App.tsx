@@ -10,10 +10,12 @@ import { LinueupCreationScreen } from "./screens/LineupCreationScreen";
 import { LineupInspectionScreen } from "./screens/LineupInspectionScreen";
 import { BottomSpotifyPlayer } from "./BottomSpotifyPlayer";
 import { LinupSelectionScreen } from "./screens/LineupSelectionScreen";
+import { useFetchSnapshot } from "../hooks/useFetchSnapshot";
 
 export const App = () => {
   useLineupFetch();
   useFetchPlaylists();
+  useFetchSnapshot();
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div style={{ maxWidth: 800, width: "100%" }}>
