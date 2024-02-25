@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { playlistInformationAtom, playlistSnapShotAtom } from "../state/main";
 import { accessTokenAtom } from "../state/auth";
 import { fetchSnapshots } from "./fetchSnapshots";
+import { Track } from "../state/types";
 
 export const useFetchSnapshot = () => {
   const playlistFetchState = useAtomValue(playlistsFetchedStateAtom);
@@ -27,13 +28,21 @@ export const useFetchSnapshot = () => {
     const fetch = async () => {
       setSnapshotFetchState("fetching");
 
-      const updatedSnapshots = await fetchSnapshots({
+      const addSnapshot = (newSnapShots: Record<string, Track[]>) =>
+        setSnapshots((prev) => ({ ...prev, ...newSnapShots }));
+      const removeSnapshots = (ids: string[]) =>
+        setSnapshots((prev) => {
+          const updated = { ...prev };
+          ids.forEach((id) => delete updated[id]);
+          return updated;
+        });
+      await fetchSnapshots({
         existingSnapshots: snapshots,
         accessToken,
         playlistInfo,
+        addSnapshot,
+        removeSnapshots,
       });
-
-      setSnapshots(updatedSnapshots);
 
       setSnapshotFetchState("fetched");
     };

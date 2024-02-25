@@ -36,6 +36,8 @@ describe("useFetchPlaylists", () => {
       accessToken: () => "access-token",
       existingSnapshots: { [playlistInfo.snapShotId]: [track] },
       playlistInfo: { [playlistInfo.id]: playlistInfo },
+      addSnapshot: () => {},
+      removeSnapshots: () => {},
     });
 
     //Assert
@@ -52,73 +54,11 @@ describe("useFetchPlaylists", () => {
       accessToken: () => "access-token",
       existingSnapshots: {},
       playlistInfo: { [playlistInfo.id]: playlistInfo },
+      addSnapshot: () => {},
+      removeSnapshots: () => {},
     });
 
     //Assert
     expect(mockGetSnapshots).toHaveBeenCalled();
-  });
-  it.skip("should fetch playlists", async () => {
-    // Arrange
-    mockGetSnapshots.mockImplementation((_, page) =>
-      onlyReturnFirstPage({ [playlistInfo.snapShotId]: playlistInfo }, page, {})
-    );
-
-    // Act
-    const playlists = await fetchPlaylists({
-      accessToken: () => "access-token",
-      existingPlaylists: {},
-    });
-
-    // Assert
-    const { snapShotDate, ...withoutSnapShotDate } = playlistInfo;
-    expect(playlists[playlistInfo.id]).toEqual(
-      expect.objectContaining(withoutSnapShotDate)
-    );
-  });
-  it.skip("should not update foreign snapShotDate if smaller than 1 day", async () => {
-    // Arrange
-    const ONE_HOUR = 3600000;
-    const playlist = {
-      ...playlistInfo,
-      snapShotDate: new Date(new Date().getTime() - ONE_HOUR),
-      isOwn: false,
-    };
-    mockGetSnapshots.mockImplementation((_, page) =>
-      onlyReturnFirstPage({ [playlist.snapShotId]: playlist }, page, {})
-    );
-
-    // Act
-    const playlists = await fetchPlaylists({
-      accessToken: () => "access-token",
-      existingPlaylists: { [playlist.id]: playlist },
-    });
-
-    // Assert
-    expect(playlists[playlistInfo.id].snapShotDate).toEqual(
-      playlist.snapShotDate
-    );
-  });
-  it.skip("should update snapShotDate if bigger than 1 day", async () => {
-    // Arrange
-    const TWO_DAYS = 172800000;
-    const playlist = {
-      ...playlistInfo,
-      snapShotDate: new Date(new Date().getTime() - TWO_DAYS),
-      isOwn: false,
-    };
-    mockGetSnapshots.mockImplementation((_, page) =>
-      onlyReturnFirstPage({ [playlist.snapShotId]: playlist }, page, {})
-    );
-
-    // Act
-    const playlists = await fetchPlaylists({
-      accessToken: () => "access-token",
-      existingPlaylists: { [playlist.id]: playlist },
-    });
-
-    // Assert
-    expect(playlists[playlistInfo.id].snapShotDate).not.toEqual(
-      playlist.snapShotDate
-    );
   });
 });
