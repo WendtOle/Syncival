@@ -2,7 +2,6 @@ const mockGetSnapshots = jest.fn();
 
 import { PlaylistInformation, Track } from "../state/types";
 import { fetchPlaylists } from "./fetchPlaylists";
-import { LIKED_SONGS_PLAYLIST_ID } from "./fetchPlaylists-old";
 import { fetchSnapshots } from "./fetchSnapshots";
 
 jest.mock("../state/loadEnvVariables.ts", () => ({

@@ -1,8 +1,8 @@
 const mockGetPlaylists = jest.fn();
 
 import { PlaylistInformation } from "../state/types";
+import { LIKED_SONGS_PLAYLIST_ID } from "../util/constants";
 import { fetchPlaylists } from "./fetchPlaylists";
-import { LIKED_SONGS_PLAYLIST_ID } from "./fetchPlaylists-old";
 
 jest.mock("../state/loadEnvVariables.ts", () => ({
   backendUrl: "dummy-backend-url",
