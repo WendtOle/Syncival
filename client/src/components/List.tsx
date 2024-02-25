@@ -9,7 +9,7 @@ export const List = ({ children }: { children: any }) => {
   const maxHeight = useContentHeight();
   const isPlayerOpen = useIsPlayerOpen();
   const padding = isPlayerOpen ? 78 : 0;
-  const setIsScrolled = useSetAtom(scrolledAtom)
+  const setIsScrolled = useSetAtom(scrolledAtom);
 
   useEffect(() => {
     const containerRef = document.getElementById("scrollable-auto-tab-list");

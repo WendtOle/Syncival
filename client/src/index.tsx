@@ -8,7 +8,7 @@ import { Preload } from "./Preload";
 import { ThemeProvider, createTheme } from "@mui/material";
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement,
 );
 
 const theme = createTheme({
@@ -30,5 +30,5 @@ root.render(
         <App />
       </BrowserRouter>
     </AuthenticationWrapper>
-  </ThemeProvider>
+  </ThemeProvider>,
 );

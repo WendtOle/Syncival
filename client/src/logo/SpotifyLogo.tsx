@@ -4,7 +4,7 @@ const SPOTIFY_LOGO_MIN_HEIGHT = 21;
 export const SpotifyLogo = ({
   variant,
   height: nullableHeight,
-  sx
+  sx,
 }: {
   variant?: "black" | "white";
   height?: number;
@@ -17,13 +17,12 @@ export const SpotifyLogo = ({
   const height = Math.max(nullableHeight ?? 0, SPOTIFY_LOGO_MIN_HEIGHT);
   return (
     <Box sx={sx}>
-       <img
-      src={path}
-      height={`${height}px`}
-      alt="spotify logo"
-      style={{ padding: `${height / 2}px` }}
-    />
+      <img
+        src={path}
+        height={`${height}px`}
+        alt="spotify logo"
+        style={{ padding: `${height / 2}px` }}
+      />
     </Box>
-   
   );
 };
