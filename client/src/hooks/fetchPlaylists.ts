@@ -1,9 +1,6 @@
 import { getPlaylists } from "../provider/playlists";
 import { PlaylistInformation } from "../state/types";
-import {
-  LIKED_SONGS_PLAYLIST_ID,
-  likedSongsPlaylist,
-} from "./useFetchPlaylists-old";
+import { LIKED_SONGS_PLAYLIST_ID, likedSongsPlaylist } from "../util/constants";
 import { toRecord as simpleToRecord } from "../util/toRecord";
 
 interface FetchPlaylistsProps {
