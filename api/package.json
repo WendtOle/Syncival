@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon",
-    "test": "jest --silent --watch",
+    "test": "jest --watch",
     "test:single": "jest --silent",
     "build": "rimraf dist && tsc",
     "deploy:dev": "npm run build && vercel",
