@@ -79,3 +79,5 @@ export enum RouteEnum {
   NEW_LINEUP = "/add",
   LINEUP_SELECTION = "/lineup-selection",
 }
+
+export type FetchingStates = "fetched" | "fetching" | "not-fetched";
