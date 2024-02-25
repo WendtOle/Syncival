@@ -36,7 +36,7 @@ export const AppBar = ({
   const [logoIconHeight, setLogoIconHeight] = useState(24);
   const isLoading = useIsLoading();
   const setAppBarHeight = useSetAtom(appBarHeightAtom);
-  const isScrolled = useAtomValue(scrolledAtom)
+  const isScrolled = useAtomValue(scrolledAtom);
 
   useEffect(() => {
     const handleResize = () => {
@@ -46,7 +46,7 @@ export const AppBar = ({
       }
       const height = appBarRef.current.clientHeight;
       setAppBarHeight(height);
-      setLogoIconHeight(height / 2)
+      setLogoIconHeight(height / 2);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -58,7 +58,10 @@ export const AppBar = ({
       <MuiAppBar
         position="sticky"
         ref={appBarRef}
-        style={{backgroundColor: isScrolled ? "#fff9c4" : "white", transition: "background-color 0.7s ease"}}
+        style={{
+          backgroundColor: isScrolled ? "#fff9c4" : "white",
+          transition: "background-color 0.7s ease",
+        }}
         sx={{ "&.MuiAppBar-root": { boxShadow: "none" } }}
       >
         <Toolbar sx={{ justifyContent: "space-between" }}>
@@ -85,16 +88,29 @@ export const AppBar = ({
                 <Box sx={{ display: { xs: "none", sm: "block" } }}>{title}</Box>
               </>
             )}
-            </Typography>
-          <Box>
-            {children}
-          </Box>
-          
+          </Typography>
+          <Box>{children}</Box>
         </Toolbar>
-        <Box sx={{position: "absolute", width: "100%", display: "flex", justifyContent: "center", zIndex: -1}}>
-              <SpotifyIcon size={logoIconHeight} variant="black" sx={{ display: { sm: "none" } }}/>
-              <SpotifyLogo height={logoIconHeight} variant="black" sx={{ display: { xs: "none", sm: "block" } }}/>
-          </Box>
+        <Box
+          sx={{
+            position: "absolute",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            zIndex: -1,
+          }}
+        >
+          <SpotifyIcon
+            size={logoIconHeight}
+            variant="black"
+            sx={{ display: { sm: "none" } }}
+          />
+          <SpotifyLogo
+            height={logoIconHeight}
+            variant="black"
+            sx={{ display: { xs: "none", sm: "block" } }}
+          />
+        </Box>
         {isLoading && <LinearProgress color="inherit" />}
       </MuiAppBar>
     </>

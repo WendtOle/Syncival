@@ -66,8 +66,9 @@ export const useFetchPlaylists = async () => {
       const snapShotIdsToFetch = updatedSnapShotIds.filter(
         ([, snapShotId]) => !Object.keys(snapShotIds).includes(snapShotId),
       );
-      snapShotIdsToFetch.forEach(([, snapShotId]) => 
-        setSnapShotIds((cur) => ({ ...cur, [snapShotId]: [] })))
+      snapShotIdsToFetch.forEach(([, snapShotId]) =>
+        setSnapShotIds((cur) => ({ ...cur, [snapShotId]: [] })),
+      );
 
       for (const [id, snapShotId] of snapShotIdsToFetch) {
         const songs = await fetchPlaylistSongs(accessToken, id);
@@ -132,8 +133,10 @@ const fetchPlaylistSongs = async (
   nextPage = 0,
 ): Promise<Track[]> => {
   const newSongs = await getPlaylistTracks(accessToken(), nextPage, playlistId);
-  const allNewSongsAlreadyPresent = newSongs.every(({id: newSongId}) => fetchedSongs.find(({id: fetchedSongId}) => newSongId === fetchedSongId))
-  if (newSongs.length === 0 || allNewSongsAlreadyPresent) {
+  const allNewSongsAlreadyPresent = newSongs.every(({ id: newSongId }) =>
+    fetchedSongs.find(({ id: fetchedSongId }) => newSongId === fetchedSongId),
+  );
+  if (newSongs.length === 0 || allNewSongsAlreadyPresent) {
     return fetchedSongs;
   }
 

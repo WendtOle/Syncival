@@ -15,21 +15,24 @@ export const App = () => {
   useLineupFetch();
   useFetchPlaylists();
   return (
-    <div style={{display: "flex", justifyContent: "center"}}>
-    <div style={{maxWidth: 800, width: "100%"}}>
-      <Routes>
-        <Route path={RouteEnum.LINEUP_SELECTION} element={<LinupSelectionScreen />} />
-        <Route path={RouteEnum.ARTISTS} element={<ArtistResult />} />
-        <Route path={RouteEnum.EXCLUDE} element={<ExcludePlaylistScreen />} />
-        <Route
-          path={RouteEnum.NEW_LINEUP}
-          element={<LinueupCreationScreen />}
-        />
-        <Route path={RouteEnum.LINEUP} element={<LineupInspectionScreen />} />
-      </Routes>
-      <BottomSpotifyPlayer />
-      <InformationSnackbar />
-    </div>
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ maxWidth: 800, width: "100%" }}>
+        <Routes>
+          <Route
+            path={RouteEnum.LINEUP_SELECTION}
+            element={<LinupSelectionScreen />}
+          />
+          <Route path={RouteEnum.ARTISTS} element={<ArtistResult />} />
+          <Route path={RouteEnum.EXCLUDE} element={<ExcludePlaylistScreen />} />
+          <Route
+            path={RouteEnum.NEW_LINEUP}
+            element={<LinueupCreationScreen />}
+          />
+          <Route path={RouteEnum.LINEUP} element={<LineupInspectionScreen />} />
+        </Routes>
+        <BottomSpotifyPlayer />
+        <InformationSnackbar />
+      </div>
     </div>
   );
 };

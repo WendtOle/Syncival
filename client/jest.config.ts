@@ -1,4 +1,3 @@
-
 export default {
   clearMocks: true,
   coverageDirectory: "v8",
@@ -6,6 +5,6 @@ export default {
   roots: ["<rootDir>"],
   testMatch: ["**/*.spec.ts"],
   transform: {
-    "^.+\\.tsx?$": "ts-jest"
-  }
-}
+    "^.+\\.tsx?$": "ts-jest",
+  },
+};

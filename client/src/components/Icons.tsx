@@ -8,7 +8,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import UpIcon from "@mui/icons-material/KeyboardArrowUp";
 import CheckIcon from "@mui/icons-material/Check";
 
-
 export {
   InfoIcon,
   SaveIcon,
@@ -18,5 +17,5 @@ export {
   SettingsIcon,
   CloseIcon,
   UpIcon,
-  CheckIcon
+  CheckIcon,
 };
