@@ -26,7 +26,7 @@ describe("useFetchPlaylists", () => {
   it("always append liked_songs playlist", async () => {
     //Arrange
     mockGetPlaylists.mockImplementation((_, page) =>
-      onlyReturnFirstPage({}, page, {})
+      onlyReturnFirstPage({}, page, {}),
     );
 
     //Act
@@ -41,7 +41,11 @@ describe("useFetchPlaylists", () => {
   it("should fetch playlists", async () => {
     // Arrange
     mockGetPlaylists.mockImplementation((_, page) =>
-      onlyReturnFirstPage({ [playlistInfo.snapShotId]: playlistInfo }, page, {})
+      onlyReturnFirstPage(
+        { [playlistInfo.snapShotId]: playlistInfo },
+        page,
+        {},
+      ),
     );
 
     // Act
@@ -53,7 +57,7 @@ describe("useFetchPlaylists", () => {
     // Assert
     const { snapShotDate, ...withoutSnapShotDate } = playlistInfo;
     expect(playlists[playlistInfo.id]).toEqual(
-      expect.objectContaining(withoutSnapShotDate)
+      expect.objectContaining(withoutSnapShotDate),
     );
   });
   it("should not update foreign snapShotDate if smaller than 1 day", async () => {
@@ -65,7 +69,7 @@ describe("useFetchPlaylists", () => {
       isOwn: false,
     };
     mockGetPlaylists.mockImplementation((_, page) =>
-      onlyReturnFirstPage({ [playlist.snapShotId]: playlist }, page, {})
+      onlyReturnFirstPage({ [playlist.snapShotId]: playlist }, page, {}),
     );
 
     // Act
@@ -76,7 +80,7 @@ describe("useFetchPlaylists", () => {
 
     // Assert
     expect(playlists[playlistInfo.id].snapShotDate).toEqual(
-      playlist.snapShotDate
+      playlist.snapShotDate,
     );
   });
   it("should update snapShotDate if bigger than 1 day", async () => {
@@ -88,7 +92,7 @@ describe("useFetchPlaylists", () => {
       isOwn: false,
     };
     mockGetPlaylists.mockImplementation((_, page) =>
-      onlyReturnFirstPage({ [playlist.snapShotId]: playlist }, page, {})
+      onlyReturnFirstPage({ [playlist.snapShotId]: playlist }, page, {}),
     );
 
     // Act
@@ -99,7 +103,7 @@ describe("useFetchPlaylists", () => {
 
     // Assert
     expect(playlists[playlistInfo.id].snapShotDate).not.toEqual(
-      playlist.snapShotDate
+      playlist.snapShotDate,
     );
   });
 });

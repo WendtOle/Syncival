@@ -1,7 +1,6 @@
 const mockGetSnapshots = jest.fn();
 
 import { PlaylistInformation, Track } from "../state/types";
-import { fetchPlaylists } from "./fetchPlaylists";
 import { fetchSnapshots } from "./fetchSnapshots";
 
 jest.mock("../state/loadEnvVariables.ts", () => ({
@@ -46,7 +45,7 @@ describe("useFetchPlaylists", () => {
   it("fetch not existing snapshot", async () => {
     //Arrange
     mockGetSnapshots.mockImplementation((_, page) =>
-      onlyReturnFirstPage(Promise.resolve([track]), page, Promise.resolve([]))
+      onlyReturnFirstPage(Promise.resolve([track]), page, Promise.resolve([])),
     );
 
     //Act

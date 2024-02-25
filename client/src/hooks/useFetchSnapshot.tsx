@@ -12,7 +12,7 @@ import { Track } from "../state/types";
 export const useFetchSnapshot = () => {
   const playlistFetchState = useAtomValue(playlistsFetchedStateAtom);
   const [snapshotFetchState, setSnapshotFetchState] = useAtom(
-    snapshotFetchedStateAtom
+    snapshotFetchedStateAtom,
   );
   const [snapshots, setSnapshots] = useAtom(playlistSnapShotAtom);
   const playlistInfo = useAtomValue(playlistInformationAtom);
