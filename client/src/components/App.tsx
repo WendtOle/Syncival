@@ -1,4 +1,3 @@
-import { ArtistResult } from "./ArtistResult";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { RouteEnum } from "../state/types";
@@ -12,6 +11,7 @@ import { BottomSpotifyPlayer } from "./BottomSpotifyPlayer";
 import { LinupSelectionScreen } from "./screens/LineupSelectionScreen";
 import { useFetchSnapshot } from "../hooks/useFetchSnapshot";
 import { useFetchArtists } from "../hooks/useFetchArtists";
+import { ArtistList } from "./ArtistList";
 
 export const App = () => {
   useLineupFetch();
@@ -26,7 +26,7 @@ export const App = () => {
             path={RouteEnum.LINEUP_SELECTION}
             element={<LinupSelectionScreen />}
           />
-          <Route path={RouteEnum.ARTISTS} element={<ArtistResult />} />
+          <Route path={RouteEnum.ARTISTS} element={<ArtistList />} />
           <Route path={RouteEnum.EXCLUDE} element={<ExcludePlaylistScreen />} />
           <Route
             path={RouteEnum.NEW_LINEUP}
