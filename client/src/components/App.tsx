@@ -11,11 +11,13 @@ import { LineupInspectionScreen } from "./screens/LineupInspectionScreen";
 import { BottomSpotifyPlayer } from "./BottomSpotifyPlayer";
 import { LinupSelectionScreen } from "./screens/LineupSelectionScreen";
 import { useFetchSnapshot } from "../hooks/useFetchSnapshot";
+import { useFetchArtists } from "../hooks/useFetchArtists";
 
 export const App = () => {
   useLineupFetch();
   useFetchPlaylists();
   useFetchSnapshot();
+  useFetchArtists();
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div style={{ maxWidth: 800, width: "100%" }}>

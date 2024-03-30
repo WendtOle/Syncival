@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-import { PlaylistInformation, Track } from "./types";
+import { LimitedArtist, PlaylistInformation, Track } from "./types";
 
 export const playlistInformationAtom = atomWithStorage<
   Record<string, PlaylistInformation>
@@ -31,3 +31,7 @@ export const playlistTabExpandedAtom = atomWithStorage<
 >("expanded", "own");
 
 export const informationToastAtom = atom<string | null>(null);
+
+export const artistSnapshotsAtom = atomWithStorage<
+  Record<string, LimitedArtist>
+>("artists", {});

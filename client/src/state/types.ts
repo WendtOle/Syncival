@@ -30,6 +30,11 @@ export interface ArtistV3 {
   tracks: string[];
 }
 
+export type LimitedArtist = Pick<
+  SpotifyApi.ArtistObjectFull,
+  "genres" | "id" | "name"
+> & { imageUrl: string };
+
 export interface ArtistV4 {
   id: string;
   name: string;
