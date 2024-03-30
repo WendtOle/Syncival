@@ -6,7 +6,6 @@ import { useFetchPlaylists } from "../hooks/useFetchPlaylists";
 import { InformationSnackbar } from "./InformationSnackbar";
 import { ExcludePlaylistScreen } from "./ExludePlaylistScreen";
 import { LinueupCreationScreen } from "./screens/LineupCreationScreen";
-import { LineupInspectionScreen } from "./screens/LineupInspectionScreen";
 import { BottomSpotifyPlayer } from "./BottomSpotifyPlayer";
 import { LinupSelectionScreen } from "./screens/LineupSelectionScreen";
 import { useFetchSnapshot } from "../hooks/useFetchSnapshot";
@@ -32,7 +31,6 @@ export const App = () => {
             path={RouteEnum.NEW_LINEUP}
             element={<LinueupCreationScreen />}
           />
-          <Route path={RouteEnum.LINEUP} element={<LineupInspectionScreen />} />
         </Routes>
         <BottomSpotifyPlayer />
         <InformationSnackbar />

@@ -20,7 +20,7 @@ export const useLineups = (): {
   const [lineups, setLineups] = useAtom(lineupsAtom);
   const setInformationToast = useSetAtom(informationToastAtom);
   const [selectedLineupKey, setSelectedLineupKey] = useAtom(
-    selectedLineupKeyAtom,
+    selectedLineupKeyAtom
   );
 
   const adjustedLineups = useMemo(
@@ -30,12 +30,12 @@ export const useLineups = (): {
         name,
         selected: selectedLineupKey === key,
       })),
-    [selectedLineupKey, lineups],
+    [selectedLineupKey, lineups]
   );
 
   const selected = useMemo(
     () => lineups.find(({ key }) => key === selectedLineupKey),
-    [lineups, selectedLineupKey],
+    [lineups, selectedLineupKey]
   );
 
   const select = (key: string) => {
@@ -47,7 +47,7 @@ export const useLineups = (): {
 
   const deleteSelected = () => {
     setLineups((current) =>
-      current.filter((current) => current.key !== selectedLineupKey),
+      current.filter((current) => current.key !== selectedLineupKey)
     );
     setSelectedLineupKey(lineups[0].key);
   };

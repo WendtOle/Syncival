@@ -43,10 +43,6 @@ export const AppBarMenu = () => {
       >
         <MenuList dense disablePadding>
           <AppBarMenuLineupSection onSelect={onClose} />
-          <Divider />
-          <MenuItem onClick={() => navigate(RouteEnum.LINEUP)}>
-            Inspect lineup
-          </MenuItem>
           <MenuItem onClick={() => navigate(RouteEnum.NEW_LINEUP)}>
             Add lineup
           </MenuItem>

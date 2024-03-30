@@ -78,11 +78,10 @@ export interface Lineup {
 }
 
 export enum RouteEnum {
-  ARTISTS = "/",
+  ARTISTS = "/lineup",
   EXCLUDE = "/exclude",
-  LINEUP = "/lineup",
   NEW_LINEUP = "/add",
-  LINEUP_SELECTION = "/lineup-selection",
+  LINEUP_SELECTION = "/",
 }
 
 export type FetchingStates = "fetched" | "fetching" | "not-fetched";

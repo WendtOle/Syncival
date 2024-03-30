@@ -5,7 +5,6 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
-import { BaseArtistListItem } from "./BaseArtistListItem";
 import { SpotifyIFrameWrapper } from "./SpotifyIFrameWrapper";
 import { useAtomValue } from "jotai";
 import { artistSnapshotsAtom } from "../state/main";
@@ -17,6 +16,11 @@ export interface SportifyArtistListItemProps {
 
 export const SpotifyArtistListItem = ({ id }: SportifyArtistListItemProps) => {
   const artists = useAtomValue(artistSnapshotsAtom);
+  const artist = artists[id];
+  if (!artist) {
+    console.log({ id });
+    //return null;
+  }
   const { name, genres, imageUrl } = artists[id];
   const genre = `${genres.slice(0, 2).join(", ")}${
     genres.length > 2 ? " ..." : ""

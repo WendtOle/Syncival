@@ -73,7 +73,12 @@ export const AppBar = ({
             variant="h6"
             component="div"
             color="inherit"
-            sx={{ flexGrow: 1, fontWeight: 400, letterSpacing: -0.5 }}
+            sx={{
+              flexGrow: 1,
+              fontWeight: 400,
+              letterSpacing: -0.5,
+              marginLeft: 2,
+            }}
           >
             {!shortTitle ? (
               <div>{title}</div>
