@@ -103,6 +103,19 @@ function toRecord<T, K extends string | number | symbol>(
   }, {} as Record<K, T>);
 }
 
+const extractImageUrl = (images: SpotifyApi.ImageObject[] | null) => {
+  if (!images) return undefined;
+  const smallestImage = images.reduce(
+    (smallest: SpotifyApi.ImageObject, image: SpotifyApi.ImageObject) => {
+      if (!image.height || !smallest.height) return smallest;
+      if (image.height < smallest.height) return image;
+      return smallest;
+    },
+    images[0]
+  );
+  return smallestImage.url;
+};
+
 app.get("/playlists", async (req: any, res: any) => {
   setCors(req, res);
   const { query } = url.parse(req.url);
@@ -112,20 +125,14 @@ app.get("/playlists", async (req: any, res: any) => {
 
     const playlists = await getUserPlaylists({ limit: 50, page, accessToken });
     const processedPlaylists = playlists.map(
-      (playlist: SpotifyApi.PlaylistObjectSimplified) => {
-        const image = playlist.images.reduce((smallest: any, image: any) => {
-          if (image.height < smallest.height) return image;
-          return smallest;
-        }, playlist.images[0]);
-        return {
-          name: playlist.name,
-          id: playlist.id,
-          isOwn: playlist.owner.id === userId,
-          trackAmount: playlist.tracks.total,
-          snapShotId: playlist.snapshot_id,
-          imageUrl: image?.url,
-        };
-      }
+      (playlist: SpotifyApi.PlaylistObjectSimplified) => ({
+        name: playlist.name,
+        id: playlist.id,
+        isOwn: playlist.owner.id === userId,
+        trackAmount: playlist.tracks.total,
+        snapShotId: playlist.snapshot_id,
+        imageUrl: extractImageUrl(playlist.images),
+      })
     );
     res.send(toRecord(processedPlaylists, (playlist) => playlist.id));
     return;
