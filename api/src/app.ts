@@ -22,6 +22,7 @@ import {
   getUserPlaylists,
   getRefreshedAccessToken,
 } from "./provider";
+import { spotifyApi } from "./provider/getSpotifyApi";
 
 const setCors = (req: any, res: any) => {
   const requestOrigin = req.headers.origin ?? [];
@@ -113,7 +114,7 @@ const extractImageUrl = (images: SpotifyApi.ImageObject[] | null) => {
     },
     images[0]
   );
-  return smallestImage.url;
+  return smallestImage?.url;
 };
 
 app.get("/playlists", async (req: any, res: any) => {
@@ -142,6 +143,24 @@ app.get("/playlists", async (req: any, res: any) => {
     res.send("error");
     return;
   }
+});
+
+app.get("/artist-infos", async (req: any, res: any) => {
+  setCors(req, res);
+  const { query } = url.parse(req.url);
+  const { artistId, accessToken } = querystring.parse(query);
+  spotifyApi.setAccessToken(accessToken);
+  console.log({ artistId });
+  const response = await spotifyApi.getArtists(artistId.slice(0, 50));
+  const artists = response.body.artists;
+  const adjustedArtistData = artists.map(({ id, name, images, genres }) => ({
+    id,
+    name,
+    imageUrl: extractImageUrl(images),
+    genres,
+  }));
+  res.send(adjustedArtistData);
+  return;
 });
 
 app.get("/tracks", async (req: any, res: any) => {
@@ -174,7 +193,10 @@ app.get("/tracks", async (req: any, res: any) => {
           id,
           name,
           artists: artists.map(
-            ({ name, id }: SpotifyApi.ArtistObjectSimplified) => ({ name, id })
+            ({ name, id, ...rest }: SpotifyApi.ArtistObjectSimplified) => {
+              //console.log({ rest });
+              return { name, id };
+            }
           ),
           imageUrl: image?.url,
           albumName: album.name,
