@@ -3,6 +3,7 @@ import { useLineups } from "../hooks/useLineups";
 import { AppBar } from "./AppBar";
 import { List } from "./List";
 import { ArtistListItem } from "./ArtistListItem";
+import { SpotifyLogo } from "../logo/SpotifyLogo";
 
 export const ArtistList = () => {
   const { selected } = useLineups();
@@ -11,7 +12,7 @@ export const ArtistList = () => {
   const sortedArtists = (selected?.artists ?? [])
     .map((artistName): { name: string; id?: string } => {
       const matchedArtist = filteredArtists.find(
-        (artist) => artist.name === artistName,
+        (artist) => artist.name === artistName
       );
       if (matchedArtist) {
         return matchedArtist;
@@ -30,6 +31,17 @@ export const ArtistList = () => {
           <ArtistListItem name={name} id={id} key={`artist-${name}-${i}`} />
         ))}
       </List>
+      <div
+        style={{
+          position: "fixed",
+          bottom: 0,
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <SpotifyLogo variant="black" height={48} />
+      </div>
     </>
   );
 };
