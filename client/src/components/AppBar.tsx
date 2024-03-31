@@ -89,9 +89,9 @@ export const AppBar = ({
               </>
             )}
           </Typography>
-          <Box>{children}</Box>
         </Toolbar>
         {isLoading && <LinearProgress color="inherit" />}
+        {children}
       </MuiAppBar>
     </>
   );

@@ -15,11 +15,14 @@ import { useAtomValue } from "jotai";
 import { accessTokenAtom } from "../../state/auth";
 import { CoverArt } from "../CoverArt";
 import { useIsScrolled } from "../../hooks/useIsScrolled";
+import { onlyShowShopifyArtistsAtom } from "../../state/ui";
+import { ArtistFilter } from "../ArtistFilter";
 
 export const FestivalScreen = () => {
   const accessToken = useAtomValue(accessTokenAtom);
   const festival = useParams().festival;
   useIsScrolled("artist-scroll-container");
+  const onlyShowShopifyArtists = useAtomValue(onlyShowShopifyArtistsAtom);
 
   const fetchPage = async ({ pageParam: offset }: any) => {
     //if (!accessToken()) return;
@@ -49,17 +52,23 @@ export const FestivalScreen = () => {
     ({ key }: { key: string }) => key === festival
   ).name;
 
+  const filteredArtists = artists?.pages
+    .flatMap((page) => page)
+    .filter((artist) => !onlyShowShopifyArtists || typeof artist === "object");
+
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      <AppBar title={festivalName} showBackButton />
+      <AppBar title={festivalName} showBackButton>
+        <ArtistFilter />
+      </AppBar>
       <Virtuoso
         style={{
           height: "100%",
         }}
-        data={artists?.pages.flatMap((page) => page)}
+        data={filteredArtists}
         id="artist-scroll-container"
         itemContent={(index) => {
-          const artist = artists?.pages.flatMap((page) => page)[index];
+          const artist = (filteredArtists ?? [])[index];
           if (typeof artist === "string")
             return (
               <ListItem dense>

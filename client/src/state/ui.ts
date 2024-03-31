@@ -15,10 +15,12 @@ export const SortOptionNames: Record<SortOption, string> = {
 
 export const sortAtom = atomWithStorage<SortOption>(
   "groupBy",
-  SortOption.DEFAULT,
+  SortOption.DEFAULT
 );
 
 export const appBarHeightAtom = atom(0);
 export const scrolledAtom = atom(false);
 
 export const spotifyTrackIdAtom = atom<string | null>(null);
+
+export const onlyShowShopifyArtistsAtom = atom(true);
