@@ -14,10 +14,12 @@ import {
 import { useAtomValue } from "jotai";
 import { accessTokenAtom } from "../../state/auth";
 import { CoverArt } from "../CoverArt";
+import { useIsScrolled } from "../../hooks/useIsScrolled";
 
 export const FestivalScreen = () => {
   const accessToken = useAtomValue(accessTokenAtom);
   const festival = useParams().festival;
+  useIsScrolled("artist-scroll-container");
 
   const fetchPage = async ({ pageParam: offset }: any) => {
     //if (!accessToken()) return;
@@ -55,6 +57,7 @@ export const FestivalScreen = () => {
           height: "100%",
         }}
         data={artists?.pages.flatMap((page) => page)}
+        id="artist-scroll-container"
         itemContent={(index) => {
           const artist = artists?.pages.flatMap((page) => page)[index];
           if (typeof artist === "string")
