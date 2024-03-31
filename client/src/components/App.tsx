@@ -11,14 +11,15 @@ import { LineupInspectionScreen } from "./screens/LineupInspectionScreen";
 import { BottomSpotifyPlayer } from "./BottomSpotifyPlayer";
 import { LinupSelectionScreen } from "./screens/LineupSelectionScreen";
 import { useFetchSnapshot } from "../hooks/useFetchSnapshot";
+import { FestivalScreen } from "./screens/FestivalScreen";
 
 export const App = () => {
   useLineupFetch();
   useFetchPlaylists();
   useFetchSnapshot();
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <div style={{ maxWidth: 800, width: "100%" }}>
+    <div style={{ display: "flex", justifyContent: "center", height: "100vh" }}>
+      <div style={{ maxWidth: 800, width: "100%", height: "100%" }}>
         <Routes>
           <Route
             path={RouteEnum.LINEUP_SELECTION}
@@ -31,6 +32,7 @@ export const App = () => {
             element={<LinueupCreationScreen />}
           />
           <Route path={RouteEnum.LINEUP} element={<LineupInspectionScreen />} />
+          <Route path="/:festival" element={<FestivalScreen />} />
         </Routes>
         <BottomSpotifyPlayer />
         <InformationSnackbar />
