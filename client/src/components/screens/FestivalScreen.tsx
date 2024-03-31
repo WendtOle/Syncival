@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { AppBar } from "../AppBar";
 import { Virtuoso } from "react-virtuoso";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { backendUrl } from "../../state/loadEnvVariables";
 import { SpotifyIFrameWrapper } from "../SpotifyIFrameWrapper";
 import {
@@ -35,9 +35,21 @@ export const FestivalScreen = () => {
     },
   });
 
+  const { data: festivals } = useQuery({
+    queryKey: ["festivals"],
+    queryFn: async () => {
+      const response = await fetch(`${backendUrl}/festivals`);
+      return await response.json();
+    },
+  });
+
+  const festivalName = festivals.find(
+    ({ key }: { key: string }) => key === festival
+  ).name;
+
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      <AppBar title={festival ?? "undefined"} />
+      <AppBar title={festivalName} showBackButton />
       <Virtuoso
         style={{
           height: "100%",
