@@ -2,23 +2,16 @@ import { ArtistResult } from "./ArtistResult";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { RouteEnum } from "../state/types";
-import { useLineupFetch } from "../hooks/useLineupFetch";
-import { useFetchPlaylists } from "../hooks/useFetchPlaylists";
 import { InformationSnackbar } from "./InformationSnackbar";
 import { ExcludePlaylistScreen } from "./ExludePlaylistScreen";
 import { LinueupCreationScreen } from "./screens/LineupCreationScreen";
 import { LineupInspectionScreen } from "./screens/LineupInspectionScreen";
 import { BottomSpotifyPlayer } from "./BottomSpotifyPlayer";
 import { LinupSelectionScreen } from "./screens/LineupSelectionScreen";
-import { useFetchSnapshot } from "../hooks/useFetchSnapshot";
 import { FestivalScreen } from "./screens/FestivalScreen";
 import { FestivalSelectionScreen } from "./screens/FestivalSelectionScreen";
-import { SpotifyLogo } from "../logo/SpotifyLogo";
 
 export const App = () => {
-  useLineupFetch();
-  useFetchPlaylists();
-  useFetchSnapshot();
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100vh" }}>
       <div style={{ maxWidth: 800, width: "100%", height: "100%" }}>
