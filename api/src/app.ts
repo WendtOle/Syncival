@@ -22,7 +22,7 @@ import {
   getUserPlaylists,
   getRefreshedAccessToken,
 } from "./provider";
-import { Festival, getFestivalArtists } from "./provider/lineup";
+import { Festival, getFestivalArtists, lineup } from "./provider/lineup";
 
 const setCors = (req: any, res: any) => {
   const requestOrigin = req.headers.origin ?? [];
@@ -236,6 +236,18 @@ app.post("/createPlaylist", async (req: any, res: any) => {
 app.get("/lineups", async (req: any, res: any) => {
   setCors(req, res);
   res.send([fusion2023, tarmac2022, tomorrowland2023, tarmac2023]);
+  return;
+});
+
+app.get("/festivals", async (req: any, res: any) => {
+  setCors(req, res);
+  res.send(
+    Object.values(Festival).map((festival) => ({
+      name: lineup[festival].name,
+      key: festival,
+      artistAmount: lineup[festival].artists.length,
+    }))
+  );
   return;
 });
 

@@ -12,11 +12,16 @@ import { artists as tarmac2022 } from "../data/tarmac-2022";
 import { artists as tomorrowland2023 } from "../data/tomorrowland-2023";
 import { artists as tarmac2023 } from "../data/tarmac-2023";
 
-const lineup: Record<Festival, string[]> = {
-  [Festival.FUSION_2023]: fusion2023.artists,
-  [Festival.TARMAC_2022]: tarmac2022.artists,
-  [Festival.TOMORROWLAND_2023]: tomorrowland2023.artists,
-  [Festival.TARMAC_2023]: tarmac2023.artists,
+interface Lineup {
+  name: string;
+  artists: string[];
+}
+
+export const lineup: Record<Festival, Lineup> = {
+  [Festival.FUSION_2023]: fusion2023,
+  [Festival.TARMAC_2022]: tarmac2022,
+  [Festival.TOMORROWLAND_2023]: tomorrowland2023,
+  [Festival.TARMAC_2023]: tarmac2023,
 };
 
 interface Pagination {
@@ -33,7 +38,7 @@ export const getFestivalArtists = async ({
   offset,
 }: Pagination) => {
   spotifyApi.setAccessToken(accessToken);
-  const toSearch = lineup[festival]
+  const toSearch = lineup[festival].artists
     .sort((a, b) => (a.toLowerCase() < b.toLowerCase() ? -1 : 1))
     .slice(offset, offset + limit);
   const searched = await Promise.all(toSearch.map(searchArtist));
