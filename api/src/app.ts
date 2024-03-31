@@ -22,6 +22,7 @@ import {
   getUserPlaylists,
   getRefreshedAccessToken,
 } from "./provider";
+import { Festival, getFestivalArtists } from "./provider/lineup";
 
 const setCors = (req: any, res: any) => {
   const requestOrigin = req.headers.origin ?? [];
@@ -235,5 +236,29 @@ app.post("/createPlaylist", async (req: any, res: any) => {
 app.get("/lineups", async (req: any, res: any) => {
   setCors(req, res);
   res.send([fusion2023, tarmac2022, tomorrowland2023, tarmac2023]);
+  return;
+});
+
+app.get("/:festival", async (req: any, res: any) => {
+  setCors(req, res);
+  const { festival } = req.params;
+  if (!Object.values(Festival).includes(festival)) {
+    res.status(404).send("Invalid festival.");
+    return;
+  }
+  const { query } = url.parse(req.url);
+  const { accessToken, offset, limit } = querystring.parse(query);
+  if (!accessToken) {
+    res.status(401).send("No access token provided.");
+    return;
+  }
+  res.send(
+    await getFestivalArtists({
+      accessToken,
+      festival,
+      offset: parseInt(offset ?? "0"),
+      limit: parseInt(limit ?? "10"),
+    })
+  );
   return;
 });
