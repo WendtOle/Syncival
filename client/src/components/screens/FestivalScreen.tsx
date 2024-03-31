@@ -27,7 +27,7 @@ export const FestivalScreen = () => {
   };
 
   const { data: artists, fetchNextPage } = useInfiniteQuery({
-    queryKey: ["festival"],
+    queryKey: [festival],
     queryFn: fetchPage,
     initialPageParam: 0,
     getNextPageParam: (_, __, lastPageParam) => {
