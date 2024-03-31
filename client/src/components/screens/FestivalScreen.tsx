@@ -59,7 +59,7 @@ export const FestivalScreen = () => {
           const artist = artists?.pages.flatMap((page) => page)[index];
           if (typeof artist === "string")
             return (
-              <ListItem>
+              <ListItem dense>
                 <ListItemAvatar>
                   <Avatar
                     variant="square"
