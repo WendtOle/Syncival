@@ -13,6 +13,7 @@ import { LinupSelectionScreen } from "./screens/LineupSelectionScreen";
 import { useFetchSnapshot } from "../hooks/useFetchSnapshot";
 import { FestivalScreen } from "./screens/FestivalScreen";
 import { FestivalSelectionScreen } from "./screens/FestivalSelectionScreen";
+import { SpotifyLogo } from "../logo/SpotifyLogo";
 
 export const App = () => {
   useLineupFetch();
@@ -38,6 +39,28 @@ export const App = () => {
         </Routes>
         <BottomSpotifyPlayer />
         <InformationSnackbar />
+        <div
+          style={{
+            position: "fixed",
+            bottom: 0,
+            width: "100%",
+            display: "flex",
+            justifyContent: "end",
+          }}
+        >
+          <div
+            style={{
+              margin: 8,
+              paddingLeft: 8,
+              paddingRight: 8,
+              borderRadius: 16,
+              background: "#1DB954",
+              boxShadow: "0px 0px 10px 0px gray",
+            }}
+          >
+            <SpotifyLogo variant="white" height={24} />
+          </div>
+        </div>
       </div>
     </div>
   );
