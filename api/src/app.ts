@@ -131,7 +131,7 @@ app.get("/playlists", async (req: any, res: any) => {
     return;
   } catch (err: any) {
     console.log("Error when fetching playlists.");
-    console.log(err.body.message);
+    console.log(err);
     res.send("error");
     return;
   }
