@@ -6,9 +6,12 @@ import { AuthenticationWrapper } from "./components/AuthenticationWrapper";
 import { BrowserRouter } from "react-router-dom";
 import { Preload } from "./Preload";
 import { ThemeProvider, createTheme } from "@mui/material";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
+import { persistQueryClient } from "@tanstack/react-query-persist-client";
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement,
+  document.getElementById("root") as HTMLElement
 );
 
 const theme = createTheme({
@@ -22,13 +25,35 @@ const theme = createTheme({
   },
 });
 
+const CACHE_STALE_TIME = 1000 * 60 * 60 * 24; // 24 hours
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      gcTime: CACHE_STALE_TIME,
+      staleTime: CACHE_STALE_TIME,
+    },
+  },
+});
+
+const localStoragePersister = createSyncStoragePersister({
+  storage: window.localStorage,
+});
+
+persistQueryClient({
+  queryClient,
+  persister: localStoragePersister,
+});
+
 root.render(
   <ThemeProvider theme={theme}>
     <AuthenticationWrapper>
       <BrowserRouter>
-        <Preload />
-        <App />
+        <QueryClientProvider client={queryClient}>
+          <Preload />
+          <App />
+        </QueryClientProvider>
       </BrowserRouter>
     </AuthenticationWrapper>
-  </ThemeProvider>,
+  </ThemeProvider>
 );
