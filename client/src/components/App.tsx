@@ -12,6 +12,7 @@ import { BottomSpotifyPlayer } from "./BottomSpotifyPlayer";
 import { LinupSelectionScreen } from "./screens/LineupSelectionScreen";
 import { useFetchSnapshot } from "../hooks/useFetchSnapshot";
 import { FestivalScreen } from "./screens/FestivalScreen";
+import { FestivalSelectionScreen } from "./screens/FestivalSelectionScreen";
 
 export const App = () => {
   useLineupFetch();
@@ -33,6 +34,7 @@ export const App = () => {
           />
           <Route path={RouteEnum.LINEUP} element={<LineupInspectionScreen />} />
           <Route path="/:festival" element={<FestivalScreen />} />
+          <Route path="/" element={<FestivalSelectionScreen />} />
         </Routes>
         <BottomSpotifyPlayer />
         <InformationSnackbar />
