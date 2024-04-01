@@ -1,13 +1,7 @@
-import { ArtistResult } from "./ArtistResult";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import { RouteEnum } from "../state/types";
 import { InformationSnackbar } from "./InformationSnackbar";
-import { ExcludePlaylistScreen } from "./ExludePlaylistScreen";
-import { LinueupCreationScreen } from "./screens/LineupCreationScreen";
-import { LineupInspectionScreen } from "./screens/LineupInspectionScreen";
 import { BottomSpotifyPlayer } from "./BottomSpotifyPlayer";
-import { LinupSelectionScreen } from "./screens/LineupSelectionScreen";
 import { FestivalScreen } from "./screens/FestivalScreen";
 import { FestivalSelectionScreen } from "./screens/FestivalSelectionScreen";
 
@@ -16,17 +10,6 @@ export const App = () => {
     <div style={{ display: "flex", justifyContent: "center", height: "100vh" }}>
       <div style={{ maxWidth: 800, width: "100%", height: "100%" }}>
         <Routes>
-          <Route
-            path={RouteEnum.LINEUP_SELECTION}
-            element={<LinupSelectionScreen />}
-          />
-          <Route path={RouteEnum.ARTISTS} element={<ArtistResult />} />
-          <Route path={RouteEnum.EXCLUDE} element={<ExcludePlaylistScreen />} />
-          <Route
-            path={RouteEnum.NEW_LINEUP}
-            element={<LinueupCreationScreen />}
-          />
-          <Route path={RouteEnum.LINEUP} element={<LineupInspectionScreen />} />
           <Route path="/:festival" element={<FestivalScreen />} />
           <Route path="/" element={<FestivalSelectionScreen />} />
         </Routes>
