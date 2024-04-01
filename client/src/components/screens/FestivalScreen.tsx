@@ -26,6 +26,7 @@ export const FestivalScreen = () => {
 
   const fetchPage = async ({ pageParam: offset }: any) => {
     //if (!accessToken()) return;
+    return [];
     const url = `${backendUrl}/${festival}?accessToken=${accessToken()}&offset=${offset}`;
     const response = await fetch(url);
     return await response.json();

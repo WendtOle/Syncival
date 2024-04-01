@@ -62,10 +62,25 @@ app.get("/accessTokenValid", async (req: any, res: any) => {
     return;
   } catch (error: any) {
     if (error?.body?.error?.message === "The access token expired") {
+      console.log("expired");
       res.send("expired");
       return;
     }
-    console.log({ error });
+    if (error?.body?.error === "WebapiError") {
+      console.log("WebapiError");
+      console.log(error?.body?.error);
+      return;
+    }
+    if (error.statusCode === 403) {
+      console.log("/accessTokenValid - statuscode 403 - returning 'forbidden'");
+      res.send("forbidden").status(403);
+      return;
+    }
+    console.log("/accessTokenValid - ", {
+      body: error.body,
+      errorId: error.body.error,
+      statusCode: error.statusCode,
+    });
     res.send("error");
     return;
   }
@@ -80,7 +95,7 @@ app.get("/refresh", async (req: any, res: any) => {
     res.send(newAccessToken);
     return;
   } catch (error: any) {
-    console.log(error);
+    console.log("/refresh - ", error);
     console.log("some error occured");
   }
 });
@@ -264,13 +279,18 @@ app.get("/:festival", async (req: any, res: any) => {
     res.status(401).send("No access token provided.");
     return;
   }
-  res.send(
-    await getFestivalArtists({
-      accessToken,
-      festival,
-      offset: parseInt(offset ?? "0"),
-      limit: parseInt(limit ?? "10"),
-    })
-  );
-  return;
+  try {
+    res.send(
+      await getFestivalArtists({
+        accessToken,
+        festival,
+        offset: parseInt(offset ?? "0"),
+        limit: parseInt(limit ?? "10"),
+      })
+    );
+    return;
+  } catch (error) {
+    console.log(error);
+    return;
+  }
 });

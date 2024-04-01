@@ -47,13 +47,13 @@ persistQueryClient({
 
 root.render(
   <ThemeProvider theme={theme}>
-    <AuthenticationWrapper>
-      <BrowserRouter>
-        <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <AuthenticationWrapper>
           <Preload />
           <App />
-        </QueryClientProvider>
-      </BrowserRouter>
-    </AuthenticationWrapper>
+        </AuthenticationWrapper>
+      </QueryClientProvider>
+    </BrowserRouter>
   </ThemeProvider>
 );

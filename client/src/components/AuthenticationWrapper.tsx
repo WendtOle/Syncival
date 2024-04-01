@@ -1,5 +1,4 @@
 import { ReactElement, useEffect, useState } from "react";
-import { getAuthorizeURL } from "../provider/authorizeURL";
 import "./App.css";
 import { useAtomValue, useSetAtom } from "jotai";
 import {
@@ -9,13 +8,20 @@ import {
   nullableAccessTokenAtom,
   nullableRefreshToken,
 } from "../state/auth";
-import { isAccessTokenValid } from "../provider/accessTokenValid";
+import { getAccessTokenStatus } from "../provider/accessTokenValid";
 import { refreshAccessToken } from "../provider/refreshAccessToken";
 import { authenticateWithCode } from "../provider/authenticate";
-import { Button, Typography } from "@mui/material";
-import { DebugAuthDialogWrapper } from "./DebugAuthDialogWrapper";
+import { AuthenticationScreen } from "./screens/AuthenticationScreen";
+import { NotWhitelistedScreen } from "./screens/NotWhitelistedScreen";
+import { SpotifyLogoWrapper } from "./screens/SpotifyLogoWrapper";
 
-type State = "loads" | "needsAuthentication" | "authenticated";
+export const CONTACT_ADDRESS = "ow-ad+artist-lookup@simplelogin.co";
+
+type State =
+  | "loads"
+  | "needsAuthentication"
+  | "authenticated"
+  | "notWhiteListed";
 
 export const AuthenticationWrapper = ({
   children,
@@ -36,19 +42,24 @@ export const AuthenticationWrapper = ({
         setAuthenticationState("needsAuthentication");
         return;
       }
-      if (
-        !(await isAccessTokenValid({
-          accessToken: accessToken(),
-          refreshToken: refreshToken(),
-        }))
-      ) {
+      const tokenStatus = await getAccessTokenStatus({
+        accessToken: accessToken(),
+        refreshToken: refreshToken(),
+      });
+      if (tokenStatus === "expired") {
         const newAccesstoken = await refreshAccessToken({
           accessToken: accessToken(),
           refreshToken: refreshToken(),
         });
         setNullableAccessToken(newAccesstoken);
+        return;
       }
-      setAuthenticationState("authenticated");
+      if (tokenStatus === "ok") {
+        setAuthenticationState("authenticated");
+      }
+      if (tokenStatus === "forbidden") {
+        setAuthenticationState("notWhiteListed");
+      }
     };
     something();
   }, [isAuthorized, accessToken, refreshToken, setNullableAccessToken]);
@@ -71,58 +82,16 @@ export const AuthenticationWrapper = ({
     something();
   }, [isAuthorized, setNullableAccessToken, setNullableRefreshToken]);
 
-  const onClick = async () => {
-    const url = await getAuthorizeURL();
-    window.location.href = url;
-  };
-
   if (authenticationState === "loads") {
-    return <div>Loading...</div>;
+    return <div />;
+  }
+
+  if (authenticationState === "notWhiteListed") {
+    return <NotWhitelistedScreen />;
   }
 
   if (authenticationState === "needsAuthentication") {
-    return (
-      <div
-        style={{
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-evenly",
-            height: "20vh",
-            justifyItems: "baseline",
-          }}
-        >
-          <DebugAuthDialogWrapper>
-            <Typography
-              variant="h2"
-              component="div"
-              sx={{ flexGrow: 1, letterSpacing: -4 }}
-            >
-              Artist lookup
-            </Typography>
-          </DebugAuthDialogWrapper>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            You need to be whitelisted by me:
-          </Typography>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Contact me through: ow-ad+artist-lookup@simplelogin.co
-          </Typography>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            And you need to authenticate with spotify!
-          </Typography>
-          <Button variant="contained" onClick={onClick}>
-            Authenticate
-          </Button>
-        </div>
-      </div>
-    );
+    return <AuthenticationScreen />;
   }
-  return <>{children}</>;
+  return <SpotifyLogoWrapper>{children}</SpotifyLogoWrapper>;
 };

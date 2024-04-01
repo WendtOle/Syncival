@@ -1,20 +1,22 @@
 import { backendUrl } from "../state/loadEnvVariables";
 
-export const isAccessTokenValid = async ({
+type TokenStatus = "expired" | "ok" | "forbidden";
+
+export const getAccessTokenStatus = async ({
   accessToken,
   refreshToken,
 }: {
   accessToken: string;
   refreshToken: string;
-}): Promise<boolean> => {
+}): Promise<TokenStatus> => {
   const response = await fetch(
-    `${backendUrl}/accessTokenValid?accessToken=${accessToken}&refreshToken=${refreshToken}`,
+    `${backendUrl}/accessTokenValid?accessToken=${accessToken}&refreshToken=${refreshToken}`
   );
   const tokenStatus = await response.text();
 
-  if (tokenStatus === "error") {
-    throw Error("Error when trying to check if access token is expired");
+  if (!["ok", "expired", "forbidden"].includes(tokenStatus)) {
+    throw new Error(`Unexpected tokenStatus "${tokenStatus}"`);
   }
 
-  return tokenStatus === "ok";
+  return tokenStatus as TokenStatus;
 };
