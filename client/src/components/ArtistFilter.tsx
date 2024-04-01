@@ -1,22 +1,22 @@
 import { useAtom } from "jotai";
-import { onlyShowShopifyArtistsAtom } from "../state/ui";
+import { artistsFilterAtom } from "../state/ui";
 import Chip from "@mui/material/Chip";
+import { CheckIcon } from "./Icons";
+import { ArtistFilterChip } from "./ArtistFilterChip";
 
 export const ArtistFilter = () => {
-  const [onlyShowShopifyArtists, setOnlyShowShopifyArtists] = useAtom(
-    onlyShowShopifyArtistsAtom
-  );
+  const [artistFilter, setArtistFilter] = useAtom(artistsFilterAtom);
   return (
     <div style={{ marginBottom: 8, marginLeft: 16 }}>
-      <Chip
+      <ArtistFilterChip
         label="Spotify"
-        variant={onlyShowShopifyArtists ? "filled" : "outlined"}
-        sx={{
-          borderRadius: 2,
-          backgroundColor: onlyShowShopifyArtists ? "gray" : "white",
-          color: onlyShowShopifyArtists ? "white" : "black",
-        }}
-        onClick={() => setOnlyShowShopifyArtists((prev) => !prev)}
+        filterValue="spotify"
+        hideIf="nonSpotify"
+      />
+      <ArtistFilterChip
+        label="Not on Spotify"
+        filterValue="nonSpotify"
+        hideIf="spotify"
       />
     </div>
   );

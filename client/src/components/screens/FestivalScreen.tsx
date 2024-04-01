@@ -15,14 +15,14 @@ import { useAtomValue } from "jotai";
 import { accessTokenAtom } from "../../state/auth";
 import { CoverArt } from "../CoverArt";
 import { useIsScrolled } from "../../hooks/useIsScrolled";
-import { onlyShowShopifyArtistsAtom } from "../../state/ui";
+import { artistsFilterAtom } from "../../state/ui";
 import { ArtistFilter } from "../ArtistFilter";
 
 export const FestivalScreen = () => {
   const accessToken = useAtomValue(accessTokenAtom);
   const festival = useParams().festival;
   useIsScrolled("artist-scroll-container");
-  const onlyShowShopifyArtists = useAtomValue(onlyShowShopifyArtistsAtom);
+  const artistFilter = useAtomValue(artistsFilterAtom);
 
   const fetchPage = async ({ pageParam: offset }: any) => {
     //if (!accessToken()) return;
@@ -54,7 +54,12 @@ export const FestivalScreen = () => {
 
   const filteredArtists = artists?.pages
     .flatMap((page) => page)
-    .filter((artist) => !onlyShowShopifyArtists || typeof artist === "object");
+    .filter(
+      (artist) =>
+        artistFilter === "all" ||
+        (artistFilter === "spotify" && typeof artist === "object") ||
+        (artistFilter === "nonSpotify" && typeof artist === "string")
+    );
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
