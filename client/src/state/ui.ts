@@ -29,4 +29,4 @@ export type ArtistFilter =
   | "nonSpotify"
   | "followed"
   | "notFollowed";
-export const artistsFilterAtom = atom<ArtistFilter>("followed");
+export const artistsFilterAtom = atom<ArtistFilter>("spotify");
