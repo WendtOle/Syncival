@@ -19,6 +19,7 @@ interface AppBarProps {
   showBackButton?: boolean;
   customNavigationButton?: JSX.Element;
   children?: any;
+  actions?: any;
 }
 
 export const AppBar = ({
@@ -27,6 +28,7 @@ export const AppBar = ({
   children,
   showBackButton,
   customNavigationButton,
+  actions,
 }: AppBarProps) => {
   const navigate = useNavigate();
   const appBarRef = useRef<any>(null);
@@ -89,6 +91,7 @@ export const AppBar = ({
               </>
             )}
           </Typography>
+          <div>{actions}</div>
         </Toolbar>
         {isLoading && <LinearProgress color="inherit" />}
         {children}

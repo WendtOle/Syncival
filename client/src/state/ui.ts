@@ -23,5 +23,10 @@ export const scrolledAtom = atom(false);
 
 export const spotifyTrackIdAtom = atom<string | null>(null);
 
-export type ArtistFilter = "all" | "spotify" | "nonSpotify";
-export const artistsFilterAtom = atom<ArtistFilter>("all");
+export type ArtistFilter =
+  | "all"
+  | "spotify"
+  | "nonSpotify"
+  | "followed"
+  | "notFollowed";
+export const artistsFilterAtom = atom<ArtistFilter>("followed");

@@ -6,6 +6,8 @@ import { backendUrl } from "../../state/loadEnvVariables";
 import { SpotifyIFrameWrapper } from "../SpotifyIFrameWrapper";
 import {
   Avatar,
+  Icon,
+  IconButton,
   ListItem,
   ListItemAvatar,
   ListItemButton,
@@ -17,6 +19,9 @@ import { CoverArt } from "../CoverArt";
 import { useIsScrolled } from "../../hooks/useIsScrolled";
 import { artistsFilterAtom } from "../../state/ui";
 import { ArtistFilter } from "../ArtistFilter";
+import { InfoIcon } from "../Icons";
+
+const LIMIT = 20;
 
 export const FestivalScreen = () => {
   const accessToken = useAtomValue(accessTokenAtom);
@@ -26,19 +31,10 @@ export const FestivalScreen = () => {
 
   const fetchPage = async ({ pageParam: offset }: any) => {
     //if (!accessToken()) return;
-    const url = `${backendUrl}/${festival}?accessToken=${accessToken()}&offset=${offset}`;
+    const url = `${backendUrl}/${festival}?accessToken=${accessToken()}&offset=${offset}&limit=${LIMIT}`;
     const response = await fetch(url);
     return await response.json();
   };
-
-  const { data: artists, fetchNextPage } = useInfiniteQuery({
-    queryKey: [festival],
-    queryFn: fetchPage,
-    initialPageParam: 0,
-    getNextPageParam: (_, __, lastPageParam) => {
-      return lastPageParam + 10;
-    },
-  });
 
   const { data: festivals } = useQuery({
     queryKey: ["festivals"],
@@ -48,32 +44,67 @@ export const FestivalScreen = () => {
     },
   });
 
-  const festivalName = festivals.find(
+  const selectedFestival = festivals.find(
     ({ key }: { key: string }) => key === festival
-  ).name;
+  );
 
-  const filteredArtists = artists?.pages
-    .flatMap((page) => page)
-    .filter(
-      (artist) =>
-        artistFilter === "all" ||
-        (artistFilter === "spotify" && typeof artist === "object") ||
-        (artistFilter === "nonSpotify" && typeof artist === "string")
-    );
+  const { data: pagedArtists, fetchNextPage } = useInfiniteQuery({
+    queryKey: [festival, "2"],
+    queryFn: fetchPage,
+    initialPageParam: 0,
+    getNextPageParam: (_, pages) => {
+      const alreadyQueried = pages.flatMap((entry) => entry).length;
+      if (alreadyQueried === selectedFestival.artistAmount) return undefined;
+      return alreadyQueried;
+    },
+  });
+
+  type SpotifyArtist = SpotifyApi.ArtistObjectFull & { followed: boolean };
+
+  const artists: Array<SpotifyArtist | string> =
+    pagedArtists?.pages.flatMap((page) => page) ?? [];
+
+  const filteredArtists = artists.filter(
+    (artist) =>
+      artistFilter === "all" ||
+      (artistFilter === "spotify" && typeof artist === "object") ||
+      (artistFilter === "nonSpotify" && typeof artist === "string") ||
+      (artistFilter === "followed" &&
+        typeof artist === "object" &&
+        artist.followed)
+  );
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      <AppBar title={festivalName} showBackButton>
-        <ArtistFilter />
+      <AppBar
+        title={selectedFestival.name}
+        showBackButton
+        actions={
+          <IconButton
+            onClick={() =>
+              alert(
+                `${artists.length}/${selectedFestival.artistAmount} loaded \n "followed"-filter is shown when all artists were loaded`
+              )
+            }
+          >
+            <InfoIcon></InfoIcon>
+          </IconButton>
+        }
+      >
+        <ArtistFilter
+          allArtistsLoaded={selectedFestival.artistAmount === artists.length}
+        />
       </AppBar>
       <Virtuoso
         style={{
           height: "100%",
         }}
-        data={filteredArtists}
+        data={[...filteredArtists, "dummy"]}
         id="artist-scroll-container"
         itemContent={(index) => {
           const artist = (filteredArtists ?? [])[index];
+          if (filteredArtists.length === index)
+            return <div style={{ height: "64px" }} />;
           if (typeof artist === "string")
             return (
               <ListItem dense>
