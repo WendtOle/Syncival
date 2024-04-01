@@ -37,18 +37,49 @@ export const getFestivalArtists = async ({
   limit,
   offset,
 }: Pagination) => {
-  spotifyApi.setAccessToken(accessToken);
-  const toSearch = lineup[festival].artists
-    .sort((a, b) => (a.toLowerCase() < b.toLowerCase() ? -1 : 1))
-    .slice(offset, offset + limit);
-  const searched = await Promise.all(toSearch.map(searchArtist));
-  return searched;
+  try {
+    spotifyApi.setAccessToken(accessToken);
+    const toSearch = lineup[festival].artists
+      .sort((a, b) => (a.toLowerCase() < b.toLowerCase() ? -1 : 1))
+      .slice(offset, offset + limit);
+    if (toSearch.length === 0) return [];
+    const searched = await Promise.all(toSearch.map(searchArtist));
+    const spotifyArtistIds = searched
+      .filter((artist) => typeof artist === "object")
+      .map((artist) => (artist as { id: string }).id);
+    const response = await spotifyApi.isFollowingArtists(spotifyArtistIds);
+    const flagged = response.body.map((isFollowing: boolean, i: number) => {
+      return {
+        artist: spotifyArtistIds[i],
+        isFollowing,
+      };
+    });
+
+    return searched.map((artist) => {
+      if (typeof artist === "string") return artist;
+      const followed = flagged.find(
+        ({ artist: artistId }) => artistId === artist.id
+      );
+      return {
+        ...artist,
+        followed: followed?.isFollowing ?? false,
+      };
+    });
+  } catch (error: any) {
+    if (error.statusCode === 429) {
+      console.log("Too many requests to Spotify API.");
+      return [];
+    }
+    console.error("Error when fetching festival artists.");
+    console.error({ error, body: error.body });
+    return [];
+  }
 };
 
 const searchArtist = async (
   query: string
 ): Promise<SpotifyApi.ArtistObjectFull | string> => {
-  const response = await spotifyApi.searchArtists(query, { limit: 10 });
+  const response = await spotifyApi.searchArtists(query, { limit: 5 });
   const artists = response.body.artists?.items;
   if (!artists) {
     console.log(`No artists found on Spotify for "${query}"`);

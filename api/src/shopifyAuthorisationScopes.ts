@@ -1,6 +1,7 @@
 export const scopes = [
-    'playlist-read-private',
-    'user-library-read',
-    'playlist-modify-private',
-    'playlist-modify-public'
-]
+  "playlist-read-private",
+  "user-library-read",
+  "playlist-modify-private",
+  "playlist-modify-public",
+  "user-follow-read",
+];
