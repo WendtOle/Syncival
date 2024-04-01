@@ -289,8 +289,8 @@ app.get("/:festival", async (req: any, res: any) => {
       })
     );
     return;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    console.log({ error, body: error.body });
     return;
   }
 });
