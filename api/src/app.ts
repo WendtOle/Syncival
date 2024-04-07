@@ -1,6 +1,7 @@
 const express = require("express");
 const url = require("url");
 const querystring = require("querystring");
+import { join } from "path";
 
 export const app = express();
 import { artists as fusion2023 } from "./data/fusion-artists";
@@ -23,6 +24,8 @@ import {
   getRefreshedAccessToken,
 } from "./provider";
 import { Festival, getFestivalArtists, lineup } from "./provider/lineup";
+import { getArtist } from "./provider/getArtist";
+import { readFileSync, readdirSync } from "fs";
 
 const setCors = (req: any, res: any) => {
   const requestOrigin = req.headers.origin ?? [];
@@ -256,12 +259,20 @@ app.get("/lineups", async (req: any, res: any) => {
 
 app.get("/festivals", async (req: any, res: any) => {
   setCors(req, res);
+  const files = (await readdirSync(join(process.cwd(), "src/data"))).filter(
+    (file) => file.endsWith(".json")
+  );
   res.send(
-    Object.values(Festival).map((festival) => ({
-      name: lineup[festival].name,
-      key: festival,
-      artistAmount: lineup[festival].artists.length,
-    }))
+    files.map((fileName) => {
+      const string = readFileSync(`./src/data/${fileName}`, "utf8");
+      const lineup = JSON.parse(string);
+      const key = fileName.replace(".json", "");
+      return {
+        name: key.replace(/-/g, " "),
+        key,
+        artists: lineup,
+      };
+    })
   );
   return;
 });

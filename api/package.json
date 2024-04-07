@@ -9,7 +9,8 @@
     "test:single": "jest --silent",
     "build": "rimraf dist && tsc",
     "deploy:dev": "npm run build && vercel",
-    "deploy:prod": "npm run build && vercel --prod"
+    "deploy:prod": "npm run build && vercel --prod",
+    "preprocess": "ts-node src/preprocess.ts"
   },
   "author": "",
   "license": "ISC",
