@@ -4,10 +4,6 @@ const querystring = require("querystring");
 import { join } from "path";
 
 export const app = express();
-import { artists as fusion2023 } from "./data/fusion-artists";
-import { artists as tarmac2022 } from "./data/tarmac-2022";
-import { artists as tomorrowland2023 } from "./data/tomorrowland-2023";
-import { artists as tarmac2023 } from "./data/tarmac-2023";
 import { isAllowedOrigin } from "./isAllowedOrigin";
 import { timeStamp } from "./getCurrentTimeStamp";
 import {
@@ -23,9 +19,7 @@ import {
   getUserPlaylists,
   getRefreshedAccessToken,
 } from "./provider";
-import { Festival, getFestivalArtists, lineup } from "./provider/lineup";
 import { getFollowedArtists } from "./provider/getFollowedArtists";
-import { getArtist } from "./provider/getArtist";
 import { readFileSync, readdirSync } from "fs";
 
 const setCors = (req: any, res: any) => {
@@ -252,12 +246,6 @@ app.post("/createPlaylist", async (req: any, res: any) => {
   }
 });
 
-app.get("/lineups", async (req: any, res: any) => {
-  setCors(req, res);
-  res.send([fusion2023, tarmac2022, tomorrowland2023, tarmac2023]);
-  return;
-});
-
 app.get("/festivals", async (req: any, res: any) => {
   setCors(req, res);
   const files = (await readdirSync(join(process.cwd(), "src/data"))).filter(
@@ -288,35 +276,6 @@ app.get("/followed", async (req: any, res: any) => {
   }
   try {
     res.send(await getFollowedArtists({ accessToken }));
-    return;
-  } catch (error: any) {
-    console.log({ error, body: error.body });
-    return;
-  }
-});
-
-app.get("/:festival", async (req: any, res: any) => {
-  setCors(req, res);
-  const { festival } = req.params;
-  if (!Object.values(Festival).includes(festival)) {
-    res.status(404).send("Invalid festival.");
-    return;
-  }
-  const { query } = url.parse(req.url);
-  const { accessToken, offset, limit } = querystring.parse(query);
-  if (!accessToken) {
-    res.status(401).send("No access token provided.");
-    return;
-  }
-  try {
-    res.send(
-      await getFestivalArtists({
-        accessToken,
-        festival,
-        offset: parseInt(offset ?? "0"),
-        limit: parseInt(limit ?? "10"),
-      })
-    );
     return;
   } catch (error: any) {
     console.log({ error, body: error.body });
