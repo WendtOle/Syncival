@@ -24,6 +24,7 @@ import {
   getRefreshedAccessToken,
 } from "./provider";
 import { Festival, getFestivalArtists, lineup } from "./provider/lineup";
+import { getFollowedArtists } from "./provider/getFollowedArtists";
 import { getArtist } from "./provider/getArtist";
 import { readFileSync, readdirSync } from "fs";
 
@@ -275,6 +276,23 @@ app.get("/festivals", async (req: any, res: any) => {
     })
   );
   return;
+});
+
+app.get("/followed", async (req: any, res: any) => {
+  setCors(req, res);
+  const { query } = url.parse(req.url);
+  const { accessToken } = querystring.parse(query);
+  if (!accessToken) {
+    res.status(401).send("No access token provided.");
+    return;
+  }
+  try {
+    res.send(await getFollowedArtists({ accessToken }));
+    return;
+  } catch (error: any) {
+    console.log({ error, body: error.body });
+    return;
+  }
 });
 
 app.get("/:festival", async (req: any, res: any) => {

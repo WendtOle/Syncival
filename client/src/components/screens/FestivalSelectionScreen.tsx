@@ -7,22 +7,40 @@ import { backendUrl } from "../../state/loadEnvVariables";
 import ListItem from "@mui/material/ListItem";
 import { useNavigate } from "react-router";
 import { Avatar, ListItemAvatar } from "@mui/material";
+import { accessTokenAtom } from "../../state/auth";
+import { useAtomValue } from "jotai";
+
+export const followedQuery = (accessToken: () => string) => ({
+  queryKey: ["followed"],
+  queryFn: async () => {
+    const response = await fetch(
+      `${backendUrl}/followed?accessToken=${accessToken()}`
+    );
+    return await response.json();
+  },
+});
+
+export const lineupsQuery = {
+  queryKey: ["lineups"],
+  queryFn: async () => {
+    const response = await fetch(`${backendUrl}/festivals`);
+    return await response.json();
+  },
+};
 
 export const FestivalSelectionScreen = () => {
   const navigate = useNavigate();
-  const { data: festivals } = useQuery({
-    queryKey: ["festivals"],
-    queryFn: async () => {
-      const response = await fetch(`${backendUrl}/festivals`);
-      return await response.json();
-    },
-  });
+  const accessToken = useAtomValue(accessTokenAtom);
+  const { data: festivals } = useQuery(lineupsQuery);
+
+  useQuery(followedQuery(accessToken));
+
   return (
     <div>
       <AppBar title="Synceval" />
       <List>
         {festivals?.map(
-          (festival: { name: string; artistAmount: number; key: string }) => (
+          (festival: { name: string; artists: string[]; key: string }) => (
             <ListItem key={festival.key} disablePadding>
               <ListItemButton onClick={() => navigate(`/${festival.key}`)}>
                 <ListItemAvatar>
@@ -40,7 +58,7 @@ export const FestivalSelectionScreen = () => {
                 </ListItemAvatar>
                 <ListItemText
                   primary={festival.name}
-                  secondary={`${festival.artistAmount} artists`}
+                  secondary={`${festival.artists.length} artists`}
                   sx={{ marginLeft: 2 }}
                 />
               </ListItemButton>
