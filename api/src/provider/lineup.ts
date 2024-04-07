@@ -43,28 +43,7 @@ export const getFestivalArtists = async ({
       .sort((a, b) => (a.toLowerCase() < b.toLowerCase() ? -1 : 1))
       .slice(offset, offset + limit);
     if (toSearch.length === 0) return [];
-    const searched = await Promise.all(toSearch.map(searchArtist));
-    const spotifyArtistIds = searched
-      .filter((artist) => typeof artist === "object")
-      .map((artist) => (artist as { id: string }).id);
-    const response = await spotifyApi.isFollowingArtists(spotifyArtistIds);
-    const flagged = response.body.map((isFollowing: boolean, i: number) => {
-      return {
-        artist: spotifyArtistIds[i],
-        isFollowing,
-      };
-    });
-
-    return searched.map((artist) => {
-      if (typeof artist === "string") return artist;
-      const followed = flagged.find(
-        ({ artist: artistId }) => artistId === artist.id
-      );
-      return {
-        ...artist,
-        followed: followed?.isFollowing ?? false,
-      };
-    });
+    return await Promise.all(toSearch.map(searchArtist));
   } catch (error: any) {
     if (error.statusCode === 429) {
       console.log("Too many requests to Spotify API.");
@@ -76,14 +55,14 @@ export const getFestivalArtists = async ({
   }
 };
 
-const searchArtist = async (
+export const searchArtist = async (
   query: string
-): Promise<SpotifyApi.ArtistObjectFull | string> => {
+): Promise<SpotifyApi.ArtistObjectFull | { name: string }> => {
   const response = await spotifyApi.searchArtists(query, { limit: 5 });
   const artists = response.body.artists?.items;
   if (!artists) {
     console.log(`No artists found on Spotify for "${query}"`);
-    return query;
+    return { name: query };
   }
   const matchedArtist = artists.find(
     ({ name }) => name.toLowerCase() === query.toLowerCase()
@@ -94,7 +73,7 @@ const searchArtist = async (
         .map(({ name }) => name)
         .join(", ")}.`
     );*/
-    return query;
+    return { name: query };
   }
   return matchedArtist;
 };

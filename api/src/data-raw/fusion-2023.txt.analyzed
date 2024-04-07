@@ -1,8 +1,4 @@
-export const artists = {
-  key: "fusion-2023",
-  name: "Fusion Festival 2023",
-  artists: [
-    "700WET",
+"700WET",
     "AACKR",
     "Abarra",
     "Acid Rooster",
@@ -1024,5 +1020,3 @@ export const artists = {
     "ZEBRA CENTAURI",
     "Zombies in Miami",
     "Zustand D.",
-  ],
-};
