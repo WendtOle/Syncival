@@ -1,10 +1,6 @@
 import { ArtistFilterChip } from "./ArtistFilterChip";
 
-interface ArtistFilterProps {
-  allArtistsLoaded: boolean;
-}
-
-export const ArtistFilter = ({ allArtistsLoaded }: ArtistFilterProps) => {
+export const ArtistFilter = () => {
   return (
     <div style={{ marginBottom: 8, marginLeft: 16 }}>
       <ArtistFilterChip
@@ -18,14 +14,12 @@ export const ArtistFilter = ({ allArtistsLoaded }: ArtistFilterProps) => {
         filterValue="nonSpotify"
         showIf={["all"]}
       />
-      {allArtistsLoaded && (
-        <ArtistFilterChip
-          label="Followed"
-          filterValue="followed"
-          showIf={["spotify"]}
-          filterValueAfterUnselect="spotify"
-        />
-      )}
+      <ArtistFilterChip
+        label="Followed"
+        filterValue="followed"
+        showIf={["spotify"]}
+        filterValueAfterUnselect="spotify"
+      />
     </div>
   );
 };
