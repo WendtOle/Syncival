@@ -10,7 +10,7 @@ import {
 } from "./FestivalSelectionScreen";
 import { ArtistItem } from "../ArtistItem";
 import { useAtomValue } from "jotai";
-import { artistsFilterAtom } from "../../state/ui";
+import { ArtistFilterOption, artistsFilterAtom } from "../../state/ui";
 import { ArtistFilter } from "../ArtistFilter";
 import { accessTokenAtom } from "../../state/auth";
 
@@ -35,23 +35,29 @@ export const FestivalScreen = () => {
 
   const getArtists = () => {
     const all = selectedFestival?.artists ?? [];
-    if (artistFilter === "spotify")
+    if (artistFilter === ArtistFilterOption.SPOTIFY)
       return all.filter((artist: any) => artist.id);
-    if (artistFilter === "nonSpotify")
+    if (artistFilter === ArtistFilterOption.NON_SPOTIFY)
       return all.filter((artist: any) => !artist.id);
-    if (artistFilter === "followed")
+    if (artistFilter === ArtistFilterOption.FOLLOWED)
       return all.filter(
         (artist: any) =>
           followed?.find(
             (followedArtist: any) => followedArtist.id === artist.id
           )
       );
-    if (artistFilter === "liked")
+    if (artistFilter === ArtistFilterOption.LIKED)
       return all.filter(
         (artist: any) =>
           liked?.find(
             (likedSongArtist: any) => likedSongArtist.id === artist.id
           )
+      );
+    if (artistFilter === ArtistFilterOption.LIKED_AND_FOLLOWED)
+      return all.filter((artist: any) =>
+        [...(liked ?? []), ...(followed ?? [])].find(
+          (toCheck: any) => toCheck.id === artist.id
+        )
       );
     return all;
   };
