@@ -28,5 +28,6 @@ export type ArtistFilter =
   | "spotify"
   | "nonSpotify"
   | "followed"
-  | "notFollowed";
+  | "notFollowed"
+  | "liked";
 export const artistsFilterAtom = atom<ArtistFilter>("spotify");

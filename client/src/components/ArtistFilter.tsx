@@ -6,8 +6,8 @@ export const ArtistFilter = () => {
       <ArtistFilterChip
         label="Spotify"
         filterValue="spotify"
-        showIf={["all", "followed"]}
-        showAsSelectedIf={["followed"]}
+        showIf={["all", "followed", "liked"]}
+        showAsSelectedIf={["followed", "liked"]}
       />
       <ArtistFilterChip
         label="Not on Spotify"
@@ -17,7 +17,13 @@ export const ArtistFilter = () => {
       <ArtistFilterChip
         label="Followed"
         filterValue="followed"
-        showIf={["spotify"]}
+        showIf={["spotify", "liked"]}
+        filterValueAfterUnselect="spotify"
+      />
+      <ArtistFilterChip
+        label="Liked"
+        filterValue="liked"
+        showIf={["spotify", "followed"]}
         filterValueAfterUnselect="spotify"
       />
     </div>

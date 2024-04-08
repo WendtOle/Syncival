@@ -3,7 +3,11 @@ import { AppBar } from "../AppBar";
 import { Virtuoso } from "react-virtuoso";
 import { useQuery } from "@tanstack/react-query";
 import { useIsScrolled } from "../../hooks/useIsScrolled";
-import { followedQuery, lineupsQuery } from "./FestivalSelectionScreen";
+import {
+  followedQuery,
+  likedQuery,
+  lineupsQuery,
+} from "./FestivalSelectionScreen";
 import { ArtistItem } from "../ArtistItem";
 import { useAtomValue } from "jotai";
 import { artistsFilterAtom } from "../../state/ui";
@@ -19,6 +23,7 @@ export const FestivalScreen = () => {
 
   const { data: festivals } = useQuery(lineupsQuery);
   const { data: followed } = useQuery(followedQuery(accessToken));
+  const { data: liked } = useQuery(likedQuery(accessToken));
 
   const selectedFestival = (festivals ?? []).find(
     ({ key }: { key: string }) => key === festival
@@ -39,6 +44,13 @@ export const FestivalScreen = () => {
         (artist: any) =>
           followed?.find(
             (followedArtist: any) => followedArtist.id === artist.id
+          )
+      );
+    if (artistFilter === "liked")
+      return all.filter(
+        (artist: any) =>
+          liked?.find(
+            (likedSongArtist: any) => likedSongArtist.id === artist.id
           )
       );
     return all;

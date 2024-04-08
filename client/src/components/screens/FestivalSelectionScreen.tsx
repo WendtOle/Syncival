@@ -28,6 +28,16 @@ export const lineupsQuery = {
   },
 };
 
+export const likedQuery = (accessToken: () => string) => ({
+  queryKey: ["liked"],
+  queryFn: async () => {
+    const response = await fetch(
+      `${backendUrl}/liked?accessToken=${accessToken()}`
+    );
+    return await response.json();
+  },
+});
+
 export const FestivalSelectionScreen = () => {
   const navigate = useNavigate();
   const accessToken = useAtomValue(accessTokenAtom);
