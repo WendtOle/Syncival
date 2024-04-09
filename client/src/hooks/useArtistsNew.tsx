@@ -6,7 +6,7 @@ import {
   likedQuery,
   lineupsQuery,
 } from "../components/FestivalSelectionScreen";
-import { ArtistFilterOption, GroupableFilterOption } from "../state/ui";
+import { ArtistFilterOption, GroupableFilterOption } from "../types/filter";
 import { accessTokenAtom } from "../state/auth";
 import { backendUrl } from "../state/loadEnvVariables";
 

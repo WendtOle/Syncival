@@ -3,12 +3,13 @@ import {
   ArtistFilterOption,
   FilterGroupOption,
   GroupableFilterOption,
-  artistsFilterAtom,
   filterGroupMapping,
+  filterNames,
   groupableFilterMapping,
-} from "../state/ui";
+} from "../types/filter";
 import { useAtom } from "jotai";
 import { useArtists } from "../hooks/useArtistsNew";
+import { artistsFilterAtom } from "../state/ui";
 
 interface FilterProps {
   current: ArtistFilterOption | FilterGroupOption | GroupableFilterOption;
@@ -93,16 +94,6 @@ const filterStateMachine: Record<
   ],
 };
 
-const filterNames: Record<ArtistFilterOption | GroupableFilterOption, string> =
-  {
-    [ArtistFilterOption.ALL]: "All",
-    [ArtistFilterOption.SPOTIFY]: "Spotify",
-    [GroupableFilterOption.FOLLOWED]: "Followed",
-    [GroupableFilterOption.LIKED]: "Liked",
-    [ArtistFilterOption.NON_SPOTIFY]: "Non-Spotify",
-    [GroupableFilterOption.ALBUMS]: "Albums",
-  };
-
 export const ArtistFilter = () => {
   const [artistFilter, setArtistFilter] = useAtom(artistsFilterAtom);
   const result = useArtists();
@@ -113,7 +104,7 @@ export const ArtistFilter = () => {
   const additionalFilter =
     typeof artistFilter === "object"
       ? filterGroupMapping[artistFilter.filter].filter(
-          (filter) => !artistFilter.items.includes(filter),
+          (filter) => !artistFilter.items.includes(filter)
         )
       : [];
 
