@@ -1,7 +1,5 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import { InformationSnackbar } from "./InformationSnackbar";
-import { BottomSpotifyPlayer } from "./BottomSpotifyPlayer";
 import { FestivalScreen } from "./screens/FestivalScreen";
 import { FestivalSelectionScreen } from "./screens/FestivalSelectionScreen";
 
@@ -13,8 +11,6 @@ export const App = () => {
           <Route path="/:festival" element={<FestivalScreen />} />
           <Route path="/" element={<FestivalSelectionScreen />} />
         </Routes>
-        <BottomSpotifyPlayer />
-        <InformationSnackbar />
       </div>
     </div>
   );

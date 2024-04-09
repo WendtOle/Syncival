@@ -1,12 +1,9 @@
 import { List as MuiList } from "@mui/material";
 import { useContentHeight } from "../hooks/useContentHeight";
-import { useIsPlayerOpen } from "../hooks/useIsPlayerOpen";
 import { useIsScrolled } from "../hooks/useIsScrolled";
 
 export const List = ({ children }: { children: any }) => {
   const maxHeight = useContentHeight();
-  const isPlayerOpen = useIsPlayerOpen();
-  const padding = isPlayerOpen ? 78 : 0;
   useIsScrolled("scrollable-auto-tab-list");
 
   return (
@@ -17,8 +14,7 @@ export const List = ({ children }: { children: any }) => {
         bgcolor: "background.paper",
         position: "relative",
         overflow: "auto",
-        maxHeight: maxHeight - 8 - padding,
-        paddingBottom: `${padding}px`,
+        maxHeight: maxHeight - 8,
         "& ul": { padding: 0 },
       }}
       subheader={<li />}

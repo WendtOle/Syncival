@@ -4,7 +4,6 @@ import "./index.css";
 import { App } from "./components/App";
 import { AuthenticationWrapper } from "./components/AuthenticationWrapper";
 import { BrowserRouter } from "react-router-dom";
-import { Preload } from "./Preload";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
@@ -50,7 +49,6 @@ root.render(
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <AuthenticationWrapper>
-          <Preload />
           <App />
         </AuthenticationWrapper>
       </QueryClientProvider>

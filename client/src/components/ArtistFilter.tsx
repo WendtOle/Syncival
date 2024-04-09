@@ -110,13 +110,10 @@ export const ArtistFilter = () => {
   const key =
     typeof artistFilter === "object" ? artistFilter.filter : artistFilter;
 
-  const items =
-    typeof artistFilter === "object" ? artistFilter.items : artistFilter;
-
   const additionalFilter =
     typeof artistFilter === "object"
       ? filterGroupMapping[artistFilter.filter].filter(
-          (filter) => !artistFilter.items.includes(filter)
+          (filter) => !artistFilter.items.includes(filter),
         )
       : [];
 
@@ -130,7 +127,7 @@ export const ArtistFilter = () => {
     .filter((entry) => {
       return (
         !("append" in entry) ||
-        (result !== undefined && result.multiple(entry.current).length > 0)
+        (result !== undefined && result(entry.current).length > 0)
       );
     })
     .map((entry) => {
