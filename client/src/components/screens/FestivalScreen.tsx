@@ -22,8 +22,12 @@ export const FestivalScreen = () => {
   useIsScrolled("artist-scroll-container");
 
   const { data: festivals } = useQuery(lineupsQuery);
-  const { data: followed } = useQuery(followedQuery(accessToken));
-  const { data: liked } = useQuery(likedQuery(accessToken));
+  const { data: followed } = useQuery<Array<SpotifyApi.ArtistObjectSimplified>>(
+    followedQuery(accessToken)
+  );
+  const { data: liked } = useQuery<Array<SpotifyApi.ArtistObjectSimplified>>(
+    likedQuery(accessToken)
+  );
 
   const selectedFestival = (festivals ?? []).find(
     ({ key }: { key: string }) => key === festival
@@ -34,29 +38,33 @@ export const FestivalScreen = () => {
   }
 
   const getArtists = () => {
-    const all = selectedFestival?.artists ?? [];
+    const all: Array<
+      SpotifyApi.ArtistObjectFull | Pick<SpotifyApi.ArtistObjectFull, "name">
+    > = selectedFestival?.artists ?? [];
     if (artistFilter === ArtistFilterOption.SPOTIFY)
-      return all.filter((artist: any) => artist.id);
+      return all.filter((artist) => "id" in artist && artist.id);
     if (artistFilter === ArtistFilterOption.NON_SPOTIFY)
-      return all.filter((artist: any) => !artist.id);
+      return all.filter((artist) => !("id" in artist) || !artist.id);
     if (artistFilter === ArtistFilterOption.FOLLOWED)
       return all.filter(
-        (artist: any) =>
+        (artist) =>
           followed?.find(
-            (followedArtist: any) => followedArtist.id === artist.id
+            (followedArtist) =>
+              "id" in artist && followedArtist.id === artist.id
           )
       );
     if (artistFilter === ArtistFilterOption.LIKED)
       return all.filter(
-        (artist: any) =>
+        (artist) =>
           liked?.find(
-            (likedSongArtist: any) => likedSongArtist.id === artist.id
+            (likedSongArtist) =>
+              "id" in artist && likedSongArtist.id === artist.id
           )
       );
     if (artistFilter === ArtistFilterOption.LIKED_AND_FOLLOWED)
-      return all.filter((artist: any) =>
+      return all.filter((artist) =>
         [...(liked ?? []), ...(followed ?? [])].find(
-          (toCheck: any) => toCheck.id === artist.id
+          (toCheck) => "id" in artist && toCheck.id === artist.id
         )
       );
     return all;
@@ -66,7 +74,7 @@ export const FestivalScreen = () => {
       a.toLowerCase() < b.toLowerCase() ? -1 : 1
   );
 
-  const artistElement = artists.map((artist: any) => {
+  const artistElement = artists.map((artist) => {
     return <ArtistItem artist={artist} />;
   });
 

@@ -9,11 +9,13 @@ import { CoverArt } from "./CoverArt";
 import { SpotifyIFrameWrapper } from "./SpotifyIFrameWrapper";
 
 interface ArtistItemProps {
-  artist: any;
+  artist:
+    | SpotifyApi.ArtistObjectFull
+    | Pick<SpotifyApi.ArtistObjectFull, "name">;
 }
 
 export const ArtistItem = ({ artist }: ArtistItemProps) => {
-  if (artist?.id === undefined) {
+  if (!("id" in artist) || artist.id === undefined) {
     return (
       <ListItem dense>
         <ListItemAvatar>
