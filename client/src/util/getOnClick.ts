@@ -1,8 +1,9 @@
-import { FilterProps, OrFilterProps } from "../components/ArtistFilter";
 import {
   ArtistFilterOption,
   FilterGroupOption,
+  FilterProps,
   GroupableFilterOption,
+  OrFilterProps,
 } from "../types/filter";
 
 export const getOnClick = (

@@ -45,3 +45,13 @@ export const filterNames: Record<
   [ArtistFilterOption.NON_SPOTIFY]: "Non-Spotify",
   [GroupableFilterOption.ALBUMS]: "Albums",
 };
+
+export interface FilterProps {
+  current: ArtistFilterOption | FilterGroupOption | GroupableFilterOption;
+  next: ArtistFilterOption;
+}
+
+export interface OrFilterProps {
+  current: GroupableFilterOption;
+  append: FilterGroupOption;
+}
