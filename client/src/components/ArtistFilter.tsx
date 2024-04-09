@@ -1,6 +1,7 @@
 import { ArtistFilterChip } from "./ArtistFilterChip";
 import { ArtistFilterOption, artistsFilterAtom } from "../state/ui";
 import { useAtom } from "jotai";
+import { useArtists } from "../hooks/useArtistsNew";
 
 interface FilterProps {
   current: ArtistFilterOption;
@@ -56,27 +57,39 @@ const filterNames: Record<ArtistFilterOption, string> = {
 
 export const ArtistFilter = () => {
   const [artistFilter, setArtistFilter] = useAtom(artistsFilterAtom);
+  const artists = useArtists();
 
-  const filterToShow = filterStateMachine[artistFilter];
+  const filterToShow = filterStateMachine[artistFilter]
+    .filter(
+      ({ current }) =>
+        current !== ArtistFilterOption.LIKED ||
+        (artists?.liked ?? []).length > 0 ||
+        artistFilter === ArtistFilterOption.LIKED
+    )
+    .filter(
+      ({ current }) =>
+        current !== ArtistFilterOption.FOLLOWED ||
+        (artists?.followed ?? []).length > 0 ||
+        artistFilter === ArtistFilterOption.FOLLOWED
+    )
+    .map(({ current, next }) => ({
+      current,
+      next,
+      selected:
+        current !== next && next !== ArtistFilterOption.LIKED_AND_FOLLOWED,
+    }))
+    .sort(({ selected }) => (selected ? -1 : 1));
 
   return (
     <div style={{ marginBottom: 8, marginLeft: 16 }}>
-      {filterToShow
-        .map(({ current, next }) => ({
-          current,
-          next,
-          selected:
-            current !== next && next !== ArtistFilterOption.LIKED_AND_FOLLOWED,
-        }))
-        .sort(({ selected }) => (selected ? -1 : 1))
-        .map(({ current, next, selected }) => (
-          <ArtistFilterChip
-            key={current}
-            label={filterNames[current]}
-            onClick={() => setArtistFilter(next)}
-            selected={selected}
-          />
-        ))}
+      {filterToShow.map(({ current, next, selected }) => (
+        <ArtistFilterChip
+          key={current}
+          label={filterNames[current]}
+          onClick={() => setArtistFilter(next)}
+          selected={selected}
+        />
+      ))}
     </div>
   );
 };
