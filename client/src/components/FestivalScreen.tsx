@@ -9,19 +9,24 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useIsScrolled } from "../hooks/useIsScrolled";
 import { lineupsQuery } from "../provider/queries";
+import { Festival } from "../types/festival";
 
 export const FestivalScreen = () => {
   const artistFilter = useAtomValue(artistsFilterAtom);
   useIsScrolled("artist-scroll-container");
 
   const festival = useParams().festival;
-  const { data: festivals } = useQuery(lineupsQuery);
+  const { data: festivals } = useQuery<Festival[]>(lineupsQuery);
 
   const selectedFestival = (festivals ?? []).find(
     ({ key }: { key: string }) => key === festival
   );
 
   const result = useArtists();
+
+  if (!selectedFestival) {
+    return null;
+  }
 
   const something = result?.(
     typeof artistFilter !== "object" ? artistFilter : artistFilter.items
