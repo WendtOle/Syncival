@@ -6,16 +6,31 @@ import {
   likedQuery,
   lineupsQuery,
 } from "../components/screens/FestivalSelectionScreen";
-import { ArtistFilterOption } from "../state/ui";
+import {
+  ArtistFilterOption,
+  FilterGroupOption,
+  GroupableFilterOption,
+} from "../state/ui";
 import { accessTokenAtom } from "../state/auth";
 
 export const useArtists = ():
-  | Record<
-      ArtistFilterOption,
-      Array<
+  | {
+      single: Record<
+        ArtistFilterOption | GroupableFilterOption,
+        Array<
+          | SpotifyApi.ArtistObjectFull
+          | Pick<SpotifyApi.ArtistObjectFull, "name">
+        >
+      >;
+      multiple: (
+        input:
+          | Array<GroupableFilterOption>
+          | ArtistFilterOption
+          | GroupableFilterOption
+      ) => Array<
         SpotifyApi.ArtistObjectFull | Pick<SpotifyApi.ArtistObjectFull, "name">
-      >
-    >
+      >;
+    }
   | undefined => {
   const accessToken = useAtomValue(accessTokenAtom);
 
@@ -36,15 +51,16 @@ export const useArtists = ():
     return undefined;
   }
 
-  const getArtists = (option: ArtistFilterOption) => {
-    const all: Array<
-      SpotifyApi.ArtistObjectFull | Pick<SpotifyApi.ArtistObjectFull, "name">
-    > = selectedFestival?.artists ?? [];
+  const all: Array<
+    SpotifyApi.ArtistObjectFull | Pick<SpotifyApi.ArtistObjectFull, "name">
+  > = selectedFestival?.artists ?? [];
+
+  const getArtists = (option: ArtistFilterOption | GroupableFilterOption) => {
     if (option === ArtistFilterOption.SPOTIFY)
       return all.filter((artist) => "id" in artist && artist.id);
     if (option === ArtistFilterOption.NON_SPOTIFY)
       return all.filter((artist) => !("id" in artist) || !artist.id);
-    if (option === ArtistFilterOption.FOLLOWED)
+    if (option === GroupableFilterOption.FOLLOWED)
       return all.filter(
         (artist) =>
           followed?.find(
@@ -52,7 +68,7 @@ export const useArtists = ():
               "id" in artist && followedArtist.id === artist.id
           )
       );
-    if (option === ArtistFilterOption.LIKED)
+    if (option === GroupableFilterOption.LIKED)
       return all.filter(
         (artist) =>
           liked?.find(
@@ -60,27 +76,57 @@ export const useArtists = ():
               "id" in artist && likedSongArtist.id === artist.id
           )
       );
-    if (option === ArtistFilterOption.LIKED_AND_FOLLOWED)
-      return all.filter((artist) =>
-        [...(liked ?? []), ...(followed ?? [])].find(
-          (toCheck) => "id" in artist && toCheck.id === artist.id
-        )
-      );
     return all;
   };
 
+  const someRecord: Record<
+    GroupableFilterOption | ArtistFilterOption,
+    (
+      entry:
+        | SpotifyApi.ArtistObjectFull
+        | Pick<SpotifyApi.ArtistObjectFull, "name">
+    ) => boolean
+  > = {
+    [GroupableFilterOption.FOLLOWED]: (entry) =>
+      !!(
+        "id" in entry &&
+        followed?.find((followedEntry) => followedEntry.id == entry.id)
+      ),
+    [GroupableFilterOption.LIKED]: (entry) =>
+      !!(
+        "id" in entry && liked?.find((likedEntry) => likedEntry.id == entry.id)
+      ),
+    [ArtistFilterOption.SPOTIFY]: (entry) =>
+      "id" in entry && entry.id !== undefined,
+    [ArtistFilterOption.NON_SPOTIFY]: (entry) => !("id" in entry),
+    [ArtistFilterOption.ALL]: () => true,
+  };
+
+  const multiple = (
+    input:
+      | Array<GroupableFilterOption>
+      | ArtistFilterOption
+      | GroupableFilterOption
+  ) =>
+    all.filter((artist) => {
+      const filterToCheck = typeof input === "string" ? [input] : input;
+      return filterToCheck.find((entry) => someRecord[entry](artist));
+    });
+
   return {
-    [ArtistFilterOption.SPOTIFY]: getArtists(ArtistFilterOption.SPOTIFY),
-    [ArtistFilterOption.NON_SPOTIFY]: getArtists(
-      ArtistFilterOption.NON_SPOTIFY
-    ),
-    [ArtistFilterOption.FOLLOWED]: getArtists(ArtistFilterOption.FOLLOWED),
-    [ArtistFilterOption.LIKED]: getArtists(ArtistFilterOption.LIKED),
-    [ArtistFilterOption.LIKED_AND_FOLLOWED]: getArtists(
-      ArtistFilterOption.LIKED_AND_FOLLOWED
-    ),
-    [ArtistFilterOption.ALL]: selectedFestival.artists as Array<
-      SpotifyApi.ArtistObjectFull | Pick<SpotifyApi.ArtistObjectFull, "name">
-    >,
+    single: {
+      [ArtistFilterOption.SPOTIFY]: getArtists(ArtistFilterOption.SPOTIFY),
+      [ArtistFilterOption.NON_SPOTIFY]: getArtists(
+        ArtistFilterOption.NON_SPOTIFY
+      ),
+      [GroupableFilterOption.FOLLOWED]: getArtists(
+        GroupableFilterOption.FOLLOWED
+      ),
+      [GroupableFilterOption.LIKED]: getArtists(GroupableFilterOption.LIKED),
+      [ArtistFilterOption.ALL]: selectedFestival.artists as Array<
+        SpotifyApi.ArtistObjectFull | Pick<SpotifyApi.ArtistObjectFull, "name">
+      >,
+    },
+    multiple,
   };
 };

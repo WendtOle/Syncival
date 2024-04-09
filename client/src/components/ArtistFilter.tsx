@@ -1,14 +1,29 @@
 import { ArtistFilterChip } from "./ArtistFilterChip";
-import { ArtistFilterOption, artistsFilterAtom } from "../state/ui";
+import {
+  ArtistFilterOption,
+  FilterGroupOption,
+  GroupableFilterOption,
+  artistsFilterAtom,
+  filterGroupMapping,
+  groupableFilterMapping,
+} from "../state/ui";
 import { useAtom } from "jotai";
 import { useArtists } from "../hooks/useArtistsNew";
 
 interface FilterProps {
-  current: ArtistFilterOption;
+  current: ArtistFilterOption | FilterGroupOption | GroupableFilterOption;
   next: ArtistFilterOption;
 }
 
-const filterStateMachine: Record<ArtistFilterOption, Array<FilterProps>> = {
+interface OrFilterProps {
+  current: GroupableFilterOption;
+  append: FilterGroupOption;
+}
+
+const filterStateMachine: Record<
+  ArtistFilterOption | FilterGroupOption | GroupableFilterOption,
+  Array<FilterProps | OrFilterProps>
+> = {
   [ArtistFilterOption.ALL]: [
     { current: ArtistFilterOption.SPOTIFY, next: ArtistFilterOption.SPOTIFY },
     {
@@ -18,26 +33,35 @@ const filterStateMachine: Record<ArtistFilterOption, Array<FilterProps>> = {
   ],
   [ArtistFilterOption.SPOTIFY]: [
     { current: ArtistFilterOption.SPOTIFY, next: ArtistFilterOption.ALL },
-    { current: ArtistFilterOption.LIKED, next: ArtistFilterOption.LIKED },
-    { current: ArtistFilterOption.FOLLOWED, next: ArtistFilterOption.FOLLOWED },
-  ],
-  [ArtistFilterOption.FOLLOWED]: [
     {
-      current: ArtistFilterOption.LIKED,
-      next: ArtistFilterOption.LIKED_AND_FOLLOWED,
+      current: GroupableFilterOption.LIKED,
+      append: FilterGroupOption.SPOTIFY_GROUP,
     },
-    { current: ArtistFilterOption.FOLLOWED, next: ArtistFilterOption.SPOTIFY },
-  ],
-  [ArtistFilterOption.LIKED]: [
-    { current: ArtistFilterOption.LIKED, next: ArtistFilterOption.SPOTIFY },
     {
-      current: ArtistFilterOption.FOLLOWED,
-      next: ArtistFilterOption.LIKED_AND_FOLLOWED,
+      current: GroupableFilterOption.FOLLOWED,
+      append: FilterGroupOption.SPOTIFY_GROUP,
     },
   ],
-  [ArtistFilterOption.LIKED_AND_FOLLOWED]: [
+  [GroupableFilterOption.FOLLOWED]: [
     {
-      current: ArtistFilterOption.LIKED_AND_FOLLOWED,
+      current: GroupableFilterOption.LIKED,
+      append: FilterGroupOption.SPOTIFY_GROUP,
+    },
+    {
+      current: GroupableFilterOption.FOLLOWED,
+      next: ArtistFilterOption.SPOTIFY,
+    },
+  ],
+  [GroupableFilterOption.LIKED]: [
+    { current: GroupableFilterOption.LIKED, next: ArtistFilterOption.SPOTIFY },
+    {
+      current: GroupableFilterOption.FOLLOWED,
+      append: FilterGroupOption.SPOTIFY_GROUP,
+    },
+  ],
+  [FilterGroupOption.SPOTIFY_GROUP]: [
+    {
+      current: FilterGroupOption.SPOTIFY_GROUP,
       next: ArtistFilterOption.SPOTIFY,
     },
   ],
@@ -46,47 +70,85 @@ const filterStateMachine: Record<ArtistFilterOption, Array<FilterProps>> = {
   ],
 };
 
-const filterNames: Record<ArtistFilterOption, string> = {
-  [ArtistFilterOption.ALL]: "All",
-  [ArtistFilterOption.SPOTIFY]: "Spotify",
-  [ArtistFilterOption.FOLLOWED]: "Followed",
-  [ArtistFilterOption.LIKED]: "Liked",
-  [ArtistFilterOption.NON_SPOTIFY]: "Non-Spotify",
-  [ArtistFilterOption.LIKED_AND_FOLLOWED]: "Liked & Followed",
-};
+const filterNames: Record<ArtistFilterOption | GroupableFilterOption, string> =
+  {
+    [ArtistFilterOption.ALL]: "All",
+    [ArtistFilterOption.SPOTIFY]: "Spotify",
+    [GroupableFilterOption.FOLLOWED]: "Followed",
+    [GroupableFilterOption.LIKED]: "Liked",
+    [ArtistFilterOption.NON_SPOTIFY]: "Non-Spotify",
+  };
 
 export const ArtistFilter = () => {
   const [artistFilter, setArtistFilter] = useAtom(artistsFilterAtom);
-  const artists = useArtists();
+  const result = useArtists();
 
-  const filterToShow = filterStateMachine[artistFilter]
-    .filter(
-      ({ current }) =>
-        current !== ArtistFilterOption.LIKED ||
-        (artists?.liked ?? []).length > 0 ||
-        artistFilter === ArtistFilterOption.LIKED
-    )
-    .filter(
-      ({ current }) =>
-        current !== ArtistFilterOption.FOLLOWED ||
-        (artists?.followed ?? []).length > 0 ||
-        artistFilter === ArtistFilterOption.FOLLOWED
-    )
-    .map(({ current, next }) => ({
-      current,
-      next,
-      selected:
-        current !== next && next !== ArtistFilterOption.LIKED_AND_FOLLOWED,
-    }))
+  const key =
+    typeof artistFilter === "object" ? artistFilter.filter : artistFilter;
+
+  const items =
+    typeof artistFilter === "object" ? artistFilter.items : artistFilter;
+
+  const additionalFilter =
+    typeof artistFilter === "object"
+      ? filterGroupMapping[artistFilter.filter].filter(
+          (filter) => !artistFilter.items.includes(filter)
+        )
+      : [];
+
+  const filterToShow = [
+    ...filterStateMachine[key],
+    ...additionalFilter.map((filter) => ({
+      current: filter,
+      append: groupableFilterMapping[filter],
+    })),
+  ]
+    .filter((entry) => {
+      return (
+        !("append" in entry) ||
+        (result !== undefined && result.multiple(entry.current).length > 0)
+      );
+    })
+    .map((entry) => {
+      const onClick = () => {
+        if ("append" in entry && typeof artistFilter === "object") {
+          setArtistFilter({
+            ...artistFilter,
+            items: [...artistFilter.items, entry.current],
+          });
+          return;
+        }
+        if ("append" in entry && typeof artistFilter === "string") {
+          setArtistFilter({ filter: entry.append, items: [entry.current] });
+          return;
+        }
+        if ("next" in entry) {
+          setArtistFilter(entry.next);
+          return;
+        }
+        console.log({ artistFilter, entry });
+        throw new Error("this case was not handled");
+      };
+      return {
+        current: entry.current,
+        onClick,
+        selected: "next" in entry && entry.current !== entry.next,
+        label:
+          typeof artistFilter === "object" &&
+          artistFilter.filter === entry.current
+            ? artistFilter.items.map((item) => filterNames[item]).join(" & ")
+            : filterNames[entry.current as ArtistFilterOption],
+      };
+    })
     .sort(({ selected }) => (selected ? -1 : 1));
 
   return (
     <div style={{ marginBottom: 8, marginLeft: 16 }}>
-      {filterToShow.map(({ current, next, selected }) => (
+      {filterToShow.map(({ current, onClick, selected, label }) => (
         <ArtistFilterChip
           key={current}
-          label={filterNames[current]}
-          onClick={() => setArtistFilter(next)}
+          label={label}
+          onClick={onClick}
           selected={selected}
         />
       ))}
