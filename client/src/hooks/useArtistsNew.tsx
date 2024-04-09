@@ -1,24 +1,14 @@
 import { useAtomValue } from "jotai";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { ArtistFilterOption, GroupableFilterOption } from "../types/filter";
+import { accessTokenAtom } from "../state/auth";
 import {
+  albumQuery,
   followedQuery,
   likedQuery,
   lineupsQuery,
-} from "../components/FestivalSelectionScreen";
-import { ArtistFilterOption, GroupableFilterOption } from "../types/filter";
-import { accessTokenAtom } from "../state/auth";
-import { backendUrl } from "../state/loadEnvVariables";
-
-export const albumQuery = (accessToken: () => string) => ({
-  queryKey: ["album"],
-  queryFn: async () => {
-    const response = await fetch(
-      `${backendUrl}/savedAlbums?accessToken=${accessToken()}`
-    );
-    return await response.json();
-  },
-});
+} from "../provider/queries";
 
 export const useArtists = ():
   | ((
