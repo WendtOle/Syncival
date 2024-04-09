@@ -9,6 +9,7 @@ import {
   likedQuery,
   lineupsQuery,
 } from "../provider/queries";
+import { Artist } from "../types/artist";
 
 export const useArtists = ():
   | ((
@@ -16,9 +17,7 @@ export const useArtists = ():
         | Array<GroupableFilterOption>
         | ArtistFilterOption
         | GroupableFilterOption
-    ) => Array<
-      SpotifyApi.ArtistObjectFull | Pick<SpotifyApi.ArtistObjectFull, "name">
-    >)
+    ) => Artist[])
   | undefined => {
   const accessToken = useAtomValue(accessTokenAtom);
 
@@ -43,17 +42,11 @@ export const useArtists = ():
     return undefined;
   }
 
-  const all: Array<
-    SpotifyApi.ArtistObjectFull | Pick<SpotifyApi.ArtistObjectFull, "name">
-  > = selectedFestival?.artists ?? [];
+  const all: Artist[] = selectedFestival?.artists ?? [];
 
   const someRecord: Record<
     GroupableFilterOption | ArtistFilterOption,
-    (
-      entry:
-        | SpotifyApi.ArtistObjectFull
-        | Pick<SpotifyApi.ArtistObjectFull, "name">
-    ) => boolean
+    (entry: Artist) => boolean
   > = {
     [GroupableFilterOption.FOLLOWED]: (entry) =>
       !!(

@@ -7,11 +7,10 @@ import {
 } from "@mui/material";
 import { CoverArt } from "./CoverArt";
 import { SpotifyIFrameWrapper } from "./SpotifyIFrameWrapper";
+import { Artist } from "../types/artist";
 
 interface ArtistItemProps {
-  artist:
-    | SpotifyApi.ArtistObjectFull
-    | Pick<SpotifyApi.ArtistObjectFull, "name">;
+  artist: Artist;
 }
 
 export const ArtistItem = ({ artist }: ArtistItemProps) => {
@@ -45,7 +44,7 @@ export const ArtistItem = ({ artist }: ArtistItemProps) => {
             if (image.height < smallest.height) return image;
             return smallest;
           },
-          artist.images[0],
+          artist.images[0]
         );
 
         return (
