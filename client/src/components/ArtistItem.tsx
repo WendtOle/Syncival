@@ -45,7 +45,7 @@ export const ArtistItem = ({ artist }: ArtistItemProps) => {
             if (image.height < smallest.height) return image;
             return smallest;
           },
-          artist.images[0]
+          artist.images[0],
         );
 
         return (

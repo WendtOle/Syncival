@@ -18,18 +18,17 @@ export const FestivalScreen = () => {
   const { data: festivals } = useQuery(lineupsQuery);
 
   const selectedFestival = (festivals ?? []).find(
-    ({ key }: { key: string }) => key === festival
+    ({ key }: { key: string }) => key === festival,
   );
 
   const result = useArtists();
 
-  const something =
-    typeof artistFilter !== "object"
-      ? result?.single[artistFilter]
-      : result?.multiple(artistFilter.items);
+  const something = result?.(
+    typeof artistFilter !== "object" ? artistFilter : artistFilter.items,
+  );
   const sortedArtists = (something ?? []).sort(
     ({ name: a }: { name: string }, { name: b }: { name: string }) =>
-      a.toLowerCase() < b.toLowerCase() ? -1 : 1
+      a.toLowerCase() < b.toLowerCase() ? -1 : 1,
   );
 
   const artistElement = sortedArtists.map((artist) => {

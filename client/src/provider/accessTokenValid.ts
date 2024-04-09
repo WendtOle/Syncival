@@ -10,7 +10,7 @@ export const getAccessTokenStatus = async ({
   refreshToken: string;
 }): Promise<TokenStatus> => {
   const response = await fetch(
-    `${backendUrl}/accessTokenValid?accessToken=${accessToken}&refreshToken=${refreshToken}`
+    `${backendUrl}/accessTokenValid?accessToken=${accessToken}&refreshToken=${refreshToken}`,
   );
   const tokenStatus = await response.text();
 

@@ -10,7 +10,7 @@ import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persist
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement,
 );
 
 const theme = createTheme({
@@ -53,5 +53,5 @@ root.render(
         </AuthenticationWrapper>
       </QueryClientProvider>
     </BrowserRouter>
-  </ThemeProvider>
+  </ThemeProvider>,
 );

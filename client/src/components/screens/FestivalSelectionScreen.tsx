@@ -14,7 +14,7 @@ export const followedQuery = (accessToken: () => string) => ({
   queryKey: ["followed"],
   queryFn: async () => {
     const response = await fetch(
-      `${backendUrl}/followed?accessToken=${accessToken()}`
+      `${backendUrl}/followed?accessToken=${accessToken()}`,
     );
     return await response.json();
   },
@@ -32,7 +32,7 @@ export const likedQuery = (accessToken: () => string) => ({
   queryKey: ["liked"],
   queryFn: async () => {
     const response = await fetch(
-      `${backendUrl}/liked?accessToken=${accessToken()}`
+      `${backendUrl}/liked?accessToken=${accessToken()}`,
     );
     return await response.json();
   },
@@ -73,7 +73,7 @@ export const FestivalSelectionScreen = () => {
                 />
               </ListItemButton>
             </ListItem>
-          )
+          ),
         )}
       </List>
     </div>
