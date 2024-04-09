@@ -12,6 +12,18 @@ import {
   GroupableFilterOption,
 } from "../state/ui";
 import { accessTokenAtom } from "../state/auth";
+import { backendUrl } from "../state/loadEnvVariables";
+import { get } from "http";
+
+export const albumQuery = (accessToken: () => string) => ({
+  queryKey: ["album"],
+  queryFn: async () => {
+    const response = await fetch(
+      `${backendUrl}/savedAlbums?accessToken=${accessToken()}`
+    );
+    return await response.json();
+  },
+});
 
 export const useArtists = ():
   | {
@@ -39,6 +51,10 @@ export const useArtists = ():
   const { data: followed } = useQuery<Array<SpotifyApi.ArtistObjectSimplified>>(
     followedQuery(accessToken)
   );
+  const { data: albums } = useQuery<Array<SpotifyApi.ArtistObjectSimplified>>(
+    albumQuery(accessToken)
+  );
+
   const { data: liked } = useQuery<Array<SpotifyApi.ArtistObjectSimplified>>(
     likedQuery(accessToken)
   );
@@ -100,6 +116,8 @@ export const useArtists = ():
       "id" in entry && entry.id !== undefined,
     [ArtistFilterOption.NON_SPOTIFY]: (entry) => !("id" in entry),
     [ArtistFilterOption.ALL]: () => true,
+    [GroupableFilterOption.ALBUMS]: (entry) =>
+      !!("id" in entry && albums?.find((album) => album.id == entry.id)),
   };
 
   const multiple = (
@@ -126,6 +144,7 @@ export const useArtists = ():
       [ArtistFilterOption.ALL]: selectedFestival.artists as Array<
         SpotifyApi.ArtistObjectFull | Pick<SpotifyApi.ArtistObjectFull, "name">
       >,
+      [GroupableFilterOption.ALBUMS]: getArtists(GroupableFilterOption.ALBUMS),
     },
     multiple,
   };

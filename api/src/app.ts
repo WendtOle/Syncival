@@ -23,6 +23,7 @@ import { getFollowedArtists } from "./provider/getFollowedArtists";
 import { readFileSync, readdirSync } from "fs";
 import { spotifyApi } from "./provider/getSpotifyApi";
 import { getMySavedTracksAll } from "./provider/getMySavedTracks";
+import { getMySavedAlbums } from "./provider/getMySavedAlbums";
 
 const setCors = (req: any, res: any) => {
   const requestOrigin = req.headers.origin ?? [];
@@ -221,6 +222,24 @@ app.get("/liked", async (req: any, res: any) => {
     return;
   } catch (err: any) {
     console.log("Error when fetching artists of liked tracks.");
+    console.log(err);
+    res.send("error");
+    return;
+  }
+});
+
+app.get("/savedAlbums", async (req: any, res: any) => {
+  setCors(req, res);
+  const { query } = url.parse(req.url);
+  const { accessToken } = querystring.parse(query);
+  spotifyApi.setAccessToken(accessToken);
+  try {
+    const albums = await getMySavedAlbums();
+    const artists = albums.flatMap(({ album }) => album.artists);
+    res.send(artists);
+    return;
+  } catch (err: any) {
+    console.log("Error when fetching artists of saved albums.");
     console.log(err);
     res.send("error");
     return;
