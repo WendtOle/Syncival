@@ -1,4 +1,4 @@
-import { SpotifyIcon } from "../../logo/SpotifyIcon";
+import { SpotifyIcon } from "../logo/SpotifyIcon";
 
 export const SpotifyLogoWrapper = ({ children }: { children: any }) => {
   return (

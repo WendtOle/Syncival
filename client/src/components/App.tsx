@@ -1,7 +1,7 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import { FestivalScreen } from "./screens/FestivalScreen";
-import { FestivalSelectionScreen } from "./screens/FestivalSelectionScreen";
+import { FestivalScreen } from "./FestivalScreen";
+import { FestivalSelectionScreen } from "./FestivalSelectionScreen";
 
 export const App = () => {
   return (

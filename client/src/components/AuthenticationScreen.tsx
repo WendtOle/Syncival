@@ -1,7 +1,7 @@
 import Typography from "@mui/material/Typography";
-import { DebugAuthDialogWrapper } from "../DebugAuthDialogWrapper";
+import { DebugAuthDialogWrapper } from "./DebugAuthDialogWrapper";
 import Button from "@mui/material/Button";
-import { getAuthorizeURL } from "../../provider/authorizeURL";
+import { getAuthorizeURL } from "../provider/authorizeURL";
 import { useLocation } from "react-router-dom";
 
 export const AuthenticationScreen = () => {

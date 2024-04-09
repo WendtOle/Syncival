@@ -1,14 +1,14 @@
-import { AppBar } from "../AppBar";
+import { AppBar } from "./AppBar";
 import { Virtuoso } from "react-virtuoso";
-import { ArtistItem } from "../ArtistItem";
+import { ArtistItem } from "./ArtistItem";
 import { useAtomValue } from "jotai";
-import { artistsFilterAtom } from "../../state/ui";
-import { ArtistFilter } from "../ArtistFilter";
-import { useArtists } from "../../hooks/useArtistsNew";
+import { artistsFilterAtom } from "../state/ui";
+import { ArtistFilter } from "./ArtistFilter";
+import { useArtists } from "../hooks/useArtistsNew";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { lineupsQuery } from "./FestivalSelectionScreen";
-import { useIsScrolled } from "../../hooks/useIsScrolled";
+import { useIsScrolled } from "../hooks/useIsScrolled";
 
 export const FestivalScreen = () => {
   const artistFilter = useAtomValue(artistsFilterAtom);

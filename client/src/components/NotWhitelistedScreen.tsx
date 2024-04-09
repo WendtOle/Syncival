@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { CONTACT_ADDRESS } from "../AuthenticationWrapper";
+import { CONTACT_ADDRESS } from "./AuthenticationWrapper";
 
 export const NotWhitelistedScreen = () => {
   return (

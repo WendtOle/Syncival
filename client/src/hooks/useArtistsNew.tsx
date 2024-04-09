@@ -5,7 +5,7 @@ import {
   followedQuery,
   likedQuery,
   lineupsQuery,
-} from "../components/screens/FestivalSelectionScreen";
+} from "../components/FestivalSelectionScreen";
 import { ArtistFilterOption, GroupableFilterOption } from "../state/ui";
 import { accessTokenAtom } from "../state/auth";
 import { backendUrl } from "../state/loadEnvVariables";
@@ -14,7 +14,7 @@ export const albumQuery = (accessToken: () => string) => ({
   queryKey: ["album"],
   queryFn: async () => {
     const response = await fetch(
-      `${backendUrl}/savedAlbums?accessToken=${accessToken()}`,
+      `${backendUrl}/savedAlbums?accessToken=${accessToken()}`
     );
     return await response.json();
   },
@@ -25,7 +25,7 @@ export const useArtists = ():
       input:
         | Array<GroupableFilterOption>
         | ArtistFilterOption
-        | GroupableFilterOption,
+        | GroupableFilterOption
     ) => Array<
       SpotifyApi.ArtistObjectFull | Pick<SpotifyApi.ArtistObjectFull, "name">
     >)
@@ -35,18 +35,18 @@ export const useArtists = ():
   const festival = useParams().festival;
   const { data: festivals } = useQuery(lineupsQuery);
   const { data: followed } = useQuery<Array<SpotifyApi.ArtistObjectSimplified>>(
-    followedQuery(accessToken),
+    followedQuery(accessToken)
   );
   const { data: albums } = useQuery<Array<SpotifyApi.ArtistObjectSimplified>>(
-    albumQuery(accessToken),
+    albumQuery(accessToken)
   );
 
   const { data: liked } = useQuery<Array<SpotifyApi.ArtistObjectSimplified>>(
-    likedQuery(accessToken),
+    likedQuery(accessToken)
   );
 
   const selectedFestival = (festivals ?? []).find(
-    ({ key }: { key: string }) => key === festival,
+    ({ key }: { key: string }) => key === festival
   );
 
   if (!selectedFestival) {
@@ -62,7 +62,7 @@ export const useArtists = ():
     (
       entry:
         | SpotifyApi.ArtistObjectFull
-        | Pick<SpotifyApi.ArtistObjectFull, "name">,
+        | Pick<SpotifyApi.ArtistObjectFull, "name">
     ) => boolean
   > = {
     [GroupableFilterOption.FOLLOWED]: (entry) =>
@@ -86,7 +86,7 @@ export const useArtists = ():
     input:
       | Array<GroupableFilterOption>
       | ArtistFilterOption
-      | GroupableFilterOption,
+      | GroupableFilterOption
   ) =>
     all.filter((artist) => {
       const filterToCheck = typeof input === "string" ? [input] : input;

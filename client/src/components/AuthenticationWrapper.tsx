@@ -11,9 +11,9 @@ import {
 import { getAccessTokenStatus } from "../provider/accessTokenValid";
 import { refreshAccessToken } from "../provider/refreshAccessToken";
 import { authenticateWithCode } from "../provider/authenticate";
-import { AuthenticationScreen } from "./screens/AuthenticationScreen";
-import { NotWhitelistedScreen } from "./screens/NotWhitelistedScreen";
-import { SpotifyLogoWrapper } from "./screens/SpotifyLogoWrapper";
+import { AuthenticationScreen } from "./AuthenticationScreen";
+import { NotWhitelistedScreen } from "./NotWhitelistedScreen";
+import { SpotifyLogoWrapper } from "./SpotifyLogoWrapper";
 
 export const CONTACT_ADDRESS = "ow-ad+artist-lookup@simplelogin.co";
 

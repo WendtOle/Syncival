@@ -1,20 +1,20 @@
 import ListItemButton from "@mui/material/ListItemButton";
-import { AppBar } from "../AppBar";
-import { List } from "../List";
+import { AppBar } from "./AppBar";
+import { List } from "./List";
 import ListItemText from "@mui/material/ListItemText";
 import { useQuery } from "@tanstack/react-query";
-import { backendUrl } from "../../state/loadEnvVariables";
+import { backendUrl } from "../state/loadEnvVariables";
 import ListItem from "@mui/material/ListItem";
 import { useNavigate } from "react-router";
 import { Avatar, ListItemAvatar } from "@mui/material";
-import { accessTokenAtom } from "../../state/auth";
+import { accessTokenAtom } from "../state/auth";
 import { useAtomValue } from "jotai";
 
 export const followedQuery = (accessToken: () => string) => ({
   queryKey: ["followed"],
   queryFn: async () => {
     const response = await fetch(
-      `${backendUrl}/followed?accessToken=${accessToken()}`,
+      `${backendUrl}/followed?accessToken=${accessToken()}`
     );
     return await response.json();
   },
@@ -32,7 +32,7 @@ export const likedQuery = (accessToken: () => string) => ({
   queryKey: ["liked"],
   queryFn: async () => {
     const response = await fetch(
-      `${backendUrl}/liked?accessToken=${accessToken()}`,
+      `${backendUrl}/liked?accessToken=${accessToken()}`
     );
     return await response.json();
   },
@@ -73,7 +73,7 @@ export const FestivalSelectionScreen = () => {
                 />
               </ListItemButton>
             </ListItem>
-          ),
+          )
         )}
       </List>
     </div>
