@@ -1,4 +1,4 @@
-import { SpotifyLogo } from "../../logo/SpotifyLogo";
+import { SpotifyIcon } from "../../logo/SpotifyIcon";
 
 export const SpotifyLogoWrapper = ({ children }: { children: any }) => {
   return (
@@ -7,22 +7,12 @@ export const SpotifyLogoWrapper = ({ children }: { children: any }) => {
         style={{
           position: "fixed",
           bottom: 0,
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          height: 64,
-          alignItems: "center",
-          zIndex: 1000,
+          zIndex: 1,
+          right: 10,
+          background: "white",
         }}
       >
-        <div
-          style={{
-            background: "white",
-            boxShadow: "-3px -1px 15px 5px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <SpotifyLogo variant="black" height={32} />
-        </div>
+        <SpotifyIcon variant="black" size={48} />
       </div>
       {children}
     </div>

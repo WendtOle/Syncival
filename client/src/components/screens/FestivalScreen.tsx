@@ -82,6 +82,7 @@ export const FestivalScreen = () => {
         data={artistElement}
         id="artist-scroll-container"
         itemContent={(index) => (artistElement ?? [])[index]}
+        components={{ Footer: () => <div style={{ height: "85px" }} /> }}
       />
     </div>
   );
