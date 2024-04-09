@@ -41,10 +41,18 @@ const filterStateMachine: Record<
       current: GroupableFilterOption.FOLLOWED,
       append: FilterGroupOption.SPOTIFY_GROUP,
     },
+    {
+      current: GroupableFilterOption.ALBUMS,
+      append: FilterGroupOption.SPOTIFY_GROUP,
+    },
   ],
   [GroupableFilterOption.FOLLOWED]: [
     {
       current: GroupableFilterOption.LIKED,
+      append: FilterGroupOption.SPOTIFY_GROUP,
+    },
+    {
+      current: GroupableFilterOption.ALBUMS,
       append: FilterGroupOption.SPOTIFY_GROUP,
     },
     {
@@ -58,6 +66,10 @@ const filterStateMachine: Record<
       current: GroupableFilterOption.FOLLOWED,
       append: FilterGroupOption.SPOTIFY_GROUP,
     },
+    {
+      current: GroupableFilterOption.ALBUMS,
+      append: FilterGroupOption.SPOTIFY_GROUP,
+    },
   ],
   [FilterGroupOption.SPOTIFY_GROUP]: [
     {
@@ -68,6 +80,17 @@ const filterStateMachine: Record<
   [ArtistFilterOption.NON_SPOTIFY]: [
     { current: ArtistFilterOption.NON_SPOTIFY, next: ArtistFilterOption.ALL },
   ],
+  [GroupableFilterOption.ALBUMS]: [
+    { current: GroupableFilterOption.ALBUMS, next: ArtistFilterOption.SPOTIFY },
+    {
+      current: GroupableFilterOption.FOLLOWED,
+      append: FilterGroupOption.SPOTIFY_GROUP,
+    },
+    {
+      current: GroupableFilterOption.LIKED,
+      append: FilterGroupOption.SPOTIFY_GROUP,
+    },
+  ],
 };
 
 const filterNames: Record<ArtistFilterOption | GroupableFilterOption, string> =
@@ -77,6 +100,7 @@ const filterNames: Record<ArtistFilterOption | GroupableFilterOption, string> =
     [GroupableFilterOption.FOLLOWED]: "Followed",
     [GroupableFilterOption.LIKED]: "Liked",
     [ArtistFilterOption.NON_SPOTIFY]: "Non-Spotify",
+    [GroupableFilterOption.ALBUMS]: "Albums",
   };
 
 export const ArtistFilter = () => {
