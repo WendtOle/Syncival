@@ -10,13 +10,14 @@ import {
 import { useAtom } from "jotai";
 import { useArtists } from "../hooks/useArtistsNew";
 import { artistsFilterAtom } from "../state/ui";
+import { getOnClick } from "../util/getOnClick";
 
-interface FilterProps {
+export interface FilterProps {
   current: ArtistFilterOption | FilterGroupOption | GroupableFilterOption;
   next: ArtistFilterOption;
 }
 
-interface OrFilterProps {
+export interface OrFilterProps {
   current: GroupableFilterOption;
   append: FilterGroupOption;
 }
@@ -121,37 +122,16 @@ export const ArtistFilter = () => {
         (result !== undefined && result(entry.current).length > 0)
       );
     })
-    .map((entry) => {
-      const onClick = () => {
-        if ("append" in entry && typeof artistFilter === "object") {
-          setArtistFilter({
-            ...artistFilter,
-            items: [...artistFilter.items, entry.current],
-          });
-          return;
-        }
-        if ("append" in entry && typeof artistFilter === "string") {
-          setArtistFilter({ filter: entry.append, items: [entry.current] });
-          return;
-        }
-        if ("next" in entry) {
-          setArtistFilter(entry.next);
-          return;
-        }
-        console.log({ artistFilter, entry });
-        throw new Error("this case was not handled");
-      };
-      return {
-        current: entry.current,
-        onClick,
-        selected: "next" in entry && entry.current !== entry.next,
-        label:
-          typeof artistFilter === "object" &&
-          artistFilter.filter === entry.current
-            ? artistFilter.items.map((item) => filterNames[item]).join(" & ")
-            : filterNames[entry.current as ArtistFilterOption],
-      };
-    })
+    .map((entry) => ({
+      current: entry.current,
+      onClick: getOnClick(entry, artistFilter, setArtistFilter),
+      selected: "next" in entry && entry.current !== entry.next,
+      label:
+        typeof artistFilter === "object" &&
+        artistFilter.filter === entry.current
+          ? artistFilter.items.map((item) => filterNames[item]).join(" & ")
+          : filterNames[entry.current as ArtistFilterOption],
+    }))
     .sort(({ selected }) => (selected ? -1 : 1));
 
   return (
