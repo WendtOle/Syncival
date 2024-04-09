@@ -27,11 +27,36 @@ export enum ArtistFilterOption {
   ALL = "all",
   SPOTIFY = "spotify",
   NON_SPOTIFY = "nonSpotify",
-  FOLLOWED = "followed",
-  LIKED = "liked",
-  LIKED_AND_FOLLOWED = "liked&followed",
 }
 
-export const artistsFilterAtom = atom<ArtistFilterOption>(
-  ArtistFilterOption.SPOTIFY
-);
+export enum GroupableFilterOption {
+  FOLLOWED = "followed",
+  LIKED = "liked",
+}
+
+export enum FilterGroupOption {
+  SPOTIFY_GROUP = "spotifyGroup",
+}
+
+export const filterGroupMapping: Record<
+  FilterGroupOption,
+  GroupableFilterOption[]
+> = {
+  [FilterGroupOption.SPOTIFY_GROUP]: [
+    GroupableFilterOption.FOLLOWED,
+    GroupableFilterOption.LIKED,
+  ],
+};
+
+export const groupableFilterMapping: Record<
+  GroupableFilterOption,
+  FilterGroupOption
+> = {
+  [GroupableFilterOption.FOLLOWED]: FilterGroupOption.SPOTIFY_GROUP,
+  [GroupableFilterOption.LIKED]: FilterGroupOption.SPOTIFY_GROUP,
+};
+
+export const artistsFilterAtom = atom<
+  | ArtistFilterOption
+  | { filter: FilterGroupOption; items: Array<GroupableFilterOption> }
+>(ArtistFilterOption.SPOTIFY);

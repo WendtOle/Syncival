@@ -21,9 +21,13 @@ export const FestivalScreen = () => {
     ({ key }: { key: string }) => key === festival
   );
 
-  const artists = useArtists();
+  const result = useArtists();
 
-  const sortedArtists = (artists?.[artistFilter] ?? []).sort(
+  const something =
+    typeof artistFilter !== "object"
+      ? result?.single[artistFilter]
+      : result?.multiple(artistFilter.items);
+  const sortedArtists = (something ?? []).sort(
     ({ name: a }: { name: string }, { name: b }: { name: string }) =>
       a.toLowerCase() < b.toLowerCase() ? -1 : 1
   );
