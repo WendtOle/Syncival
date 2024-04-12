@@ -11,6 +11,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { appBarHeightAtom, scrolledAtom } from "../state/ui";
 import BackIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate } from "react-router-dom";
+import { SpotifyConnectButton } from "./SpotifyConnectButton";
 
 interface AppBarProps {
   title: string;
@@ -18,7 +19,6 @@ interface AppBarProps {
   showBackButton?: boolean;
   customNavigationButton?: JSX.Element;
   children?: any;
-  actions?: any;
 }
 
 export const AppBar = ({
@@ -27,7 +27,6 @@ export const AppBar = ({
   children,
   showBackButton,
   customNavigationButton,
-  actions,
 }: AppBarProps) => {
   const navigate = useNavigate();
   const appBarRef = useRef<any>(null);
@@ -90,7 +89,9 @@ export const AppBar = ({
               </>
             )}
           </Typography>
-          <div>{actions}</div>
+          <div>
+            <SpotifyConnectButton />
+          </div>
         </Toolbar>
         {isLoading && <LinearProgress color="inherit" />}
         {children}
