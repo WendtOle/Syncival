@@ -12,7 +12,9 @@ export const FestivalSelectionScreen = () => {
     <div>
       <AppBar title="Synceval" />
       <List>
-        {festivals?.map((festival) => <FestivalItem festival={festival} />)}
+        {festivals?.map((festival) => (
+          <FestivalItem key={festival.key} festival={festival} />
+        ))}
       </List>
     </div>
   );
