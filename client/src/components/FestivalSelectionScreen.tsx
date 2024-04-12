@@ -10,7 +10,7 @@ export const FestivalSelectionScreen = () => {
 
   return (
     <div>
-      <AppBar title="Synceval" />
+      <AppBar title="Syncival" />
       <List>
         {festivals?.map((festival) => (
           <FestivalItem key={festival.key} festival={festival} />
