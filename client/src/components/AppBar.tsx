@@ -12,6 +12,7 @@ import { appBarHeightAtom, scrolledAtom } from "../state/ui";
 import BackIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate } from "react-router-dom";
 import { SpotifyConnectButton } from "./SpotifyConnectButton";
+import { NotWhiteListedInformation } from "./NotWhiteListedInformation";
 
 interface AppBarProps {
   title: string;
@@ -91,6 +92,7 @@ export const AppBar = ({
           </Typography>
           <div>
             <SpotifyConnectButton />
+            <NotWhiteListedInformation />
           </div>
         </Toolbar>
         {isLoading && <LinearProgress color="inherit" />}

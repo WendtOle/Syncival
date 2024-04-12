@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { App } from "./components/App";
-import { AuthenticationWrapper } from "./components/AuthenticationWrapper";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -49,11 +48,9 @@ root.render(
   <ThemeProvider theme={theme}>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <AuthenticationWrapper>
-          <SpotifyLogoWrapper>
-            <App />
-          </SpotifyLogoWrapper>
-        </AuthenticationWrapper>
+        <SpotifyLogoWrapper>
+          <App />
+        </SpotifyLogoWrapper>
       </QueryClientProvider>
     </BrowserRouter>
   </ThemeProvider>

@@ -3,11 +3,11 @@ import { atomWithStorage } from "jotai/utils";
 
 export const nullableAccessTokenAtom = atomWithStorage<string | null>(
   "accessToken",
-  null,
+  null
 );
-export const nullableRefreshToken = atomWithStorage<string | null>(
+export const nullableRefreshTokenAtom = atomWithStorage<string | null>(
   "refreshToken",
-  null,
+  null
 );
 export const accessTokenAtom = atom<() => string>((get) => () => {
   const accessToken = get(nullableAccessTokenAtom);
@@ -17,13 +17,13 @@ export const accessTokenAtom = atom<() => string>((get) => () => {
   return accessToken;
 });
 export const refreshTokenAtom = atom<() => string>((get) => () => {
-  const refreshToken = get(nullableRefreshToken);
+  const refreshToken = get(nullableRefreshTokenAtom);
   if (!refreshToken) {
     throw Error("access token not set");
   }
   return refreshToken;
 });
-export const isAuthorizedAtom = atom(
-  (get) =>
-    get(nullableAccessTokenAtom) !== null && get(nullableRefreshToken) !== null,
-);
+
+export const authenticationAtom = atom<
+  "not-authenticated" | "ok" | "not-whitelisted"
+>("not-authenticated");
