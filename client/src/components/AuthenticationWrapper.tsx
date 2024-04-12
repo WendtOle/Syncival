@@ -13,7 +13,6 @@ import { refreshAccessToken } from "../provider/refreshAccessToken";
 import { authenticateWithCode } from "../provider/authenticate";
 import { AuthenticationScreen } from "./AuthenticationScreen";
 import { NotWhitelistedScreen } from "./NotWhitelistedScreen";
-import { SpotifyLogoWrapper } from "./SpotifyLogoWrapper";
 
 export const CONTACT_ADDRESS = "ow-ad+artist-lookup@simplelogin.co";
 
@@ -93,5 +92,5 @@ export const AuthenticationWrapper = ({
   if (authenticationState === "needsAuthentication") {
     return <AuthenticationScreen />;
   }
-  return <SpotifyLogoWrapper>{children}</SpotifyLogoWrapper>;
+  return children;
 };

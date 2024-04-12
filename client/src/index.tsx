@@ -8,9 +8,10 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
+import { SpotifyLogoWrapper } from "./components/SpotifyLogoWrapper";
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement,
+  document.getElementById("root") as HTMLElement
 );
 
 const theme = createTheme({
@@ -49,9 +50,11 @@ root.render(
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <AuthenticationWrapper>
-          <App />
+          <SpotifyLogoWrapper>
+            <App />
+          </SpotifyLogoWrapper>
         </AuthenticationWrapper>
       </QueryClientProvider>
     </BrowserRouter>
-  </ThemeProvider>,
+  </ThemeProvider>
 );
