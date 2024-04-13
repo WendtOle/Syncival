@@ -3,11 +3,11 @@ import { Box, SxProps, Theme } from "@mui/material";
 const SPOTIFY_LOGO_MIN_HEIGHT = 21;
 export const SpotifyLogo = ({
   variant,
-  height: nullableHeight,
+  size: nullableHeight,
   sx,
 }: {
   variant?: "black" | "white";
-  height?: number;
+  size?: number;
   sx?: SxProps<Theme>;
 }) => {
   const path =
