@@ -1,11 +1,13 @@
-import { IconButton, Menu, MenuList, Divider, MenuItem } from "@mui/material";
+import { IconButton, Menu, MenuList, MenuItem } from "@mui/material";
 import { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import { QueryType } from "../provider/queries";
 
 export const AppbarMenu = () => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const queryClient = useQueryClient();
 
   const onOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -18,8 +20,10 @@ export const AppbarMenu = () => {
   };
 
   const clearLocalStorage = () => {
-    localStorage.clear();
-    window.location.reload();
+    Object.values(QueryType).forEach((queryType) => {
+      queryClient.invalidateQueries({ queryKey: [queryType] });
+    });
+    onClose();
   };
 
   return (
