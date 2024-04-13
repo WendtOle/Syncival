@@ -19,7 +19,7 @@ export const AppbarMenu = () => {
     setOpen(false);
   };
 
-  const clearLocalStorage = () => {
+  const reload = () => {
     Object.values(QueryType).forEach((queryType) => {
       queryClient.invalidateQueries({ queryKey: [queryType] });
     });
@@ -45,7 +45,7 @@ export const AppbarMenu = () => {
         }}
       >
         <MenuList dense disablePadding>
-          <MenuItem onClick={clearLocalStorage}>Clear cache</MenuItem>
+          <MenuItem onClick={reload}>Reload</MenuItem>
         </MenuList>
       </Menu>
     </>
