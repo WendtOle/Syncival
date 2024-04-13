@@ -24,6 +24,11 @@ import { readFileSync, readdirSync } from "fs";
 import { spotifyApi } from "./provider/getSpotifyApi";
 import { getMySavedTracksAll } from "./provider/getMySavedTracks";
 import { getMySavedAlbums } from "./provider/getMySavedAlbums";
+import {
+  Festival,
+  additionalInformation,
+  festivalNames,
+} from "./data/festivalInformation";
 
 const setCors = (req: any, res: any) => {
   const requestOrigin = req.headers.origin ?? [];
@@ -290,18 +295,15 @@ app.post("/createPlaylist", async (req: any, res: any) => {
 
 app.get("/festivals", async (req: any, res: any) => {
   setCors(req, res);
-  const files = (await readdirSync(join(process.cwd(), "src/data"))).filter(
-    (file) => file.endsWith(".json")
-  );
   res.send(
-    files.map((fileName) => {
-      const string = readFileSync(`./src/data/${fileName}`, "utf8");
+    Object.values(Festival).map((key) => {
+      const string = readFileSync(`./src/data/${key}.json`, "utf8");
       const lineup = JSON.parse(string);
-      const key = fileName.replace(".json", "");
       return {
-        name: key.replace(/-/g, " "),
+        name: festivalNames[key],
         key,
         artists: lineup,
+        additionalInformation: additionalInformation[key],
       };
     })
   );

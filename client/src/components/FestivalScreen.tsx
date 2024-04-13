@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useIsScrolled } from "../hooks/useIsScrolled";
 import { lineupsQuery } from "../provider/queries";
 import { Festival } from "../types/festival";
+import { FestivalInfoDialogIconButton } from "./FestivalInfoDialogIconButton";
 
 export const FestivalScreen = () => {
   const artistFilter = useAtomValue(artistsFilterAtom);
@@ -42,7 +43,15 @@ export const FestivalScreen = () => {
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      <AppBar title={selectedFestival.name} showBackButton>
+      <AppBar
+        title={selectedFestival.name}
+        showBackButton
+        actions={
+          selectedFestival.additionalInformation && (
+            <FestivalInfoDialogIconButton {...selectedFestival} />
+          )
+        }
+      >
         <ArtistFilter />
       </AppBar>
       <Virtuoso
