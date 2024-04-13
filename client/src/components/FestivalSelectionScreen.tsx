@@ -14,11 +14,6 @@ import {
 export const FestivalSelectionScreen = () => {
   const { data: festivals } = useQuery<Festival[]>(lineupsQuery);
 
-  const clearLocalStorage = () => {
-    localStorage.clear();
-    window.location.reload();
-  };
-
   return (
     <div>
       <AppBar title="Syncival" />
@@ -26,25 +21,6 @@ export const FestivalSelectionScreen = () => {
         {festivals?.map((festival) => (
           <FestivalItem key={festival.key} festival={festival} />
         ))}
-        <ListItemButton onClick={clearLocalStorage}>
-          <ListItemAvatar>
-            <Avatar
-              style={{
-                height: 54,
-                width: 54,
-                background: "#fff9c4",
-                color: "gray",
-              }}
-              variant="square"
-            >
-              {" "}
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary={"Clear and reload data"}
-            sx={{ marginLeft: 2 }}
-          />
-        </ListItemButton>
       </List>
     </div>
   );

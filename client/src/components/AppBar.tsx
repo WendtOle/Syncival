@@ -13,6 +13,8 @@ import BackIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate } from "react-router-dom";
 import { SpotifyConnectButton } from "./SpotifyConnectButton";
 import { NotWhiteListedInformation } from "./NotWhiteListedInformation";
+import { authenticationAtom } from "../state/auth";
+import { AppbarMenu } from "./AppbarMenu";
 
 interface AppBarProps {
   title: string;
@@ -34,6 +36,7 @@ export const AppBar = ({
   const isLoading = false;
   const setAppBarHeight = useSetAtom(appBarHeightAtom);
   const isScrolled = useAtomValue(scrolledAtom);
+  const authenticationState = useAtomValue(authenticationAtom);
 
   useEffect(() => {
     const handleResize = () => {
@@ -91,8 +94,13 @@ export const AppBar = ({
             )}
           </Typography>
           <div>
-            <SpotifyConnectButton />
-            <NotWhiteListedInformation />
+            {authenticationState === "not-whitelisted" && (
+              <NotWhiteListedInformation />
+            )}
+            {authenticationState === "not-authenticated" && (
+              <SpotifyConnectButton />
+            )}
+            {authenticationState === "ok" && <AppbarMenu />}
           </div>
         </Toolbar>
         {isLoading && <LinearProgress color="inherit" />}
