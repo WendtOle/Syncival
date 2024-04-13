@@ -297,7 +297,10 @@ app.get("/festivals", async (req: any, res: any) => {
   setCors(req, res);
   res.send(
     Object.values(Festival).map((key) => {
-      const string = readFileSync(`./src/data/${key}.json`, "utf8");
+      const string = readFileSync(
+        join(process.cwd(), `src/data/${key}.json`),
+        "utf8"
+      );
       const lineup = JSON.parse(string);
       return {
         name: festivalNames[key],
