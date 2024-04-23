@@ -1,0 +1,414 @@
+[
+  { "name": "Aemzeit" },
+  {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/1zpmVMRrtRmwRHuIFEG0Ov"
+    },
+    "followers": { "href": null, "total": 555 },
+    "genres": [],
+    "href": "https://api.spotify.com/v1/artists/1zpmVMRrtRmwRHuIFEG0Ov",
+    "id": "1zpmVMRrtRmwRHuIFEG0Ov",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/ab6761610000e5eb35c65a2f4c7b61aba0ee3fa3",
+        "width": 640
+      },
+      {
+        "height": 320,
+        "url": "https://i.scdn.co/image/ab6761610000517435c65a2f4c7b61aba0ee3fa3",
+        "width": 320
+      },
+      {
+        "height": 160,
+        "url": "https://i.scdn.co/image/ab6761610000f17835c65a2f4c7b61aba0ee3fa3",
+        "width": 160
+      }
+    ],
+    "name": "Aka Nina",
+    "popularity": 6,
+    "type": "artist",
+    "uri": "spotify:artist:1zpmVMRrtRmwRHuIFEG0Ov"
+  },
+  { "name": "Ánimo & Ghunnar" },
+  {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/68Si4adIC5ZfYAOXX2SMbS"
+    },
+    "followers": { "href": null, "total": 282 },
+    "genres": [],
+    "href": "https://api.spotify.com/v1/artists/68Si4adIC5ZfYAOXX2SMbS",
+    "id": "68Si4adIC5ZfYAOXX2SMbS",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/ab67616d0000b27366926d70dbabb521a59c4da9",
+        "width": 640
+      },
+      {
+        "height": 300,
+        "url": "https://i.scdn.co/image/ab67616d00001e0266926d70dbabb521a59c4da9",
+        "width": 300
+      },
+      {
+        "height": 64,
+        "url": "https://i.scdn.co/image/ab67616d0000485166926d70dbabb521a59c4da9",
+        "width": 64
+      }
+    ],
+    "name": "Anoxia",
+    "popularity": 0,
+    "type": "artist",
+    "uri": "spotify:artist:68Si4adIC5ZfYAOXX2SMbS"
+  },
+  { "name": "Astronom" },
+  {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/2FBFN4YpqUbxNduNagYkaD"
+    },
+    "followers": { "href": null, "total": 591 },
+    "genres": [],
+    "href": "https://api.spotify.com/v1/artists/2FBFN4YpqUbxNduNagYkaD",
+    "id": "2FBFN4YpqUbxNduNagYkaD",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/ab6761610000e5eb1075c23d43caae7e9d668d83",
+        "width": 640
+      },
+      {
+        "height": 320,
+        "url": "https://i.scdn.co/image/ab676161000051741075c23d43caae7e9d668d83",
+        "width": 320
+      },
+      {
+        "height": 160,
+        "url": "https://i.scdn.co/image/ab6761610000f1781075c23d43caae7e9d668d83",
+        "width": 160
+      }
+    ],
+    "name": "Back to Mars",
+    "popularity": 1,
+    "type": "artist",
+    "uri": "spotify:artist:2FBFN4YpqUbxNduNagYkaD"
+  },
+  { "name": "Candy AnalyserNode" },
+  { "name": "Dirk D. Dänzig" },
+  { "name": "Dj Kori" },
+  { "name": "Dj Rüdiger" },
+  {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/4Iz49ncpDID04J7FIANF8H"
+    },
+    "followers": { "href": null, "total": 721 },
+    "genres": ["full on groove"],
+    "href": "https://api.spotify.com/v1/artists/4Iz49ncpDID04J7FIANF8H",
+    "id": "4Iz49ncpDID04J7FIANF8H",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/ab6761610000e5eb11982a73d6dbdd6466aead1d",
+        "width": 640
+      },
+      {
+        "height": 320,
+        "url": "https://i.scdn.co/image/ab6761610000517411982a73d6dbdd6466aead1d",
+        "width": 320
+      },
+      {
+        "height": 160,
+        "url": "https://i.scdn.co/image/ab6761610000f17811982a73d6dbdd6466aead1d",
+        "width": 160
+      }
+    ],
+    "name": "Duke & Gonzo",
+    "popularity": 8,
+    "type": "artist",
+    "uri": "spotify:artist:4Iz49ncpDID04J7FIANF8H"
+  },
+  {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/1t20wYnTiAT0Bs7H1hv9Wt"
+    },
+    "followers": { "href": null, "total": 977847 },
+    "genres": ["indie poptimism"],
+    "href": "https://api.spotify.com/v1/artists/1t20wYnTiAT0Bs7H1hv9Wt",
+    "id": "1t20wYnTiAT0Bs7H1hv9Wt",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/ab6761610000e5eb4c32f7043d79950ca79a7b0c",
+        "width": 640
+      },
+      {
+        "height": 320,
+        "url": "https://i.scdn.co/image/ab676161000051744c32f7043d79950ca79a7b0c",
+        "width": 320
+      },
+      {
+        "height": 160,
+        "url": "https://i.scdn.co/image/ab6761610000f1784c32f7043d79950ca79a7b0c",
+        "width": 160
+      }
+    ],
+    "name": "EDEN",
+    "popularity": 59,
+    "type": "artist",
+    "uri": "spotify:artist:1t20wYnTiAT0Bs7H1hv9Wt"
+  },
+  {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/00ZLLJ51l9Ir5gyaGSUYxL"
+    },
+    "followers": { "href": null, "total": 89225 },
+    "genres": [
+      "german prog",
+      "krautrock",
+      "progressive rock",
+      "symphonic rock"
+    ],
+    "href": "https://api.spotify.com/v1/artists/00ZLLJ51l9Ir5gyaGSUYxL",
+    "id": "00ZLLJ51l9Ir5gyaGSUYxL",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/ab67616d0000b273b7e0948741bb3c8062ab6f8c",
+        "width": 640
+      },
+      {
+        "height": 300,
+        "url": "https://i.scdn.co/image/ab67616d00001e02b7e0948741bb3c8062ab6f8c",
+        "width": 300
+      },
+      {
+        "height": 64,
+        "url": "https://i.scdn.co/image/ab67616d00004851b7e0948741bb3c8062ab6f8c",
+        "width": 64
+      }
+    ],
+    "name": "Eloy",
+    "popularity": 42,
+    "type": "artist",
+    "uri": "spotify:artist:00ZLLJ51l9Ir5gyaGSUYxL"
+  },
+  {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/2GttlK2fGwauQsWiAqZ9t6"
+    },
+    "followers": { "href": null, "total": 166 },
+    "genres": [],
+    "href": "https://api.spotify.com/v1/artists/2GttlK2fGwauQsWiAqZ9t6",
+    "id": "2GttlK2fGwauQsWiAqZ9t6",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/ab6761610000e5eb5d1931a359ee83df06c932a5",
+        "width": 640
+      },
+      {
+        "height": 320,
+        "url": "https://i.scdn.co/image/ab676161000051745d1931a359ee83df06c932a5",
+        "width": 320
+      },
+      {
+        "height": 160,
+        "url": "https://i.scdn.co/image/ab6761610000f1785d1931a359ee83df06c932a5",
+        "width": 160
+      }
+    ],
+    "name": "EMIRI",
+    "popularity": 9,
+    "type": "artist",
+    "uri": "spotify:artist:2GttlK2fGwauQsWiAqZ9t6"
+  },
+  { "name": "Erasmios" },
+  {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/6Vsi6h3iRda9aqqIYmCjyd"
+    },
+    "followers": { "href": null, "total": 947 },
+    "genres": [],
+    "href": "https://api.spotify.com/v1/artists/6Vsi6h3iRda9aqqIYmCjyd",
+    "id": "6Vsi6h3iRda9aqqIYmCjyd",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/ab6761610000e5ebc90ee3ff2256ce8c03683848",
+        "width": 640
+      },
+      {
+        "height": 320,
+        "url": "https://i.scdn.co/image/ab67616100005174c90ee3ff2256ce8c03683848",
+        "width": 320
+      },
+      {
+        "height": 160,
+        "url": "https://i.scdn.co/image/ab6761610000f178c90ee3ff2256ce8c03683848",
+        "width": 160
+      }
+    ],
+    "name": "Jimi Green",
+    "popularity": 12,
+    "type": "artist",
+    "uri": "spotify:artist:6Vsi6h3iRda9aqqIYmCjyd"
+  },
+  { "name": "Jona Lex" },
+  { "name": "Kingo" },
+  {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/4SHpYBVDOpRjJoqxcBodQT"
+    },
+    "followers": { "href": null, "total": 391 },
+    "genres": ["technical deathcore"],
+    "href": "https://api.spotify.com/v1/artists/4SHpYBVDOpRjJoqxcBodQT",
+    "id": "4SHpYBVDOpRjJoqxcBodQT",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/ab67616d0000b273cf95e0973b3e4ccafe4e747a",
+        "width": 640
+      },
+      {
+        "height": 300,
+        "url": "https://i.scdn.co/image/ab67616d00001e02cf95e0973b3e4ccafe4e747a",
+        "width": 300
+      },
+      {
+        "height": 64,
+        "url": "https://i.scdn.co/image/ab67616d00004851cf95e0973b3e4ccafe4e747a",
+        "width": 64
+      }
+    ],
+    "name": "Kythera",
+    "popularity": 2,
+    "type": "artist",
+    "uri": "spotify:artist:4SHpYBVDOpRjJoqxcBodQT"
+  },
+  {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/0jDyBrl36zmw7gqDcamyQV"
+    },
+    "followers": { "href": null, "total": 65 },
+    "genres": [],
+    "href": "https://api.spotify.com/v1/artists/0jDyBrl36zmw7gqDcamyQV",
+    "id": "0jDyBrl36zmw7gqDcamyQV",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/ab6761610000e5eb42be56920fe16f88560d1ad9",
+        "width": 640
+      },
+      {
+        "height": 320,
+        "url": "https://i.scdn.co/image/ab6761610000517442be56920fe16f88560d1ad9",
+        "width": 320
+      },
+      {
+        "height": 160,
+        "url": "https://i.scdn.co/image/ab6761610000f17842be56920fe16f88560d1ad9",
+        "width": 160
+      }
+    ],
+    "name": "La Brique",
+    "popularity": 1,
+    "type": "artist",
+    "uri": "spotify:artist:0jDyBrl36zmw7gqDcamyQV"
+  },
+  { "name": "Lyba B2B Jens" },
+  { "name": "Erstrecht" },
+  {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/6DtcjD25RaePDZCruOTzjU"
+    },
+    "followers": { "href": null, "total": 1433 },
+    "genres": [],
+    "href": "https://api.spotify.com/v1/artists/6DtcjD25RaePDZCruOTzjU",
+    "id": "6DtcjD25RaePDZCruOTzjU",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/ab6761610000e5eb591496d1e7beb89f4eb65af3",
+        "width": 640
+      },
+      {
+        "height": 320,
+        "url": "https://i.scdn.co/image/ab67616100005174591496d1e7beb89f4eb65af3",
+        "width": 320
+      },
+      {
+        "height": 160,
+        "url": "https://i.scdn.co/image/ab6761610000f178591496d1e7beb89f4eb65af3",
+        "width": 160
+      }
+    ],
+    "name": "Monchi",
+    "popularity": 39,
+    "type": "artist",
+    "uri": "spotify:artist:6DtcjD25RaePDZCruOTzjU"
+  },
+  { "name": "Noitex" },
+  { "name": "Nutaq" },
+  {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/1WKIPNkleCMozDREIc22aP"
+    },
+    "followers": { "href": null, "total": 36 },
+    "genres": [],
+    "href": "https://api.spotify.com/v1/artists/1WKIPNkleCMozDREIc22aP",
+    "id": "1WKIPNkleCMozDREIc22aP",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/ab6761610000e5eb637f7e70567dc480e2a580ed",
+        "width": 640
+      },
+      {
+        "height": 320,
+        "url": "https://i.scdn.co/image/ab67616100005174637f7e70567dc480e2a580ed",
+        "width": 320
+      },
+      {
+        "height": 160,
+        "url": "https://i.scdn.co/image/ab6761610000f178637f7e70567dc480e2a580ed",
+        "width": 160
+      }
+    ],
+    "name": "Omikron",
+    "popularity": 0,
+    "type": "artist",
+    "uri": "spotify:artist:1WKIPNkleCMozDREIc22aP"
+  },
+  { "name": "Paranoid" },
+  {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/5Dwq1JqhRXjuvMi4NAEJeD"
+    },
+    "followers": { "href": null, "total": 67 },
+    "genres": [],
+    "href": "https://api.spotify.com/v1/artists/5Dwq1JqhRXjuvMi4NAEJeD",
+    "id": "5Dwq1JqhRXjuvMi4NAEJeD",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/ab6761610000e5eb8bda42ab0e35ee47b0de5ad1",
+        "width": 640
+      },
+      {
+        "height": 320,
+        "url": "https://i.scdn.co/image/ab676161000051748bda42ab0e35ee47b0de5ad1",
+        "width": 320
+      },
+      {
+        "height": 160,
+        "url": "https://i.scdn.co/image/ab6761610000f1788bda42ab0e35ee47b0de5ad1",
+        "width": 160
+      }
+    ],
+    "name": "Rhabia",
+    "popularity": 1,
+    "type": "artist",
+    "uri": "spotify:artist:5Dwq1JqhRXjuvMi4NAEJeD"
+  },
+  { "name": "Sailé" },
+  { "name": "Trancy Chatman" }
+]
