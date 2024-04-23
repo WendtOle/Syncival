@@ -1,6 +1,6 @@
 import type { VercelResponse, VercelRequest } from "@vercel/node";
 // @ts-ignore
-import { createAuthorizeURL } from "./src/createAuthorizeURL.ts";
+import { createAuthorizeURL } from "../api-src/createAuthorizeURL.ts";
 
 const authorizeURL = (request: VercelRequest, response: VercelResponse) => {
   const requestOrigin = request.headers.origin;

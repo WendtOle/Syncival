@@ -7,11 +7,12 @@ import {
   additionalInformation,
   festivalNames,
   // @ts-ignore
-} from "./src/data/festivalInformation.ts";
+} from "../api-src/data/festivalInformation.ts";
 
 const festival = (_: VercelRequest, response: VercelResponse) => {
   const festivals = Object.values(Festival).map((key) => {
-    const path = join(process.cwd(), "api", `/src/data/${key}.json`);
+    const path = join(process.cwd(), `/api-src/data/${key}.json`);
+    console.log({ path });
     const string = readFileSync(path, "utf8");
     const lineup = JSON.parse(string);
     return {
