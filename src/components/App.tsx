@@ -5,7 +5,7 @@ import { FestivalSelectionScreen } from "./FestivalSelectionScreen";
 import { useAuthentication } from "../hooks/useAuthentication";
 
 export const App = () => {
-  useAuthentication();
+  //useAuthentication();
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100vh" }}>
       <div style={{ maxWidth: 800, width: "100%", height: "100%" }}>

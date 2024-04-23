@@ -30,7 +30,7 @@ export const followedQuery = (accessToken: () => string) => ({
 export const lineupsQuery = {
   queryKey: [QueryType.lineups],
   queryFn: async () => {
-    const response = await fetch(`${backendUrl}/festivals`);
+    const response = await fetch(`./api/hello`);
     return await response.json();
   },
 };
