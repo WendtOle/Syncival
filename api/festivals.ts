@@ -1,7 +1,7 @@
 import type { VercelResponse, VercelRequest } from "@vercel/node";
 import { readFileSync } from "fs";
 import { join } from "path";
-import { test } from "./_test";
+import { test } from "./_test.ts";
 
 console.log({ processThingy: process.cwd() });
 /*
