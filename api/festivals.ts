@@ -3,15 +3,18 @@ import { readFileSync } from "fs";
 import { join } from "path";
 
 console.log({ __dirname, processThingy: process.cwd() });
-
+/*
 import {
   Festival,
   additionalInformation,
   festivalNames,
   // @ts-ignore
 } from "../api-src/data/festivalInformation.ts";
+*/
 
 const festival = (_: VercelRequest, response: VercelResponse) => {
+  const festivals = "test";
+  /*
   const festivals = Object.values(Festival).map((key) => {
     const path = join(process.cwd(), `/api-src/data/${key}.json`);
     console.log({ path });
@@ -23,7 +26,7 @@ const festival = (_: VercelRequest, response: VercelResponse) => {
       artists: lineup,
       additionalInformation: additionalInformation[key],
     };
-  });
+  });*/
   response.send(festivals);
 };
 
