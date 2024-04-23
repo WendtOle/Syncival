@@ -1,6 +1,7 @@
 import type { VercelResponse, VercelRequest } from "@vercel/node";
 import { readFileSync } from "fs";
 import { join } from "path";
+import { test } from "./_test";
 
 console.log({ processThingy: process.cwd() });
 /*
@@ -13,7 +14,7 @@ import {
 */
 
 const festival = (_: VercelRequest, response: VercelResponse) => {
-  const festivals = "test";
+  const festivals = test;
   /*
   const festivals = Object.values(Festival).map((key) => {
     const path = join(process.cwd(), `/api-src/data/${key}.json`);
