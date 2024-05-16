@@ -1,3 +1,4 @@
+import Header from "../Header";
 import { Artist } from "../artist";
 import {
   festivalDataPath,
@@ -20,7 +21,7 @@ export default async function Lineup(params: {
 
   return (
     <div>
-      <h1>{festivalNames[festivalKey]}</h1>
+      <Header title={festivalNames[festivalKey]} />
       <ul>
         {sortedArtists.map((artist, index) => (
           <li key={index}>
