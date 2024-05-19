@@ -3,7 +3,7 @@ export default async function Item({
   image,
 }: {
   title: string;
-  image: any;
+  image?: any;
 }) {
   return (
     <div className="flex items-center mx-2 mb-1">
