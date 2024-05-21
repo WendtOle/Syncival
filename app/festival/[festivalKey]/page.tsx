@@ -1,11 +1,18 @@
 import Header from "../../Header";
 import { Artist } from "../../artist";
 import {
+  Festival,
   festivalDataPath,
   festivalNames,
   isFestival,
 } from "../../data/festivalInformation";
 import ArtistComponent from "./ArtistItem";
+
+export function generateStaticParams() {
+  return Object.values(Festival).map((festivalKey) => ({
+    params: { festivalKey },
+  }));
+}
 
 export default async function Lineup(params: {
   params: { festivalKey: string };
