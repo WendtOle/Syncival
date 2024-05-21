@@ -1,10 +1,10 @@
-import Header from "../Header";
-import { Artist } from "../artist";
+import Header from "../../Header";
+import { Artist } from "../../artist";
 import {
   festivalDataPath,
   festivalNames,
   isFestival,
-} from "../data/festivalInformation";
+} from "../../data/festivalInformation";
 import ArtistComponent from "./ArtistItem";
 
 export default async function Lineup(params: {
@@ -15,7 +15,7 @@ export default async function Lineup(params: {
     return <div>Unknown festival</div>;
   }
   const artists: Artist[] = Object.values(
-    await import(`../data/${festivalDataPath[festivalKey]}`)
+    await import(`../../data/${festivalDataPath[festivalKey]}`)
   );
   const sortedArtists = artists.sort((a, b) => (a.name < b.name ? -1 : 1));
 

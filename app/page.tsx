@@ -8,7 +8,7 @@ export default async function Home() {
       {Object.values(Festival).map((key) => {
         const name = festivalNames[key];
         return (
-          <Link key={key} href={`/${key}`}>
+          <Link key={key} href={`/festival/${key}`}>
             <Item
               key={key}
               title={name}
