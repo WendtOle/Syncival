@@ -1,3 +1,4 @@
+import Filter, { EFilter } from "@/app/Filter";
 import Header from "../../Header";
 import { Artist } from "../../artist";
 import {
@@ -9,26 +10,49 @@ import {
 import ArtistComponent from "./ArtistItem";
 
 export function generateStaticParams() {
-  return Object.values(Festival).map((festivalKey) => ({
-    params: { festivalKey },
-  }));
+  return Object.values(Festival).flatMap((festivalKey) =>
+    ["spotify", "not-on-spotify", undefined].map((filter) => ({
+      params: { festivalKey },
+      searchParams: { filter },
+    }))
+  );
 }
 
 export default async function Lineup(params: {
-  params: { festivalKey: string };
+  params: { festivalKey: Festival };
+  searchParams: { filter: string | undefined };
 }) {
   const { festivalKey } = params.params;
+  const { filter } = params.searchParams;
+
   if (!isFestival(festivalKey)) {
     return <div>Unknown festival</div>;
   }
   const artists: Artist[] = Object.values(
     await import(`../../data/${festivalDataPath[festivalKey]}`)
   );
-  const sortedArtists = artists.sort((a, b) => (a.name < b.name ? -1 : 1));
+
+  const filteredArtists = artists.filter((artist) => {
+    if (typeof artist !== "object") {
+      return undefined;
+    }
+    if (filter === EFilter.notOnSpotify) {
+      return "id" in artist ? artist : undefined;
+    }
+    if (filter === EFilter.spotify) {
+      return !("id" in artist) ? artist : undefined;
+    }
+    return artist;
+  });
+  const sortedArtists = filteredArtists.sort((a, b) =>
+    a.name < b.name ? -1 : 1
+  );
 
   return (
     <div>
-      <Header title={festivalNames[festivalKey]} />
+      <Header title={festivalNames[festivalKey]}>
+        <Filter pathName={`/festival/${festivalKey}`} selectedFilter={filter} />
+      </Header>
       <ul>
         {sortedArtists.map((artist, index) => (
           <li key={index}>
