@@ -51,7 +51,7 @@ export default async function Lineup(params: {
   return (
     <div>
       <Header title={festivalNames[festivalKey]}>
-        <Filter pathName={`/festival/${festivalKey}`} selectedFilter={filter} />
+        <Filter pathname={`/festival/${festivalKey}`} selectedFilter={filter} />
       </Header>
       <ul>
         {sortedArtists.map((artist, index) => (
