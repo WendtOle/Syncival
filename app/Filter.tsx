@@ -6,22 +6,22 @@ export enum EFilter {
 }
 
 export default async function Filter({
-  pathName,
+  pathname,
   selectedFilter,
 }: {
-  pathName: string;
+  pathname: string;
   selectedFilter: string | undefined;
 }) {
   return (
     <div className="flex space-x-2">
       <Chip
         text="Not on spotify"
-        href={{ pathname: pathName, query: { filter: EFilter.notOnSpotify } }}
+        href={{ pathname, query: { filter: EFilter.notOnSpotify } }}
         selected={selectedFilter === EFilter.notOnSpotify}
       />
       <Chip
         text="On spotify"
-        href={{ pathname: pathName, query: { filter: EFilter.spotify } }}
+        href={{ pathname, query: { filter: EFilter.spotify } }}
         selected={selectedFilter === EFilter.spotify}
       />
     </div>
