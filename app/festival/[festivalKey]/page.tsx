@@ -22,6 +22,7 @@ export default async function Lineup(params: {
   params: { festivalKey: Festival };
   searchParams: { filter: string | undefined };
 }) {
+  console.log("DEBUG", params);
   const { festivalKey } = params.params;
   const { filter } = params.searchParams;
 
