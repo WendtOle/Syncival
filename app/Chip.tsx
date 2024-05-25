@@ -11,8 +11,8 @@ export const Chip = ({ text, href, selected }: ChipProps) => {
   return (
     <Link href={href}>
       <p
-        className={`px-2 py-1 rounded-lg shadow hover:shadow-none ${
-          selected ? "bg-slate-100" : "bg-white"
+        className={`px-2 py-1 rounded-lg ${
+          selected ? "underline" : ""
         }`}
       >
         {text}
