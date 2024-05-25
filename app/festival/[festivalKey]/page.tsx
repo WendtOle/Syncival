@@ -36,10 +36,10 @@ export default async function Lineup(params: {
     if (typeof artist !== "object") {
       return undefined;
     }
-    if (filter === EFilter.notOnSpotify) {
+    if (filter === EFilter.spotify) {
       return "id" in artist ? artist : undefined;
     }
-    if (filter === EFilter.spotify) {
+    if (filter === EFilter.notOnSpotify) {
       return !("id" in artist) ? artist : undefined;
     }
     return artist;
