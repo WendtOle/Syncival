@@ -55,3 +55,26 @@ export const playlistIDQuery = (accessToken: () => string) => ({
     return await response.json();
   },
 });
+
+export const playlistArtistQuery = (
+  accessToken: () => string,
+  playlistIds: string[]
+) => ({
+  queryKey: [QueryType.playlistArtist],
+  queryFn: async () => {
+    const recursive = async (index = 0): Promise<string[]> => {
+      if (index >= playlistIds.length) {
+        return [];
+      }
+      await new Promise((r) => setTimeout(r, 500));
+      const response = await fetch(
+        `${backendUrl}/tracks?accessToken=${accessToken()}&playlistId=${
+          playlistIds[index]
+        }`
+      );
+      const data = await response.json();
+      return [...data, ...(await recursive(index + 1))];
+    };
+    return (await recursive()).flat();
+  },
+});

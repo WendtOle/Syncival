@@ -173,40 +173,37 @@ app.get("/playlists", async (req: any, res: any) => {
 app.get("/tracks", async (req: any, res: any) => {
   setCors(req, res);
   const { query } = url.parse(req.url);
-  const {
-    accessToken,
-    page: pageString,
-    playlistId,
-  } = querystring.parse(query);
-  const page = Number(pageString);
+  const { accessToken, playlistId } = querystring.parse(query);
   try {
     console.log("/tracks", { playlistId, page });
-    const getResponse = () => {
-      if (playlistId === "liked_songs") {
-        return getMySavedTracks({ accessToken, limit: 50, page });
+    const recursive = async (
+      page = 0
+    ): Promise<SpotifyApi.PlaylistTrackObject[]> => {
+      await new Promise((r) => setTimeout(r, 500));
+      const nextPage = await getPlaylistTracks({
+        playlistId,
+        accessToken,
+        limit: 50,
+        page,
+      });
+      if (nextPage.length === 0) {
+        return [];
       }
-      return getPlaylistTracks({ playlistId, accessToken, limit: 50, page });
+      return [...nextPage, ...(await recursive(page + 1))];
     };
-    const response = await getResponse();
-    const trackData: Something = response
+
+    const response = await recursive();
+    const artistIds: string[] = response
       .map(({ track }) => track)
       .filter((track) => track !== null)
-      .map(({ id, name, artists, album }: any) => {
-        const image = album.images.reduce((smallest: any, image: any) => {
-          if (image.height < smallest.height) return image;
-          return smallest;
-        }, album.images[0]);
-        return {
-          id,
-          name,
-          artists: artists.map(
-            ({ name, id }: SpotifyApi.ArtistObjectSimplified) => ({ name, id })
-          ),
-          imageUrl: image?.url,
-          albumName: album.name,
-        };
+      .flatMap((track: SpotifyApi.TrackObjectFull | null) => {
+        if (track === null) throw new Error("track is null");
+        const { artists } = track;
+        const artistIds = artists.map(({ id }) => id);
+        return artistIds;
       });
-    res.send(trackData);
+    const artistIdsUnique = [...new Set(artistIds)];
+    res.send(artistIdsUnique);
     return;
   } catch (err: any) {
     console.log(`Error when fetching playlist tracks. "${playlistId}"`);

@@ -8,6 +8,7 @@ import {
   followedQuery,
   likedQuery,
   lineupsQuery,
+  playlistArtistQuery,
   playlistIDQuery,
 } from "../provider/queries";
 import { Artist } from "../types/artist";
@@ -37,6 +38,10 @@ export const useArtists = ():
 
   const { data: playlistIds } = useQuery<Array<string>>(
     playlistIDQuery(accessToken)
+  );
+
+  const { data: playlistArtists } = useQuery<Array<string>>(
+    playlistArtistQuery(accessToken, playlistIds ?? [])
   );
 
   const selectedFestival = (festivals ?? []).find(
