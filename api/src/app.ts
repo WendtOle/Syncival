@@ -175,7 +175,6 @@ app.get("/tracks", async (req: any, res: any) => {
   const { query } = url.parse(req.url);
   const { accessToken, playlistId } = querystring.parse(query);
   try {
-    console.log("/tracks", { playlistId, page });
     const recursive = async (
       page = 0
     ): Promise<SpotifyApi.PlaylistTrackObject[]> => {
