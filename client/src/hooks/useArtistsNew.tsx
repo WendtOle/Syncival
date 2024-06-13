@@ -73,6 +73,11 @@ export const useArtists = ():
     [ArtistFilterOption.ALL]: () => true,
     [GroupableFilterOption.ALBUMS]: (entry) =>
       !!("id" in entry && albums?.find((album) => album.id == entry.id)),
+    [GroupableFilterOption.PLAYLISTS]: (entry) =>
+      !!(
+        "id" in entry &&
+        playlistArtists?.find((playlistArtist) => playlistArtist == entry.id)
+      ),
   };
 
   const multiple = (

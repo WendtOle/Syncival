@@ -8,6 +8,7 @@ export enum GroupableFilterOption {
   FOLLOWED = "followed",
   LIKED = "liked",
   ALBUMS = "albums",
+  PLAYLISTS = "playlists",
 }
 
 export enum FilterGroupOption {
@@ -32,6 +33,7 @@ export const groupableFilterMapping: Record<
   [GroupableFilterOption.FOLLOWED]: FilterGroupOption.SPOTIFY_GROUP,
   [GroupableFilterOption.LIKED]: FilterGroupOption.SPOTIFY_GROUP,
   [GroupableFilterOption.ALBUMS]: FilterGroupOption.SPOTIFY_GROUP,
+  [GroupableFilterOption.PLAYLISTS]: FilterGroupOption.SPOTIFY_GROUP,
 };
 
 export const filterNames: Record<
@@ -44,6 +46,7 @@ export const filterNames: Record<
   [GroupableFilterOption.LIKED]: "Liked",
   [ArtistFilterOption.NON_SPOTIFY]: "Non-Spotify",
   [GroupableFilterOption.ALBUMS]: "Albums",
+  [GroupableFilterOption.PLAYLISTS]: "Playlists",
 };
 
 export interface FilterProps {

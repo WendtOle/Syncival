@@ -31,6 +31,10 @@ export const filterStateMachine: Record<
       current: GroupableFilterOption.ALBUMS,
       append: FilterGroupOption.SPOTIFY_GROUP,
     },
+    {
+      current: GroupableFilterOption.PLAYLISTS,
+      append: FilterGroupOption.SPOTIFY_GROUP,
+    },
   ],
   [GroupableFilterOption.FOLLOWED]: [
     {
@@ -39,6 +43,10 @@ export const filterStateMachine: Record<
     },
     {
       current: GroupableFilterOption.ALBUMS,
+      append: FilterGroupOption.SPOTIFY_GROUP,
+    },
+    {
+      current: GroupableFilterOption.PLAYLISTS,
       append: FilterGroupOption.SPOTIFY_GROUP,
     },
     {
@@ -54,6 +62,10 @@ export const filterStateMachine: Record<
     },
     {
       current: GroupableFilterOption.ALBUMS,
+      append: FilterGroupOption.SPOTIFY_GROUP,
+    },
+    {
+      current: GroupableFilterOption.PLAYLISTS,
       append: FilterGroupOption.SPOTIFY_GROUP,
     },
   ],
@@ -74,6 +86,28 @@ export const filterStateMachine: Record<
     },
     {
       current: GroupableFilterOption.LIKED,
+      append: FilterGroupOption.SPOTIFY_GROUP,
+    },
+    {
+      current: GroupableFilterOption.PLAYLISTS,
+      append: FilterGroupOption.SPOTIFY_GROUP,
+    },
+  ],
+  [GroupableFilterOption.PLAYLISTS]: [
+    {
+      current: GroupableFilterOption.PLAYLISTS,
+      next: ArtistFilterOption.SPOTIFY,
+    },
+    {
+      current: GroupableFilterOption.FOLLOWED,
+      append: FilterGroupOption.SPOTIFY_GROUP,
+    },
+    {
+      current: GroupableFilterOption.LIKED,
+      append: FilterGroupOption.SPOTIFY_GROUP,
+    },
+    {
+      current: GroupableFilterOption.ALBUMS,
       append: FilterGroupOption.SPOTIFY_GROUP,
     },
   ],

@@ -6,6 +6,7 @@ export enum QueryType {
   lineups = "lineups",
   liked = "liked",
   playlistId = "playlistId",
+  playlistArtist = "playlistArtist",
 }
 
 export const albumQuery = (accessToken: () => string) => ({
