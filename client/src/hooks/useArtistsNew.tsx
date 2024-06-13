@@ -8,6 +8,7 @@ import {
   followedQuery,
   likedQuery,
   lineupsQuery,
+  playlistIDQuery,
 } from "../provider/queries";
 import { Artist } from "../types/artist";
 
@@ -32,6 +33,10 @@ export const useArtists = ():
 
   const { data: liked } = useQuery<Array<SpotifyApi.ArtistObjectSimplified>>(
     likedQuery(accessToken)
+  );
+
+  const { data: playlistIds } = useQuery<Array<string>>(
+    playlistIDQuery(accessToken)
   );
 
   const selectedFestival = (festivals ?? []).find(

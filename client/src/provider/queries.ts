@@ -5,6 +5,7 @@ export enum QueryType {
   followed = "followed",
   lineups = "lineups",
   liked = "liked",
+  playlistId = "playlistId",
 }
 
 export const albumQuery = (accessToken: () => string) => ({
@@ -40,6 +41,16 @@ export const likedQuery = (accessToken: () => string) => ({
   queryFn: async () => {
     const response = await fetch(
       `${backendUrl}/liked?accessToken=${accessToken()}`
+    );
+    return await response.json();
+  },
+});
+
+export const playlistIDQuery = (accessToken: () => string) => ({
+  queryKey: [QueryType.playlistId],
+  queryFn: async () => {
+    const response = await fetch(
+      `${backendUrl}/playlists?accessToken=${accessToken()}`
     );
     return await response.json();
   },

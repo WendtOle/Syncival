@@ -141,22 +141,26 @@ const extractImageUrl = (images: SpotifyApi.ImageObject[] | null) => {
 app.get("/playlists", async (req: any, res: any) => {
   setCors(req, res);
   const { query } = url.parse(req.url);
-  const { accessToken, page } = querystring.parse(query);
+  const { accessToken } = querystring.parse(query);
   try {
     const userId = await getUserId(accessToken);
+    const recursive = async (
+      page = 0
+    ): Promise<SpotifyApi.PlaylistObjectSimplified[]> => {
+      const nextPage = await getUserPlaylists({ limit: 50, page, accessToken });
+      if (nextPage.length === 0) {
+        return [];
+      }
+      return [...nextPage, ...(await recursive(page + 1))];
+    };
 
-    const playlists = await getUserPlaylists({ limit: 50, page, accessToken });
-    const processedPlaylists = playlists.map(
-      (playlist: SpotifyApi.PlaylistObjectSimplified) => ({
-        name: playlist.name,
-        id: playlist.id,
-        isOwn: playlist.owner.id === userId,
-        trackAmount: playlist.tracks.total,
-        snapShotId: playlist.snapshot_id,
-        imageUrl: extractImageUrl(playlist.images),
-      })
-    );
-    res.send(toRecord(processedPlaylists, (playlist) => playlist.id));
+    const playlists = await recursive();
+    const processedPlaylists = playlists
+      .filter(
+        ({ owner }: SpotifyApi.PlaylistObjectSimplified) => owner.id === userId
+      )
+      .map(({ id }: SpotifyApi.PlaylistObjectSimplified) => id);
+    res.send(processedPlaylists);
     return;
   } catch (err: any) {
     console.log("Error when fetching playlists.");
