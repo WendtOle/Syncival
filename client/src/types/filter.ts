@@ -23,6 +23,7 @@ export const filterGroupMapping: Record<
     GroupableFilterOption.FOLLOWED,
     GroupableFilterOption.LIKED,
     GroupableFilterOption.ALBUMS,
+    GroupableFilterOption.PLAYLISTS,
   ],
 };
 
