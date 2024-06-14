@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import { ArtistFilterOption, GroupableFilterOption } from "../types/filter";
 import { accessTokenAtom } from "../state/auth";
 import {
@@ -40,9 +40,15 @@ export const useArtists = ():
     playlistIDQuery(accessToken)
   );
 
-  const { data: playlistArtists } = useQuery<Array<string>>(
-    playlistArtistQuery(accessToken, playlistIds ?? [])
-  );
+  const { data: playlistArtists, pending } = useQueries({
+    queries: (playlistIds ?? []).map((playlistId) =>
+      playlistArtistQuery(accessToken, playlistId)
+    ),
+    combine: (results) => ({
+      data: [...new Set(results.flatMap((result) => result.data))],
+      pending: results.some((result) => result.isPending),
+    }),
+  });
 
   const selectedFestival = (festivals ?? []).find(
     ({ key }: { key: string }) => key === festival

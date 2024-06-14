@@ -6,7 +6,7 @@ export enum QueryType {
   lineups = "lineups",
   liked = "liked",
   playlistId = "playlistId",
-  playlistArtist = "playlistArtist",
+  playlistArtist = "playlistArtists",
 }
 
 export const albumQuery = (accessToken: () => string) => ({
@@ -59,23 +59,13 @@ export const playlistIDQuery = (accessToken: () => string) => ({
 
 export const playlistArtistQuery = (
   accessToken: () => string,
-  playlistIds: string[]
+  playlistId: string
 ) => ({
-  queryKey: [QueryType.playlistArtist],
+  queryKey: [QueryType.playlistArtist, playlistId],
   queryFn: async () => {
-    const recursive = async (index = 0): Promise<string[]> => {
-      if (index >= playlistIds.length) {
-        return [];
-      }
-      await new Promise((r) => setTimeout(r, 500));
-      const response = await fetch(
-        `${backendUrl}/tracks?accessToken=${accessToken()}&playlistId=${
-          playlistIds[index]
-        }`
-      );
-      const data = await response.json();
-      return [...data, ...(await recursive(index + 1))];
-    };
-    return (await recursive()).flat();
+    const response = await fetch(
+      `${backendUrl}/tracks?accessToken=${accessToken()}&playlistId=${playlistId}`
+    );
+    return await response.json();
   },
 });
