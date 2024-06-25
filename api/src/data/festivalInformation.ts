@@ -8,10 +8,10 @@ export enum Festival {
 export const festivalNames: Record<Festival, string> = {
   [Festival.TOMORROWLAND_2023]: "Tomorrowland 2023",
   [Festival.FUSION_2023]: "Fusion 2023",
-  [Festival.FUSION_2024]: "Fusion 2024 (prerelease",
+  [Festival.FUSION_2024]: "Fusion 2024",
   [Festival.TARMAC_2023]: "Tarmac 2023",
 };
 
 export const additionalInformation: Partial<Record<Festival, string>> = {
-  [Festival.FUSION_2024]: "updated 13.Juni",
+  [Festival.FUSION_2024]: "updated 25. June 2024",
 };
