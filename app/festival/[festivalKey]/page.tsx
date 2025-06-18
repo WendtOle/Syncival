@@ -9,6 +9,8 @@ import {
 } from "../../data/festivalInformation";
 import ArtistComponent from "./ArtistItem";
 
+export const dynamic = "force-dynamic"
+
 export function generateStaticParams() {
   return Object.values(Festival).flatMap((festivalKey) =>
     ["spotify", "not-on-spotify", undefined].map((filter) => ({
