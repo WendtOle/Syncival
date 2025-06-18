@@ -1,4 +1,4 @@
-# What it is
+# Syncival
 Compares artists found in spotify playlists with the artists of fusion 2023 lineup.
 
 # How to use
@@ -13,16 +13,6 @@ npm start
 5. Open browser and navigate to "localhost:8888"
 6. Log into Spotify and trust that the application does nothing bad with your spotify data
 7. Wait a while until all artists are retrieved
-
-# Why is it not hosted?
-Querying all the playlists takes up more than 30 second. 
-Which is usally the maximum time amount which free provider allow until requests are closed automatically.
-
-# Where to find more information apart of the list of artists
-Look in the logs of the server!
-
-# It is not pretty?
-Sorry.
 
 # How does the authorization/authentication flow works
 1. With `SPOTIFY_CLIENT_ID` and `SPOTIFY_CLIENT_SECRET` the spotify api object is initialized
@@ -39,6 +29,10 @@ Sorry.
 I use my "spotify api app" with my own spotify account without any problems.
 If I want to use my spotify app with another spotify account it is necessary to register this user with "Username" and "Email" under "https://developer.spotify.com/dashboard/<some-id>/users".
 
+# Syncival 2.0
+In the branch syncival-2.0 is a nextjs not finished nextjs implementation of syncival.
+The whole part which compares with your spotify liked songs, playlists, follows and albums is not included yet.
+
 # How is it deployed
 
 ## API
@@ -46,3 +40,4 @@ If I want to use my spotify app with another spotify account it is necessary to 
 - NOT by connecting to git, because this worked for some reason not because I want to use it as a serverless function
 - but to manual deployments through `npm run deploy:prod` or `npm run deploy:dev`
 - by setting `ALLOWED_ORIGINS` environment variables multiple domains can be allowed by the api
+
