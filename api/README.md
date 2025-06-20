@@ -21,6 +21,33 @@
 - this runs the vercel cli command to deploy the project
 - for some reason the automatic deployment which is triggered when pushed to the repo did not worked for the api part of Syncival
 
+## How to deploy update script onto pi
+
+- use raspberry pi imager to install ubuntu server on pi 
+- set ssh key and wifi credentials
+- boot pi
+- `sudo apt update``
+- create ssh key: `ssh-keygen -t ed25519 -C "raspberry-pi-auto-push" -f ~/.ssh/id_pi_git` and just enter through the passphrase
+- display public key and add it to github `cat ~/.ssh/id_pi_git.pub` -> "/settings/keys/new", allow write access
+- add following config to .ssh/config
+```
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_pi_git
+  IdentitiesOnly yes
+```
+- give script execution access `chmod +x api/bin/update-artists.sh`
+- run `sudo apt install -y nodejs npm`
+- run `cp .env.example .env` and adjust values
+- execute script (with any argument to actually push / or without to make a dry run)
+- open crontab via `crontab -e` and add:
+```
+0 * * * * <path-to-repo>/api/bin/update-artists.sh push >> <some-path>/syncival-cron.log 2>&1
+```
+
+
+
 ## Open Topics
 - what whas the idea behind the `dry` mode of the preprocess script
 

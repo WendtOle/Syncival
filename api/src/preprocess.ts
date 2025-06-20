@@ -1,10 +1,8 @@
 import { readdir } from "fs/promises";
 import { join } from "path";
-
 import { readFileSync, writeFileSync } from "fs";
 import { spotifyApi } from "./provider/getSpotifyApi";
 import { searchArtist } from "./provider/lineup";
-import { skip } from "node:test";
 
 enum ExecutionMode {
   DRY = "dry",
@@ -83,11 +81,13 @@ export const getFestivals = async () => {
         parsedArtists.filter((result: any) => "id" in result).length
       } artists.`
     );
-    console.log(
-      `Following artists could not be found: ${parsedArtists
+    const filteredArtists = parsedArtists
         .filter((result: any) => !("id" in result))
+    const artistString = filteredArtists
         .map(({ name }: { name: string }) => name)
-        .join(", ")}`
+        .join(", ")
+    console.log(
+      `Following artists could not be found: ${artistString} (${filteredArtists.length})`
     );
     console.log();
   }
@@ -102,11 +102,15 @@ const writeToFile = (parsedArtists: any, filesName: string) => {
   );
 };
 
-const ACCESS_TOKEN =
-  "BQC2bLrpHvcCO7Zv6eZ-J1NiJGfq4arAtX09RRlnvvB0JqRN6LPdaFJen2TkjAUvvzeXXZYFMFdCqt61vq25_gZCd7wSkP-ObezgbboMz_wPPO_NrCunvKwStRE8wtCshoK0P_8H_sGLNVuwdPnoiqaWs3n2jjLhxIv73pM7etb6mHNU799r2iHVcRBBqjP6bysx6XsdFx-FRzRJs0IEEHoPatEJPk32L-IAy8Qor5xReTQmJiXS93qY8Q8x3pH6Okf31T0UKuZ1Wkw";
-
 const run = async () => {
-  spotifyApi.setAccessToken(ACCESS_TOKEN);
+  const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN
+  if (!refreshToken) {
+    throw new Error("refresh token is not defined")
+  }
+  spotifyApi.setRefreshToken(refreshToken)
+  const response = await spotifyApi.refreshAccessToken()
+  const refreshAccessToken = response.body['access_token'];
+  spotifyApi.setAccessToken(refreshAccessToken);
   await getFestivals();
 };
 

@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon",
+    "start": "ts-node ./src/index.ts",
+    "dev": "nodemon",
     "test": "jest --watch",
     "test:single": "jest --silent",
     "build": "rimraf dist && tsc",

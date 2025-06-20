@@ -27,10 +27,13 @@ const fetchAndExtractJSON = async () => {
       const data = JSON.parse(unescapedJsonString);
 
       const artists = extractArtistSTrings(data).sort()
-
       console.log(`${artists.length} artists extracted`)
-      const fileName = "fusion-2025.txt"
-      writeFileSync(fileName, artists.join(", "));
+      const args = process.argv.slice(2);
+      const filePath = args[0]
+      if (!filePath) {
+        throw new Error("missing output file path")
+      }
+      writeFileSync(filePath, artists.join(", "));
     } catch (err) {
       console.error('Failed to evaluate or parse JSON:', err);
     }
