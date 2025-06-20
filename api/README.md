@@ -3,21 +3,11 @@
 ## How to integrate new data
 
 1) List of artist names
-- extract some information from the timetable/lineup from the festival
-- in the past I often used something like the following to receive some kind of JSON which contained the artist name and the type of event
 
-```
-const artists = [...document.querySelectorAll('div.sc-ibQzxG')].map(container => {
-  const artist = container.querySelector('div.sc-fiCwYx')?.innerText.trim();
-  const type = container.querySelector('span.sc-kbhIEe')?.innerText.trim();
-  return { artist, type };
-});
-JSON.stringify(artists)
-```
-
-- the type is important to filter out workshops, readings, films or other stuff I don't want to have as an artist
-- how this is done is not of importance
-- the important thing is that the output is just a list of artist names as described in the next step
+- the web of the fusion loads internally a chunk.js file which contains the necessary information
+- open in dev tools, and look for a request which contains the string "chunk.js" 
+- use this URL for the retreaval script located in data-raw
+- run the script via `npx ts-node <extraction-script-path>`
 
 2) Preprocess list
 - as an input a .txt file is needed in which the artists names are contained in double quotes ("") and separated via comma
