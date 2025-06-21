@@ -97,18 +97,21 @@ export const getFestivals = async () => {
   }
 };
 
-const getCurrentDate =(): string =>{
+const getCurrentDate = (): string => {
   const now = new Date();
-
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0'); // Month is 0-based
-  const day = String(now.getDate()).padStart(2, '0');
-
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-
-  return `${day}.${month}.${year} ${hours}:${minutes}`;
-}
+  
+  const options: Intl.DateTimeFormatOptions = {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+    timeZone: 'Europe/Berlin'
+  };
+  const formatted = now.toLocaleString('de-DE', options);
+  return formatted.replace(',', '');
+};
 
 const writeToFile = (parsedArtists: Array<{}>, filesName: string) => {
   console.log("write to file")
