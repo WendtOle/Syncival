@@ -1,13 +1,11 @@
 const express = require("express");
 const url = require("url");
 const querystring = require("querystring");
-import { join } from "path";
 
 export const app = express();
 import { isAllowedOrigin } from "./isAllowedOrigin";
 import { timeStamp } from "./getCurrentTimeStamp";
 import {
-  getMySavedTracks,
   getPlaylistTracks,
   createPlaylist as providerCreatePlaylist,
   addTracksToPlaylist,
@@ -20,13 +18,11 @@ import {
   getRefreshedAccessToken,
 } from "./provider";
 import { getFollowedArtists } from "./provider/getFollowedArtists";
-import { readFileSync, readdirSync } from "fs";
 import { spotifyApi } from "./provider/getSpotifyApi";
 import { getMySavedTracksAll } from "./provider/getMySavedTracks";
 import { getMySavedAlbums } from "./provider/getMySavedAlbums";
 import {
   Festival,
-  additionalInformation,
   festivalNames,
 } from "./data/festivalInformation";
 
