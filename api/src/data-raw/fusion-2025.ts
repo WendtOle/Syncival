@@ -26,7 +26,8 @@ const fetchAndExtractJSON = async () => {
       // Now parse the clean JSON
       const data = JSON.parse(unescapedJsonString);
 
-      const artists = extractArtistSTrings(data)
+      const artists = extractArtistSTrings(data).sort()
+
       console.log(`${artists.length} artists extracted`)
       const fileName = "fusion-2025.txt"
       writeFileSync(fileName, artists.join(", "));
