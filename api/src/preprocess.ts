@@ -18,14 +18,18 @@ const readJSON = (
 ):
   | Array<
       Pick<SpotifyApi.ArtistObjectFull, "name"> | SpotifyApi.ArtistObjectFull
-    >
-  | undefined => {
+    > => {
   try {
     const string = readFileSync(pathToFile, "utf8");
-    return JSON.parse(string) ?? [];
+    const json = JSON.parse(string)
+    if (!("artists" in json)) {
+      console.log("artists key is not in json")
+      return []
+    }
+    return json.artists ;
   } catch (e) {
     console.log(e);
-    return undefined;
+    return [];
   }
 };
 
@@ -46,7 +50,7 @@ export const getFestivals = async () => {
   for (const filesName of files) {
     console.log(`Processing ${filesName}`);
     const alreadyLoaded =
-      readJSON(`./src/data/${filesName.replace(".txt", ".json")}`) ?? [];
+      readJSON(`./src/data/${filesName.replace(".txt", ".json")}`);
     const data = readFileSync(`./src/data-raw/${filesName}`, "utf8");
     const skipThoseNames = alreadyLoaded.map(({ name }) => name);
     const artists = data
@@ -93,8 +97,23 @@ export const getFestivals = async () => {
   }
 };
 
-const writeToFile = (parsedArtists: any, filesName: string) => {
-  const stringified = JSON.stringify(parsedArtists);
+const getCurrentDate =(): string =>{
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // Month is 0-based
+  const day = String(now.getDate()).padStart(2, '0');
+
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+
+  return `${day}.${month}.${year} ${hours}:${minutes}`;
+}
+
+const writeToFile = (parsedArtists: Array<{}>, filesName: string) => {
+  console.log("write to file")
+  const object = {updated: getCurrentDate(), artists: parsedArtists}
+  const stringified = JSON.stringify(object);
   writeFileSync(
     `./src/data/${filesName.replace(".txt", ".json")}`,
     stringified,

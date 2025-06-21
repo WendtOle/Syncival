@@ -1,4 +1,4 @@
-[
+{ "artists": [
   {
     "external_urls": {
       "spotify": "https://open.spotify.com/artist/48DAICVunIzTRNGg8p1TXS"
@@ -18399,3 +18399,4 @@
     "uri": "spotify:artist:3H9I0Y8voKtpCucGg8BS9x"
   }
 ]
+}

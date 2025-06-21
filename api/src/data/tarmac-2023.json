@@ -1,4 +1,4 @@
-[
+{ "artists": [
   { "name": "Aemzeit" },
   {
     "external_urls": {
@@ -412,3 +412,4 @@
   { "name": "Sailé" },
   { "name": "Trancy Chatman" }
 ]
+}

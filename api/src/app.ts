@@ -293,7 +293,7 @@ app.post("/createPlaylist", async (req: any, res: any) => {
   }
 });
 
-async function loadJsonFromUrl(key: string): Promise<Array<{}>> {
+async function loadJsonFromUrl(key: string): Promise<{updated: string, artists: Array<{}>}> {
   const url = `https://raw.githubusercontent.com/WendtOle/Syncival/refs/heads/main/api/src/data/${key}.json`;
   
   try {
@@ -318,8 +318,8 @@ app.get("/festivals", async (req: any, res: any) => {
       return {
         name: festivalNames[key],
         key,
-        artists: lineup,
-        additionalInformation: additionalInformation[key],
+        artists: lineup.artists,
+        additionalInformation: lineup.updated,
       };
     }))
   res.send(response);
