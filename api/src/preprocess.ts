@@ -77,9 +77,9 @@ export const getFestivals = async () => {
       if (process.stdout.isTTY) {
         process.stdout.clearLine(0);
         process.stdout.cursorTo(0);
-      }
-      writeToFile(parsedArtists, filesName);
+      } 
     }
+    writeToFile(parsedArtists, filesName);
     console.log(
       `Loaded ${
         parsedArtists.filter((result: any) => "id" in result).length
