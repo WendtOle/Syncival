@@ -47,7 +47,7 @@ export const FestivalScreen = () => {
         title={selectedFestival.name}
         showBackButton
         actions={
-          selectedFestival.additionalInformation && (
+          selectedFestival.updated && (
             <FestivalInfoDialogIconButton {...selectedFestival} />
           )
         }

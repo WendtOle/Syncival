@@ -13,7 +13,7 @@ import { InfoIcon } from "./Icons";
 
 export const FestivalInfoDialogIconButton = (festival: Festival) => {
   const [open, setOpen] = useState(false);
-  if (!festival.additionalInformation) {
+  if (!festival.updated) {
     return null;
   }
   return (
@@ -25,7 +25,7 @@ export const FestivalInfoDialogIconButton = (festival: Festival) => {
         <DialogTitle>{festival.name}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {festival.additionalInformation}
+            {festival.updated}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

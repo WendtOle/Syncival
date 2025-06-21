@@ -315,7 +315,7 @@ app.get("/festivals", async (req: any, res: any) => {
         name: festivalNames[key],
         key,
         artists: lineup.artists,
-        additionalInformation: lineup.updated,
+        updated: lineup.updated,
       };
     }))
   res.send(response);
