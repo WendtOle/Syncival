@@ -293,23 +293,36 @@ app.post("/createPlaylist", async (req: any, res: any) => {
   }
 });
 
+async function loadJsonFromUrl(key: string): Promise<Array<{}>> {
+  const url = `https://raw.githubusercontent.com/WendtOle/Syncival/refs/heads/main/api/src/data/${key}.json`;
+  
+  try {
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error loading JSON:", error);
+    throw error;
+  }
+}
+
 app.get("/festivals", async (req: any, res: any) => {
   setCors(req, res);
-  res.send(
-    Object.values(Festival).map((key) => {
-      const string = readFileSync(
-        join(process.cwd(), `src/data/${key}.json`),
-        "utf8"
-      );
-      const lineup = JSON.parse(string);
+  const response = await Promise.all(Object.values(Festival).map(async (key) => {
+      const lineup = await loadJsonFromUrl(key);
       return {
         name: festivalNames[key],
         key,
         artists: lineup,
         additionalInformation: additionalInformation[key],
       };
-    })
-  );
+    }))
+  res.send(response);
   return;
 });
 
