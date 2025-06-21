@@ -10,7 +10,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useIsScrolled } from "../hooks/useIsScrolled";
 import { lineupsQuery } from "../provider/queries";
 import { Festival } from "../types/festival";
-import { FestivalInfoDialogIconButton } from "./FestivalInfoDialogIconButton";
 
 export const FestivalScreen = () => {
   const artistFilter = useAtomValue(artistsFilterAtom);
@@ -48,7 +47,7 @@ export const FestivalScreen = () => {
         showBackButton
         actions={
           selectedFestival.updated && (
-            <FestivalInfoDialogIconButton {...selectedFestival} />
+            <div style={{fontSize: "12px"}}>{selectedFestival.updated}</div>
           )
         }
       >

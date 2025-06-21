@@ -95,7 +95,7 @@ export const AppBar = ({
               </>
             )}
           </Typography>
-          <div>
+          <div style={{display: "flex", alignItems: "center"}}>
             {authenticationState === "not-whitelisted" && (
               <NotWhiteListedInformation />
             )}
