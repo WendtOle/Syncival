@@ -70,9 +70,12 @@ export const getFestivals = async () => {
       await delay();
       const parsedArtist = await searchArtist(artist);
       //const parsedArtist = { name: artist };
+      // disable the following if run in crontab
       parsedArtists.push(parsedArtist);
-      process.stdout.clearLine(0);
-      process.stdout.cursorTo(0);
+      if (process.stdout.isTTY) {
+        process.stdout.clearLine(0);
+        process.stdout.cursorTo(0);
+      }
       writeToFile(parsedArtists, filesName);
     }
     console.log(
