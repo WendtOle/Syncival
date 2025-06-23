@@ -46,6 +46,12 @@ Host github.com
 0 * * * * <path-to-repo>/api/bin/update-artists.sh push >> <some-path>/syncival-cron.log 2>&1
 ```
 
+### TODO 
+
+- i had the naive approach to simply reference always the same chunk file (see fusion-25.ts)
+- this does not work because the chunk file gets a new id if it is updated
+- for future years this should be improved, so the crawler looks in some file which references the chunk file
+- which then gets crawled
 
 
 ## Open Topics
